@@ -14,10 +14,12 @@
       <div class="row">
         <div class="col-9">
           <div class="d-flex mb-2">
-            <div class="mr-2">
-              <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.$refs.modal.hide()">
-                <i class="fas fa-times mr-1" /> {{ $t('action.close') }}
-              </button>
+            <div>
+              <div v-if="story.id != null">
+                <button type="button" class="btn rb-btn-s btn-outline-danger shadow-sm" @click="onClickDelete">
+                  <i class="fas fa-trash-alt mr-1" /> {{ $t('action.delete') }}
+                </button>
+              </div>
             </div>
             <div class="d-flex ml-auto">
               <div v-if="!isEdit" class="mr-2">
@@ -25,9 +27,9 @@
                   <i class="fas fa-pen mr-1" /> {{ $t('action.edit') }}
                 </button>
               </div>
-              <div v-if="story.id != null">
-                <button type="button" class="btn rb-btn-s btn-outline-danger shadow-sm" @click="onClickDelete">
-                  <i class="fas fa-trash-alt mr-1" /> {{ $t('action.delete') }}
+              <div>
+                <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.$refs.modal.hide()">
+                  <i class="fas fa-times mr-1" /> {{ $t('action.close') }}
                 </button>
               </div>
             </div>
