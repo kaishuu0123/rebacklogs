@@ -10,7 +10,8 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 
 ### Backlogs とは
 
-redmine_backlogs をベースにしていますが、この Backlogs に関する下記のような用語があります。
+基本的なフローは redmine_backlogs をベースにしています。
+Backlogs にはいくつかの用語があります。
 
 * Backlogs
     * Story を溜めて置く場所です
