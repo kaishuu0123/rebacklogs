@@ -1,0 +1,156 @@
+{
+  "en": {
+    "action": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "submit": "Submit",
+      "delete": "Delete",
+      "close": "Close",
+      "addSprint": "Add Sprint",
+      "addStory": "Add Story",
+      "addTask": "Add Task",
+      "backToBacklogs": "Back to Backlogs",
+      "comment": "Comment",
+      "selectGroup": "Select Group",
+      "addGroup": "Add Group",
+      "addCategory": "Add Category",
+      "addStatus": "Add Status",
+      "viewKanban": "View Kanban",
+      "editSprint": "Edit Sprint",
+      "closeSprint": "Close Sprint",
+      "openSprint": "Open Sprint",
+      "upload": "Upload",
+      "browse": "Browse",
+      "actions": "Actions"
+    },
+    "title": {
+      "relatedTasks": "関連するタスク"
+    },
+    "ticket": {
+      "title": "Title",
+      "createdBy": "Created by",
+      "lastUpdatedBy": "Last updated by",
+      "category": "Category",
+      "assignee": "Assignee",
+      "status": "Status",
+      "point": "Point"
+    },
+    "category": {
+      "title": "Title",
+      "sortOrder": "Sort Order",
+      "sort_order": "Sort Order",
+      "color": "Color"
+    },
+    "status": {
+      "title": "Title",
+      "sortOrder": "Sort Order",
+      "sort_order": "Sort Order",
+      "isDone": "Done?",
+      "is_done": "Done?"
+    },
+    "settings": {
+      "generalSettings": "General Settings",
+      "groupManagements": "Group Managements",
+      "ticketCategories": "Ticket Categories",
+      "ticketStatuses": "Ticket Statuses",
+      "general": {
+        "title": "Project Title",
+        "description": "Project Description",
+        "ticketPrefix": "Ticket Prefix",
+        "projectImage": "Project Image",
+        "currentImage": "Current Image"
+      }
+    },
+    "message": {
+      "noPeriodSpecified": "No period specified",
+      "leaveAComment": "Leave a comment",
+      "leaveADescription": "Leave a description",
+      "noDescription": "No description",
+      "groups": "Groups",
+      "chooseAFile": "Choose a file ...",
+      "updateProjectSettingsSuccess": "Project Settings was successfully updated.",
+      "closedSprintDoesNotExists": "Closed Sprint doesn't exists",
+      "sprintDoesNotExists": "Sprint doesn't exists. Let's create an Sprint with the \"Create Sprint\" button in Backlogs.",
+      "storyDoesNotExists": "Story doesn't exists. Let's create a story with the \"Add Story\" button.",
+      "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs."
+    }
+  },
+  "ja": {
+    "action": {
+      "save": "保存",
+      "cancel": "キャンセル",
+      "edit": "編集する",
+      "submit": "更新する",
+      "delete": "削除",
+      "close": "閉じる",
+      "addSprint": "Sprint を追加",
+      "addStory": "Story を追加",
+      "addTask": "Task を追加",
+      "backToBacklogs": "Backlogs へ戻る",
+      "comment": "コメントする",
+      "selectGroup": "グループの選択",
+      "addGroup": "グループの追加",
+      "addCategory": "カテゴリの追加",
+      "addStatus": "ステータスの追加",
+      "viewKanban": "Kanban を表示",
+      "editSprint": "Sprint を編集",
+      "closeSprint": "Sprint を閉じる",
+      "openSprint": "Sprint をリオープンする",
+      "upload": "アップロード",
+      "browse": "参照",
+      "actions": "操作"
+    },
+    "title": {
+      "relatedTasks": "関連するタスク"
+    },
+    "ticket": {
+      "title": "タイトル",
+      "createdBy": "作成者",
+      "lastUpdatedBy": "最終更新者",
+      "category": "カテゴリ",
+      "assignee": "担当者",
+      "status": "ステータス",
+      "point": "ポイント"
+    },
+    "category": {
+      "title": "タイトル",
+      "sortOrder": "表示順",
+      "sort_order": "表示順",
+      "color": "カラー"
+    },
+    "status": {
+      "title": "タイトル",
+      "sortOrder": "表示順",
+      "sort_order": "表示順",
+      "isDone": "完了ステータスとするか",
+      "is_done": "完了ステータスとするか"
+    },
+    "settings": {
+      "generalSettings": "一般設定",
+      "groupManagements": "グループ管理",
+      "ticketCategories": "カテゴリ管理",
+      "ticketStatuses": "ステータス管理",
+      "general": {
+        "title": "プロジェクトのタイトル",
+        "description": "プロジェクトの説明",
+        "ticketPrefix": "チケットプレフィックス",
+        "projectImage": "プロジェクトのイメージ画像",
+        "currentImage": "現在のイメージ"
+      }
+    },
+    "message": {
+      "noPeriodSpecified": "期間指定なし",
+      "leaveAComment": "コメントを残す",
+      "leaveADescription": "説明文を書く",
+      "noDescription": "説明文なし",
+      "groups": "グループ",
+      "chooseAFile": "ファイルを選択 ...",
+      "updateProjectSettingsSuccess": "プロジェクト設定を更新しました",
+      "closedSprintDoesNotExists": "クローズされた Sprint はありません",
+      "sprintDoesNotExists": "Sprint がありません。Backlogs にある「Sprint を作成」ボタンで Sprint を作成してみましょう。",
+      "storyDoesNotExists": "Story がありません。「Story を追加」ボタンで Story を作成してみましょう。",
+      "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう"
+    }
+  }
+}

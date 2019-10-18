@@ -1,0 +1,1 @@
+json.extract! @project_ticket_status, *ProjectTicketStatus.attribute_names

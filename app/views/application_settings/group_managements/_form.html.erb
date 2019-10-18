@@ -1,0 +1,19 @@
+<%= simple_form_for group, url: application_settings_group_managements_path do |f| %>
+  <% if group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= t('errors.messages.not_saved.other', count: group.errors.count, resource: 'Group') %></h2>
+
+      <ul>
+        <% group.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.input :name %>
+
+  <div class="action d-flex justify-content-end">
+    <%= f.submit nil, class: 'btn btn-primary mr-2' %>
+    <%= link_to t('actions.back', default: 'Back'), application_settings_group_managements_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

@@ -1,0 +1,38 @@
+<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
+
+<div id="wrapper">
+  <%= render 'application_settings/common/sidebar' %>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container mt-2">
+      <div class="row my-2">
+        <h3 class="text-gray-800"><%= t('.title', default: 'User Managements') %></h3>
+      </div>
+      <div class="row">
+        <div class="card w-100">
+          <div class="card-body">
+            <ul class="list-group list-group-flush w-100">
+              <% @users.each do |user| %>
+                <li class="list-group-item d-flex flex-row align-items-center">
+                  <div class="mr-3">
+                    <img src="<%= user.user_image_url %>" width="48" class="rounded" />
+                  </div>
+                  <div>
+                    <%= link_to user.username, edit_application_settings_user_management_path(user) %>
+                  </div>
+                  <div class="d-flex ml-auto align-self-center">
+                    <%= link_to edit_application_settings_user_management_path(user), class: 'text-primary mr-2' do %>
+                      <i class="far fa-edit"></i>
+                    <% end %>
+                    <%= link_to application_settings_user_management_path(user), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } do %>
+                      <i class="far fa-trash-alt"></i>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

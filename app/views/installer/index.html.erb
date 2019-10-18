@@ -1,0 +1,60 @@
+<%= javascript_packs_with_chunks_tag 'bg-gradient-primary' %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-6 col-lg-6 col-md-6">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-2">
+                    <i class="fas fa-ghost fa-lg"></i>
+                  </h1>
+                  <h1 class="h4 text-gray-900 mb-5">
+                    Re:Backlogs Installer
+                  </h1>
+                </div>
+                <% if @installer.errors.present? %>
+                  <div class="alert alert-warning">
+                    <ul class="mb-0">
+                      <% @installer.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+                <%= form_with url: installer_path, html: { class: 'user' }, local: true do |f| %>
+                  <div class="form-group">
+                    <label class="mb-2"><%= t('.admin_password', default: "Admin password (admin username is 'admin')") %></label>
+                    <%= f.password_field :password, class: 'form-control form-control-user', placeholder: t('activerecord.attributes.user.password', default: 'Password') %>
+                  </div>
+                  <div class="form-group">
+                    <label class="mb-2"><%= t('.admin_password_confirmation', default: "Admin password confirmation") %></label>
+                    <%= f.password_field :password_confirmation, class: 'form-control form-control-user', placeholder: t('activerecord.attributes.user.password_confirmation', default: 'Password') %>
+                  </div>
+                  <div class="form-group mb-4">
+                    <label><%= t('.locale', default: "Locale") %></label>
+                    <div class="d-flex justify-content-center">
+                      <div class="custom-control custom-radio mr-5">
+                        <input type="radio" id="localeEn" name="locale" class="custom-control-input" value="en">
+                        <label class="custom-control-label" for="localeEn"><%= t('.english', default: 'English') %></label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="localeJa" name="locale" class="custom-control-input" value="ja">
+                        <label class="custom-control-label" for="localeJa"><%= t('.japanese', default: 'Japanese') %></label>
+                      </div>
+                    </div>
+                  </div>
+                  <%= f.submit t('.install', default: 'Install'), class: 'btn btn-primary btn-user btn-block' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
+
+<div id="wrapper">
+  <%= render 'application_settings/common/sidebar' %>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container mt-2">
+      <div class="row my-2">
+        <h3 class="text-gray-800"><%= t('.title', default: 'User Managements') %>: <%= @user.username %></h3>
+      </div>
+      <div class="row">
+        <div class="card w-100">
+          <div class="card-body">
+            <%= simple_form_for @user, url: application_settings_user_management_path, method: :patch do |f| %>
+              <%= f.input :username %>
+              <%= f.input :email %>
+              <div class="row">
+                <div class="col-3">
+                  <p class="mb-1"><%= t('.current_image', default: 'Current Image') %></p>
+                  <div class="mb-2">
+                    <img src="<%= @user.user_image_url %>" width="90" class="rounded">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <%= f.input :image, wrapper: :custom_file %>
+                  <% if @user.image.present? %>
+                    <div>
+                      <%= link_to t('actions.remove', default: 'Remove'), application_settings_user_managements_destroy_image_path(@user), method: :delete, class: 'btn btn-sm btn-danger' %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <%= f.submit nil, class: 'btn btn-sm btn-primary' %>
+            <% end %>
+            <hr />
+            <%= simple_form_for @user, url: application_settings_user_managements_update_role_path(@user) do |f| %>
+              <div class="form-group mb-3">
+                <label><h2 class="h5 text-gray-800"><%= t('.role', default: 'Role') %></h2></label>
+                <% Role::ALL_ROLES.each do |role| %>
+                  <div class="custom-control custom-radio mb-2">
+                    <input type="radio" id="<%= role %>" name="user[role]" class="custom-control-input" value="<%= role %>" <%= @user.has_role?(role.to_sym) ? 'checked' : '' %>>
+                    <label class="custom-control-label" for="<%= role %>"><%= role %></label>
+                    <small id="emailHelp" class="form-text text-muted"><%= t("role.description.#{role}") %></small>
+                  </div>
+                <% end %>
+              </div>
+
+              <%= f.submit nil, class: 'btn btn-sm btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

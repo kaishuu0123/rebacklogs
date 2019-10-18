@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <div class="row d-flex justify-content-end">
+    <%= link_to t('actions.create_project', default: 'Create Project'), new_project_path, class: 'btn btn-outline-secondary'%>
+  </div>
+  <div class="row">
+    <% if @projects.empty? %>
+      <div class="mt-4 w-100 bg-gray-200 p-4 rounded">
+        <%= t('.project_does_not_exists', default: "Project doesn't exists. Let's create a project with the \"Create Project\" button.") %>
+      </div>
+    <% end %>
+    <ul class="list-group list-group-flush w-100">
+      <% @projects.each do |project| %>
+        <li class="list-group-item d-flex flex-row">
+          <div class="mr-3">
+            <img src="<%= project.project_image_url %>" width="64" class="rounded" />
+          </div>
+          <div class="d-flex flex-column">
+            <div class="mb-1">
+              <%= link_to project.title, project_path(project) %>
+            </div>
+            <div class=""><%= project.body %></div>
+          </div>
+          <div class="ml-auto align-self-center">
+            <%= link_to edit_project_path(project) do %>
+              <i class="far fa-edit"></i>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

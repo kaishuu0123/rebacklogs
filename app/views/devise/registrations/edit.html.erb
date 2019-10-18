@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+    <h1>Edit <%= resource_name.to_s.humanize %></h1>
+    <hr>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="form-group">
+        <%= f.label :username %><br />
+        <%= f.text_field :username, class: 'form-control'  %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, class: 'form-control'  %>
+      </div>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control'  %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'  %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
+        <%= f.password_field :current_password, autocomplete: "off", class: 'form-control'  %>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit t('.update'), class: 'btn btn-lg btn-block btn-primary' %>
+      </div>
+    <% end %>
+    <hr>
+
+    <h2><%= t('.cancel_my_account') %></h2>
+
+    <p><%= t('.unhappy') %> <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
+
+    <%= link_to t('devise.shared.links.back'), :back %>
+    <hr>
+  </div>
+</div>

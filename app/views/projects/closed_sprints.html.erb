@@ -1,0 +1,13 @@
+<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
+<%= stylesheet_pack_tag 'closed_sprints', media: 'all' %>
+<%= javascript_packs_with_chunks_tag 'closed_sprints' %>
+
+<div id="wrapper">
+  <%= render 'commons/sidebar', { project: @project } %>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content" data-project-id="<%= @project.id %>">
+      <router-view />
+    </div>
+  </div>
+</div>

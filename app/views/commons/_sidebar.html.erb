@@ -1,0 +1,60 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gray-200 sidebar accordion sidebar-closed" id="accordionSidebar">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%= project_path(project) %>">
+    <div class="sidebar-brand-icon">
+      <img src="<%= project.project_image_url %>" width="48" class="rounded"  />
+    </div>
+    <div class="sidebar-brand-text mx-3"><span><%= project.title %></span></div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item -->
+  <li class="nav-item">
+    <a class="nav-link" href="<%= project_path(project) %>">
+      <i class="fas fa-columns"></i>
+      <span>Backlogs</span>
+    </a>
+  </li>
+
+  <!-- Nav Item - Utilities Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+      <i class="fas fa-border-all"></i>
+      <span>Kanban</span>
+    </a>
+    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header"><%= t('.opening_sprints', default: 'Opening Sprints') %>:</h6>
+        <% project.sprints.opening.each do |sprint| %>
+          <%= link_to sprint.title, project_sprint_kanban_path(project, sprint), class: 'collapse-item' %>
+        <% end %>
+      </div>
+    </div>
+  </li>
+
+  <!-- Nav Item -->
+  <li class="nav-item">
+    <%= link_to project_closed_sprints_path(project), class: "nav-link" do %>
+      <i class="fas fa-border-none"></i>
+      <span><%= t('.closed_sprints', default: 'Closed Sprints') %></span></a>
+    <% end %>
+  </li>
+
+  <!-- Nav Item - Tables -->
+  <li class="nav-item">
+    <a class="nav-link"  href="<%= project_settings_path(project) %>">
+      <i class="fas fa-fw fa-wrench"></i>
+      <span><%= t('.settings', default: 'Settings') %></span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+</ul>
+<!-- End of Sidebar -->

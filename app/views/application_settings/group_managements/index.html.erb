@@ -1,0 +1,62 @@
+<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
+
+<div id="wrapper">
+  <%= render 'application_settings/common/sidebar' %>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container mt-2">
+      <div class="row my-2">
+        <h3 class="text-gray-800"><%= t('.title', default: 'Group Managements') %></h3>
+      </div>
+      <div class="row">
+        <div class="card w-100 mb-4">
+          <div class="card-body">
+            <%= simple_form_for @group, url: application_settings_group_managements_path do |f| %>
+              <% if @group.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= t('errors.messages.not_saved.other', count: group.errors.count, resource: 'Group') %></h2>
+
+                  <ul>
+                    <% @group.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              <%= f.input :name %>
+
+              <div class="action d-flex justify-content-end">
+                <%= f.submit t('.create_group', default: 'Create Group'), class: 'btn btn-primary' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="card w-100">
+          <div class="card-body">
+            <ul class="list-group list-group-flush w-100">
+              <% @groups.each do |group| %>
+                <li class="list-group-item d-flex flex-row align-items-center">
+                  <div class="mr-3">
+                    <img src="<%= group.group_image_url %>" width="48" class="rounded" />
+                  </div>
+                  <div>
+                    <%= link_to group.name, application_settings_group_management_path(group) %>
+                  </div>
+                  <div class="d-flex ml-auto align-self-center">
+                    <div class="mr-2">
+                      <i class="fas fa-user-friends"></i>
+                      <span><%= group.users.count %></span>
+                    </div>
+                    <%= link_to application_settings_group_management_path(group), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } do %>
+                      <i class="far fa-trash-alt"></i>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

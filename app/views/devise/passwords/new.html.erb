@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+    <h2 class="text-center"><%= t('.forgot_your_password') %></h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= devise_error_messages! %>
+      <br>
+      <p class="text-left"><%= t('.forgot_your_password_message') %></p>
+      <div class="form-group">
+        <%= f.email_field :email, autofocus: true, placeholder: 'Email Address', class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit t('.send_me_reset_password_instructions', default: 'Send me reset password instructions'), class: 'btn btn-primary btn-block btn-lg' %>
+      </div>
+    <% end %>
+    <div class="text-center">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

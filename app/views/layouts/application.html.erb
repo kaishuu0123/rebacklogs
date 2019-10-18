@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% custom_title = [] %>
+    <% custom_title << @project.title if @project.present? %>
+    <% custom_title << Setting.site_title if Setting.site_title.present? %>
+
+
+    <% if custom_title.present? %>
+    <title><%= custom_title.push('Re:Backlogs').join(' | ') %></title>
+    <% else %>
+    <title>Re:Backlogs</title>
+    <% end %>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <%= javascript_packs_with_chunks_tag 'application' %>
+  </head>
+
+  <body>
+    <%= render 'layouts/header' %>
+
+    <% flash.each do |type, msg| %>
+      <% type = 'success' if type == 'notice' %>
+      <% type = 'error' if type == 'alert' %>
+      <div class="flash" toastr-type="<%= type %>" style="display: none;"><%= msg %></div>
+    <% end %>
+
+    <%= yield %>
+  </body>
+</html>

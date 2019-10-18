@@ -1,0 +1,1 @@
+json.extract! @project_ticket_category, *ProjectTicketCategory.attribute_names

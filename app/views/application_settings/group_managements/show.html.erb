@@ -1,0 +1,71 @@
+<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
+
+<div id="wrapper">
+  <%= render 'application_settings/common/sidebar' %>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div class="container mt-2">
+      <div class="row my-2">
+        <h3 class="text-gray-800"><%= t('.title', default: 'Group Managements') %>: <%= @group.name %></h3>
+      </div>
+
+      <div class="row">
+        <div class="col-6 pl-0">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="m-0 text-gray-800"><%= t('.add_users_to_group', default: 'Add user(s) to the group') %></h6>
+            </div>
+            <div class="card-body">
+              <%= simple_form_for @group, url: application_settings_group_managements_add_user_path(@group) do |f| %>
+                <div class="form-group">
+                  <select name="group[user_id]" class="selectpicker w-100" data-live-search="true" title="Select Group ...">
+                    <% @addable_users.each do |user| %>
+                      <option
+                        value="<%= user.id %>"
+                        data-content='
+                          <div class="d-flex align-items-center">
+                            <img src=<%= user.user_image_url %> width="24" class="rounded mr-2" />
+                            <%= user.username %>
+                          </div>
+                        '>
+                        <%= user.username %>
+                      </option>
+                    <% end %>
+                  </select>
+                </div>
+
+                <div class="action d-flex justify-content-end">
+                  <%= f.submit t('.add_user', default: 'Add User'), class: 'btn btn-primary' %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 pr-0">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="m-0 text-gray-800"><%= t('.users', default: 'Users') %></h6>
+            </div>
+            <ul class="list-group list-group-flush w-100">
+              <% @group.users.each do |user| %>
+                <li class="list-group-item d-flex flex-row align-items-center">
+                  <div class="mr-3">
+                    <img src="<%= user.user_image_url %>" width="32" class="rounded" />
+                  </div>
+                  <div>
+                    <%= user.username %>
+                  </div>
+                  <div class="d-flex ml-auto align-self-center">
+                    <%= link_to application_settings_group_managements_remove_user_path(@group, user), method: :delete, class: "text-danger" do %>
+                      <i class="far fa-trash-alt"></i>
+                    <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

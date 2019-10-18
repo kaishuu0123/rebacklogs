@@ -1,0 +1,76 @@
+ja:
+  role:
+    description:
+      admin: すべての操作が可能な権限です
+      developer: プロジェクトの作成、自分が所属するプロジェクトのみ操作が可能な権限です
+  activerecord:
+    attributes:
+      project:
+        title: タイトル
+        body: 説明文
+        ticket_prefix: チケットプレフィックス
+      user:
+        username: ユーザ名
+        email: メールアドレス
+        image: プロフィール画像
+      group:
+        name: グループ名
+  actions:
+    sign_in: 'ログイン'
+    sign_out: 'ログアウト'
+    create_project: 'プロジェクトを作成'
+    edit_project: 'プロジェクトの編集'
+    back: 戻る
+    upload: アップロード
+    user_settings: '個人設定'
+    remove: 削除
+    settings: 管理
+  message:
+    ticket_prefix_description: チケットプレフィックスとは、チケット作成時にチケット番号に付与される特定の文字列です。好きな文字(英字の大文字か小文字)を数文字入力してください
+  commons:
+    sidebar:
+      opening_sprints: オープン中の Sprint
+      settings: プロジェクト設定
+      closed_sprints: クローズした Sprint
+  projects:
+    index:
+      project_does_not_exists: プロジェクトが作成されていません。「プロジェクトを作成」ボタンからプロジェクトを作成してみましょう。
+  profiles:
+    index:
+      user_settings: 個人設定
+      current_image: 現在の画像
+      change_password: パスワード変更
+      choose_a_file: ファイルを選択 ...
+  application_settings:
+    common:
+      sidebar:
+        general_settings: 一般設定
+        group_managements: グループ管理
+        user_managements: ユーザ管理
+    dashboard:
+      index:
+        title: 一般設定
+    group_managements:
+      index:
+        title: グループ管理
+        create_group: グループを作成
+      show:
+        title: グループ管理
+        add_user: ユーザを追加
+        users: ユーザ一覧
+        add_users_to_group: ユーザをグループに追加
+    user_managements:
+      index:
+        title: ユーザ管理
+      edit:
+        title: ユーザ管理
+        current_image: 現在の画像
+        role: 権限
+  installer:
+    index:
+      admin_password: 管理者パスワード (管理者のユーザ名は「admin」です)
+      admin_password_confirmation: 管理者パスワード(確認用)
+      locale: 言語設定
+      english: 英語
+      japanese: 日本語
+      install: インストールする

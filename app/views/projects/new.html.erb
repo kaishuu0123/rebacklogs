@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="card mx-auto w-50">
+      <div class="card-body">
+        <div class="text-center">
+          <h1 class="mx-auto h4 text-gray-900"><%= t('actions.create_project', default: 'Create Project') %></h1>
+        </div>
+        <%= render 'form', project: @project %>
+      </div>
+    </div>
+  </div>
+</div>

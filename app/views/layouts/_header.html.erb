@@ -1,0 +1,19 @@
+<header>
+  <div class="navbar navbar-expand navbar-dark bg-dark shadow-sm flex-column flex-md-row">
+    <div class="d-flex">
+      <a href="/" class="navbar-brand d-flex align-items-center">
+        <i class="fas fa-ghost fa-lg mr-3"></i><strong>Re:Backlogs</strong>
+      </a>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <% if current_user&.has_role?(:admin) %>
+        <li class="nav-item mr-2">
+          <%= link_to application_settings_path, class: "nav-item nav-link" do %>
+            <i class="fas fa-cog"></i> <%= t('actions.settings', default: "Settings") %>
+          <% end %>
+        </li>
+      <% end %>
+      <%= render 'layouts/user_menu'%>
+    </ul>
+  </div>
+</header>

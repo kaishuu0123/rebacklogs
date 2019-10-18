@@ -1,0 +1,71 @@
+<div id="wrapper">
+  <div id="content-wrapper">
+    <div class="container-fluid">
+      <div class="row my-2">
+        <div class="col-8 mx-auto">
+          <h3 class="text-gray-800 border-bottom"><%= t('.user_settings', default: 'User Settings') %></h3>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="card col-8 mx-auto">
+          <div class="card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <form class="w-100">
+                  <div class="form-group">
+                    <label><%= t('activerecord.attributes.user.username', default: 'Username') %></label>
+                    <span class="form-control" readonly><%= current_user.username %></span>
+                  </div>
+                  <div class="form-group">
+                    <label><%= t('activerecord.attributes.user.email', default: 'Email') %></label>
+                    <span class="form-control" readonly><%= current_user.email %></span>
+                  </div>
+                </form>
+              </div>
+              <div class="row">
+                <div class="col-3 pl-0">
+                  <p class="mb-1"><%= t('.current_image', default: 'Current Image') %></p>
+                  <div class="mb-2">
+                    <img src="<%= current_user.user_image_url %>" width="90" class="rounded" />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <%= simple_form_for current_user, url: { controller: 'profiles', action: 'update' }, method: :patch, html: { id: 'edit_image' } do |f| %>
+                    <%= f.input :image, wrapper: :custom_file, placeholder: t('.choose_a_file', default: 'Choose a file ...') %>
+                    <div class="d-flex">
+                      <%= f.button :submit, t('actions.upload', default: 'Upload'), class: 'btn btn-sm btn-primary mr-3' %>
+                      <% if current_user.image.present? %>
+                        <div>
+                          <%= link_to t('actions.remove', default: 'Remove'), profiles_image_path(), method: :delete, class: 'btn btn-sm btn-danger' %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card col-8 mx-auto">
+          <div class="card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <h2 class="h3"><%= t('.change_password', default: 'Change Password') %></h2>
+              </div>
+              <div class="row">
+                <%= simple_form_for current_user, url: { controller: 'profiles', action: 'update_password' }, method: :patch, html: { id: 'edit_password', class: 'w-100' } do |f| %>
+                  <%= f.input :current_password %>
+                  <%= f.input :password %>
+                  <%= f.input :password_confirmation %>
+                  <%= f.button :submit, class: 'btn btn-sm btn-primary' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

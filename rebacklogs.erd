@@ -1,0 +1,46 @@
+[User]
+username
+email
+password
+
+[Group]
+name
+
+[Project]
+title
+body
+
+[Sprint]
+title
+startDatetime
+endDatetime
+
+[Story]
+title
+body
+
+[Task]
+title
+body
+
+[AttachmentFile]
+filename
+body
+
+[Comment]
+body
+
+
+User *--* Group
+Group *--* Project
+Project 1--* Sprint
+Sprint 1--* Story
+Story 1--* Task
+Story 1--1 User
+Task 1--1 User
+Story 1--* AttachmentFile
+Task 1--* AttachmentFile
+Story 1--* Comment
+Task 1--* Comment
+Comment 1--1 User
+Comment 1--* AttachmentFile

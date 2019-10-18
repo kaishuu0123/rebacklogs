@@ -1,0 +1,21 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gray-200 sidebar" id="accordionSidebar">
+  <!-- Nav Item -->
+  <%= nav_link application_settings_path do %>
+    <i class="fas fa-cog fa-fw mr-1"></i> <%= t('.general_settings', default: 'General Settings') %>
+  <% end %>
+
+  <!-- Nav Item -->
+  <%= nav_link application_settings_group_managements_path do %>
+    <i class="fas fa-users fa-fw mr-1"></i> <%= t('.group_managements', default: 'Group Managements') %>
+  <% end%>
+
+  <!-- Nav Item -->
+  <%= nav_link application_settings_user_managements_path do %>
+    <i class="fas fa-user fa-fw mr-1"></i> <%= t('.user_managements', default: 'User Managements') %>
+  <% end%>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+</ul>
+<!-- End of Sidebar -->
