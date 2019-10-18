@@ -3,6 +3,17 @@
 Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 シンプルで使いやすい Backlogs を目指しています。
 
+
+## スクリーンショット
+
+<img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/backlogs.png" width="400"> <img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/kanban.png" width="400">
+
+## デモ
+
+* https://rebacklogs.herokuapp.com/
+  * これはデモサイトです。
+  * データが突然消える可能性があります。 お試し版としてご利用ください。
+
 ## このプロジェクトについて
 ### 似たようなプロジェクトやソフトウェア
 * [backlogs/redmine_backlogs](https://github.com/backlogs/redmine_backlogs)
@@ -48,6 +59,14 @@ git clone https://github.com/kaishuu0123/rebacklogs
 
 docker-compose up -d
 ```
+
+## Contribute (Issue 起票について)
+
+英語でも日本語でも受け付けます。
+(英語だと意思疎通がうまく行かない可能性もあります)
+
+大幅な機能追加などをしたい場合には、まず Issue を立ててから相談してもらえるとスムーズです。
+いきなり大きな PR を投げられても、コンセプト段階で却下する可能性もあります。
 
 ## 開発環境構築手順
 ### 必須ソフト
