@@ -3,6 +3,8 @@
 Re:Backlogs is an Open Source project management tool.
 It aims to be simple and easy to use Backlogs.
 
+[Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/master/README.ja.md)
+
 ## About this project
 ### Similar Project or Software
 * [backlogs/redmine_backlogs](https://github.com/backlogs/redmine_backlogs)
