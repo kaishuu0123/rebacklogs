@@ -4,7 +4,28 @@ const webpack = require('webpack')
 const vue = require('./loaders/vue')
 
 // enable SplitChunks
-environment.splitChunks()
+environment.splitChunks((config) => {
+  return Object.assign({}, config, {
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test:/node_modules/,
+            name: 'vendor',
+            chunks: 'initial',
+            enforce: true
+          },
+          rebacklogsCommons: {
+            test: /app\/javascript\/commons/,
+            name: 'rebacklogs-commons',
+            chunks: 'initial',
+            enforce: true
+          }
+        }
+      }
+    }
+  })
+})
 
 environment.plugins.append('Provide', new webpack.ProvidePlugin({
   $: 'jquery',
