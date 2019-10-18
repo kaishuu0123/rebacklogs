@@ -1,9 +1,19 @@
 # Re:Backlogs
 
+[![GitHub release](https://img.shields.io/github/release/kaishuu0123/rebacklogs.svg)][releases]
+[![Docker Pulls](https://img.shields.io/docker/pulls/kaishuu0123/rebacklogs.svg)][docker]
+
+[releases]: https://github.com/kaishuu0123/rebacklogs/releases
+[docker]: https://hub.docker.com/r/kaishuu0123/rebacklogs/
+
 Re:Backlogs is an Open Source project management tool.
 It aims to be simple and easy to use Backlogs.
 
 [Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/master/README.ja.md)
+
+## Demo
+
+* https://rebacklogs.herokuapp.com/
 
 ## About this project
 ### Similar Project or Software
