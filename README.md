@@ -14,24 +14,24 @@ The basic philosophy is based on redmine_backlogs.
 There are several terms related to Backlogs.
 
 * Backlogs
-  * A place to store stories
-  * Story will be added without being bound by existing Sprint.
+    * A place to store stories
+    * Story will be added without being bound by existing Sprint.
 * Sprints
-  * Basic unit that digests a story within a set period. Generally, it is separated by 2 weeks.
-  * Add Story to Sprint from Backlogs and plan
+    * Basic unit that digests a story within a set period. Generally, it is separated by 2 weeks.
+    * Add Story to Sprint from Backlogs and plan
 * Story
-  * Represents the specific granularity to accomplish something
-  * When using for software development, it is basic to write in the form of “can do”
-  * For example, if you add a login function to a web application and implement a function that allows you to add comments, create the following story
-    * Log in to the application
-    * You can add comments as a logged-in user
+    * Represents the specific granularity to accomplish something
+    * When using for software development, it is basic to write in the form of “can do”
+    * For example, if you add a login function to a web application and implement a function that allows you to add comments, create the following story
+        * Log in to the application
+        * You can add comments as a logged-in user
 * Task
-  * 1 Create multiple items in Story.
-  * Here are the specific tasks to complete the story
-  * For example, the following tasks can be considered to complete the above-mentioned story of “Login to application”.
-    * Implementation
-    * Code Review & Feedback
-    * Testing
+    * 1 Create multiple items in Story.
+    * Here are the specific tasks to complete the story
+    * For example, the following tasks can be considered to complete the above-mentioned story of “Login to application”.
+        * Implementation
+        * Code Review & Feedback
+        * Testing
 
 ### "Re:" Meaning
 
@@ -82,9 +82,9 @@ There are several.
 * Of course I want to create easy-to-use Backlogs
 * Aim to provide comprehensive OSS including document sites
 * I want to make my portfolio
-   * To reflect the know-how accumulated so far in Re:Backlogs
+    * To reflect the know-how accumulated so far in Re:Backlogs
 * I want to create a not SPA service using webpacker
-   * Use an existing session mechanism that does not use JWT, and prepare an environment for developing modern front ends.
+    * Use an existing session mechanism that does not use JWT, and prepare an environment for developing modern front ends.
 
 ## LICENSE
 
