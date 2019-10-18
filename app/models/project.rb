@@ -30,5 +30,7 @@ class Project < ApplicationRecord
     end
 
     InitialAvatar.avatar_data_uri(title.chars.first, size: 64)
+  rescue ActiveStorage::FileNotFoundError
+    InitialAvatar.avatar_data_uri(title.chars.first, size: 64)
   end
 end

@@ -65,6 +65,8 @@ class User < ApplicationRecord
     end
 
     Identicon.data_url_for(email, 180)
+  rescue ActiveStorage::FileNotFoundError
+    Identicon.data_url_for(email, 180)
   end
 
   def assign_default_role
