@@ -11,9 +11,16 @@ It aims to be simple and easy to use Backlogs.
 
 [Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/master/README.ja.md)
 
+## Screenshot
+
+<img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/backlogs.png" width="400">
+
+<img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/kanban.png" width="400">
+
 ## Demo
 
 * https://rebacklogs.herokuapp.com/
+  * this is a demo site, there is a possibility that data may disappear suddenly. Please use for testing
 
 ## About this project
 ### Similar Project or Software
@@ -60,6 +67,15 @@ git clone https://github.com/kaishuu0123/rebacklogs
 
 docker-compose up -d
 ```
+
+## Contribute
+
+kaishuu0123 is Japanese, but just started learning English.
+
+You can write issues and PRs in English or Japanese.
+
+If you want to add a large feature, etc., it will be smooth if you create issue first and then discussion.
+Even if a big PR is suddenly thrown, it may be rejected at the concept stage.
 
 ## Development instructions
 ### Requirements
