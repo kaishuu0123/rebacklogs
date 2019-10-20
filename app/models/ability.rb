@@ -35,15 +35,32 @@ class Ability
     cannot :manage, :all
 
     if user.has_role?(:developer)
-      can :manage, Project, groups: { id: user.groups.pluck(:id) }
-      can :manage, [Sprint] do |sprint|
-        sprint.project.groups.where(id: user.groups.pluck(:id))
+      # Public Project (read only)
+      can [:read, :closed_sprints], Project, is_public: true
+      can [:read, :closed_sprints, :kanban, :kanban_api], Sprint, project: { is_public: true }
+      can :read, [Story, Task, Ticket] do |ticket|
+        ticket.project.is_public
       end
-      can :manage, [Story, Task, Ticket] do |ticket|
-        ticket.project.groups.where(id: user.groups.pluck(:id))
+      can :read, [ProjectTicketCategory, ProjectTicketStatus] do |entry|
+        entry.project.is_public
+      end
+
+      # 自身が属しているプロジェクト
+      can :manage, Project, groups: { id: user.groups.pluck(:id) }
+      can :manage, Sprint do |sprint|
+        (sprint.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
+      end
+      can :manage, Story do |ticket|
+        (ticket.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
+      end
+      can :manage, Task do |ticket|
+        (ticket.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
+      end
+      can :manage, Ticket do |ticket|
+        (ticket.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
       end
       can :manage, [ProjectTicketCategory, ProjectTicketStatus] do |entry|
-        entry.project.groups.where(id: user.groups.pluck(:id))
+        (entry.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
       end
 
       can :manage, Group, id: user.groups.pluck(:id)

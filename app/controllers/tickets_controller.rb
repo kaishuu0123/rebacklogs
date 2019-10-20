@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
 
   before_action :set_paper_trail_whodunnit
   before_action :set_ticket, only: [:show, :update, :destroy]
