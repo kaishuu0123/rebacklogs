@@ -24,12 +24,20 @@
                 ></b-form-textarea>
               </b-form-group>
               <b-form-group
-                id="project-title"
+                id="project-ticket-prefix"
                 :label="$t('settings.general.ticketPrefix')">
                 <b-form-input
                   v-model="project.ticket_prefix"
                   required
                   />
+              </b-form-group>
+              <b-form-group>
+                <b-form-checkbox
+                  v-model="project.is_public"
+                  required
+                >
+                  {{ $t('settings.general.isPublic') }}
+                </b-form-checkbox>
               </b-form-group>
 
               <b-button type="submit" variant="primary" class="btn-sm">{{ $t('action.save') }}</b-button>

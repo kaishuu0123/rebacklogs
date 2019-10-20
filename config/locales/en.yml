@@ -35,3 +35,7 @@ en:
     description:
       admin: Authority that allows all operations
       developer: Permission to create projects and operate only the projects to which they belong
+  activerecord:
+    attributes:
+      project:
+        is_public: Public Project?
