@@ -57,6 +57,7 @@
       "general": {
         "title": "Project Title",
         "description": "Project Description",
+        "isPublic": "Public Project?",
         "ticketPrefix": "Ticket Prefix",
         "projectImage": "Project Image",
         "currentImage": "Current Image"
@@ -134,6 +135,7 @@
       "general": {
         "title": "プロジェクトのタイトル",
         "description": "プロジェクトの説明",
+        "isPublic": "公開プロジェクト",
         "ticketPrefix": "チケットプレフィックス",
         "projectImage": "プロジェクトのイメージ画像",
         "currentImage": "現在のイメージ"
