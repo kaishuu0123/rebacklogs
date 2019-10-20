@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import {
   FormPlugin, FormGroupPlugin, FormInputPlugin, FormTextareaPlugin, FormFilePlugin, FormCheckboxPlugin,
-  ModalPlugin, TooltipPlugin,
+  ModalPlugin, TooltipPlugin, ToastPlugin,
   ButtonPlugin, NavPlugin
 } from 'bootstrap-vue'
 
@@ -14,6 +14,7 @@ Vue.use(FormFilePlugin)
 Vue.use(FormCheckboxPlugin)
 Vue.use(ModalPlugin)
 Vue.use(TooltipPlugin)
+Vue.use(ToastPlugin)
 Vue.use(ButtonPlugin)
 Vue.use(NavPlugin)
 import 'bootstrap-vue/dist/bootstrap-vue.css'
