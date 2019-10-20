@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_021219) do
+ActiveRecord::Schema.define(version: 2019_10_19_180101) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_021219) do
     t.string "ticket_prefix", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_public", default: false
     t.index ["ticket_prefix"], name: "index_projects_on_ticket_prefix", unique: true
   end
 

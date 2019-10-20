@@ -9,6 +9,7 @@ ja:
         title: タイトル
         body: 説明文
         ticket_prefix: チケットプレフィックス
+        is_public: 公開プロジェクト
       user:
         username: ユーザ名
         email: メールアドレス
