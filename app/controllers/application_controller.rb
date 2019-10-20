@@ -23,6 +23,9 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_access_denied(exception)
+    logger.error 'Access Denied'
+    logger.error "Subject: #{exception.subject.class}"
+    logger.error "Action: #{exception.action}"
     logger.error "#{exception.class}: #{exception.message}"
     logger.error exception.backtrace.join("\n")
 

@@ -1,5 +1,5 @@
 class SprintsController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
 
   before_action :set_sprint, only: [
     :show, :kanban, :kanban_api, :update
