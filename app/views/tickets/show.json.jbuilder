@@ -77,7 +77,7 @@ if comments = @ticket.comments
   end
 end
 
-if versions = @ticket.versions.where(event: 'update').order(:updated_at)
+if versions = @ticket.versions.where(event: 'update').order(:created_at)
   json.histories do
     json.array! versions do |version|
       changes = changes_from_version_helper(version)
