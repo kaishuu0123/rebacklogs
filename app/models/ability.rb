@@ -44,6 +44,12 @@ class Ability
       can :read, [ProjectTicketCategory, ProjectTicketStatus] do |entry|
         entry.project.is_public
       end
+      can :create, Comment do |comment|
+        comment.ticket.project.is_public
+      end
+      can :destroy, Comment do |comment|
+        comment.ticket.project.is_public && comment.user.id == user.id
+      end
 
       # 自身が属しているプロジェクト
       can :manage, Project, groups: { id: user.groups.pluck(:id) }
@@ -61,6 +67,9 @@ class Ability
       end
       can :manage, [ProjectTicketCategory, ProjectTicketStatus] do |entry|
         (entry.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
+      end
+      can :manage, Comment do |comment|
+        (comment.ticket.project.groups.pluck(:id) & user.groups.pluck(:id)).present?
       end
 
       can :manage, Group, id: user.groups.pluck(:id)

@@ -1,5 +1,5 @@
 class TicketsController < ApplicationController
-  load_and_authorize_resource
+  authorize_resource
 
   before_action :set_paper_trail_whodunnit
   before_action :set_ticket, only: [:show, :update, :destroy]
@@ -12,6 +12,7 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = ticket_type.new(ticket_params)
+    authorize! :manage, @ticket
 
     if @ticket.project_ticket_status.blank?
       @ticket.project_ticket_status = @ticket.project.project_ticket_statuses.order(:sort_order).first
@@ -27,6 +28,7 @@ class TicketsController < ApplicationController
   end
 
   def update
+    authorize! :manage, @ticket
     if @ticket.update(ticket_params)
       render :show, status: :ok, location: [@ticket.project, @ticket]
     else
@@ -35,6 +37,7 @@ class TicketsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, @ticket
     @ticket.destroy
 
     respond_to do |format|
