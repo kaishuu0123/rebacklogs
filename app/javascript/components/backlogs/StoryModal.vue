@@ -11,6 +11,11 @@
     hide-footer
     no-fade>
     <div class="container">
+      <div v-if="message.body" class="row">
+        <div :class="`w-100 p-2 alert alert-${this.message.type}`">
+          {{ this.message.body }}
+        </div>
+      </div>
       <div class="row">
         <div class="col-9">
           <div class="d-flex mb-2">
@@ -148,6 +153,10 @@ export default {
         projectTicketStatus: null,
         projectTicketCategory: null,
         assignee: null
+      },
+      message: {
+        type: null,
+        body: null
       }
     }
   },
@@ -199,6 +208,13 @@ export default {
   methods: {
     onShow() {
       this.resetData()
+      if (this.$route.query) {
+        if (this.$route.query.message_type && this.$route.query.message) {
+          this.message.type = this.$route.query.message_type
+          this.message.body = this.$route.query.message
+        }
+      }
+
       if (this.$route.params.storyId) {
         this.isLoading = true
         this.getStory({
@@ -224,6 +240,10 @@ export default {
         projectTicketStatus: null,
         projectTicketCategory: null,
         assignee: null
+      }
+      this.message = {
+        type: null,
+        body: null
       }
       this.isEdit = false
       this.SET_SELECTED_STORY(this.story)
