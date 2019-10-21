@@ -2,6 +2,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
 @import "./sb-admin/sb-admin-2";
 @import "~toastr/toastr";
 @import "~bootstrap-select/dist/css/bootstrap-select.min";
@@ -19,6 +20,12 @@ $font-size-xm: 0.8em !default;
 .btn.rb-btn-s {
    // line-height: ensure proper height of button next to small input
    @include button-size($btn-padding-y-xs * 1.2, $btn-padding-x-xs * 1.2, 0.9em, $input-btn-line-height-xs, $btn-border-radius-sm);
+}
+
+.btn.rb-btn-default {
+   @extend .border;
+   @extend .page-link;
+   @extend .text-dark;
 }
 
 .rb-border-dotted {

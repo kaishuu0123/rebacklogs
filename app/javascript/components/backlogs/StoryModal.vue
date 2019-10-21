@@ -90,15 +90,28 @@
             <hr />
           </div>
           <div>
-            <div class="mb-3">
-              <CommentFormAndList
-                v-if="story.id"
-                :projectId="projectId"
-                :ticket="selectedStory"
-                ticketType="stories"
-                :isLoading="isLoading"
-              />
-            </div>
+            <b-tabs content-class="mt-3">
+              <b-tab>
+                <template v-slot:title>
+                  <i class="fas fa-comment"></i> {{ $t('tab.comment') }}
+                </template>
+                <CommentFormAndList
+                  v-if="story.id"
+                  :projectId="projectId"
+                  :ticket="selectedStory"
+                  ticketType="stories"
+                  :isLoading="isLoading"
+                />
+              </b-tab>
+              <b-tab>
+                <template v-slot:title>
+                  <i class="fas fa-clock"></i> {{ $t('tab.history') }}
+                </template>
+                <HistoryList
+                  :histories="story.histories"
+                />
+              </b-tab>
+            </b-tabs>
           </div>
         </div>
         <div class="col-3 p-0">
@@ -125,6 +138,7 @@ import SelectAssignee from '../commons/SelectAssignee'
 import SelectStatus from '../commons/SelectStatus'
 import InputPoint from '../commons/InputPoint'
 import CommentFormAndList from '../commons/CommentFormAndList'
+import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
 
 export default {
@@ -135,7 +149,8 @@ export default {
     SelectAssignee,
     SelectStatus,
     InputPoint,
-    CommentFormAndList
+    CommentFormAndList,
+    HistoryList
   },
   name: 'StoryModal',
   props: {

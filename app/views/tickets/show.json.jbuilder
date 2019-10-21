@@ -76,3 +76,24 @@ if comments = @ticket.comments
     end
   end
 end
+
+if versions = @ticket.versions.where(event: 'update').order(:updated_at)
+  json.histories do
+    json.array! versions do |version|
+      changes = changes_from_version_helper(version)
+      next if changes.blank?
+
+      json.id version.id
+      json.changed_by User.find_by(id: version.whodunnit).username
+      json.changed_at version.created_at
+
+      json.changes do
+        json.array! changes do |change|
+          json.attribute change[:attribute]
+          json.before change[:before]
+          json.after change[:after]
+        end
+      end
+    end
+  end
+end

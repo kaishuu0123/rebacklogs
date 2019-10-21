@@ -17,7 +17,7 @@
         </b-form-group>
         <div class="d-flex">
           <b-form-text><i class="fab fa-markdown"></i> Markdown available</b-form-text>
-          <b-button class="ml-auto" variant="primary" size="sm" type="submit"><i class="fas fa-comment" /> {{ $t('action.comment') }}</b-button>
+          <b-button class="ml-auto" variant="primary" size="sm" type="submit">{{ $t('action.comment') }}</b-button>
         </div>
       </b-form>
     </div>

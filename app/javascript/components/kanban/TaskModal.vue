@@ -68,15 +68,28 @@
           </div>
           <hr />
           <div>
-            <div class="mb-3">
-              <CommentFormAndList
-                v-if="task.id"
-                :projectId="projectId"
-                :ticket="selectedTask"
-                ticketType="tasks"
-                :isLoading="isLoading"
-              />
-            </div>
+            <b-tabs content-class="mt-3">
+              <b-tab>
+                <template v-slot:title>
+                  <i class="fas fa-comment"></i> {{ $t('tab.comment') }}
+                </template>
+                <CommentFormAndList
+                  v-if="task.id"
+                  :projectId="projectId"
+                  :ticket="selectedTask"
+                  ticketType="tasks"
+                  :isLoading="isLoading"
+                />
+              </b-tab>
+              <b-tab>
+                <template v-slot:title>
+                  <i class="fas fa-clock"></i> {{ $t('tab.history') }}
+                </template>
+                <HistoryList
+                  :histories="task.histories"
+                />
+              </b-tab>
+            </b-tabs>
           </div>
         </div>
         <div class="col-3 p-0">
@@ -113,6 +126,7 @@ import SelectCategory from '../commons/SelectCategory'
 import SelectAssignee from '../commons/SelectAssignee'
 import SelectStatus from '../commons/SelectStatus'
 import CommentFormAndList from '../commons/CommentFormAndList'
+import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
 
 export default {
@@ -122,7 +136,8 @@ export default {
     SelectCategory,
     SelectAssignee,
     SelectStatus,
-    CommentFormAndList
+    CommentFormAndList,
+    HistoryList
   },
   name: 'TaskModal',
   props: {

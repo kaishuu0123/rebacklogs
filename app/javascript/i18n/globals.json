@@ -25,7 +25,7 @@
       "actions": "Actions"
     },
     "title": {
-      "relatedTasks": "関連するタスク"
+      "relatedTasks": "Related Tasks"
     },
     "ticket": {
       "title": "Title",
@@ -34,7 +34,12 @@
       "category": "Category",
       "assignee": "Assignee",
       "status": "Status",
-      "point": "Point"
+      "point": "Point",
+      "sprint": "Sprint",
+      "sort_order": "Sort Order",
+      "body": "Description",
+      "updatedBy": "Updated by",
+      "updatedAt": "Updated at"
     },
     "category": {
       "title": "Title",
@@ -74,7 +79,12 @@
       "closedSprintDoesNotExists": "Closed Sprint doesn't exists",
       "sprintDoesNotExists": "Sprint doesn't exists. Let's create an Sprint with the \"Create Sprint\" button in Backlogs.",
       "storyDoesNotExists": "Story doesn't exists. Let's create a story with the \"Add Story\" button.",
-      "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs."
+      "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs.",
+      "historyIsEmpty": "History is empty."
+    },
+    "tab": {
+      "comment": "Comment",
+      "history": "History"
     }
   },
   "ja": {
@@ -112,7 +122,12 @@
       "category": "カテゴリ",
       "assignee": "担当者",
       "status": "ステータス",
-      "point": "ポイント"
+      "point": "ポイント",
+      "sprint": "Sprint",
+      "sort_order": "Sort Order",
+      "body": "説明文",
+      "updatedBy": "更新者",
+      "updatedAt": "更新日"
     },
     "category": {
       "title": "タイトル",
@@ -152,7 +167,12 @@
       "closedSprintDoesNotExists": "クローズされた Sprint はありません",
       "sprintDoesNotExists": "Sprint がありません。Backlogs にある「Sprint を作成」ボタンで Sprint を作成してみましょう。",
       "storyDoesNotExists": "Story がありません。「Story を追加」ボタンで Story を作成してみましょう。",
-      "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう"
+      "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう",
+      "historyIsEmpty": "更新履歴はありません"
+    },
+    "tab": {
+      "comment": "コメント",
+      "history": "更新履歴"
     }
   }
 }
