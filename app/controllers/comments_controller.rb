@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user = current_user
+    authorize! :create, @comment
 
     respond_to do |format|
       if @comment.save
@@ -24,6 +25,8 @@ class CommentsController < ApplicationController
   end
 
   def update
+    authorize! :update, @comment
+
     if @comment.update(comment_params)
       render :show, status: :ok, location: [@comment.project, @comment]
     else
@@ -32,6 +35,8 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @comment
+
     @comment.destroy
     respond_to do |format|
       format.json { head :no_content }
