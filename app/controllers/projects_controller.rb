@@ -70,6 +70,23 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def show_with_ticket_number
+    ticket_number = params[:ticket_number]
+
+    if ticket_number.match(/([A-Za-z]+)-([0-9]+)/)
+      ticket_prefix = Regexp.last_match(1)
+      ticket_id = Regexp.last_match(2)
+      project = Project.find_by(ticket_prefix: ticket_prefix)
+      ticket = Ticket.find_by(project: project, ticket_number: ticket_id)
+
+      redirect_to(root_path, alert: t('message.ticket_not_found', ticket_number: ticket_number, default: "Ticket #{ticket_number} not Found")) && return if ticket.blank?
+
+      redirect_to_with_ticket(ticket_number, project, ticket)
+    end
+
+    redirect_to(root_path, alert: t('message.ticket_not_found', ticket_number: ticket_number, default: "Ticket #{ticket_number} not Found")) && return if ticket.blank?
+  end
+
   def destroy
   end
 
@@ -113,5 +130,23 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:id])
+  end
+
+  def redirect_to_with_ticket(ticket_number, project, ticket)
+    case ticket.type
+    when 'Story'
+      redirect_to File.join("#{project_path(project)}#", 'stories', ticket.id.to_s)
+    when 'Task'
+      story = ticket.story
+      sprint = story.sprint
+
+      if sprint.blank?
+        path = File.join("#{project_path(project)}#", 'stories', story.id.to_s)
+        path = "#{path}?message_type=danger&message=#{t('message.task_is_not_in_sprint', ticket_number: ticket_number, default: 'Task is not in Sprint. Currently showing Story.')}"
+        redirect_to(path) && return
+      end
+
+      redirect_to File.join(project_path(project), 'sprints', sprint.id.to_s, 'kanban#', 'story', story.id.to_s, 'tasks', ticket.id.to_s)
+    end
   end
 end

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
   root to: 'projects#index'
+  get '/:ticket_number', to: 'projects#show_with_ticket_number', ticket_number: /[A-Za-z]+-[0-9]+/
 
   resources :projects do
     resources :sprints, constraints: { format: :json }
