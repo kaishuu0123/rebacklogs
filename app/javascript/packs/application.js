@@ -30,6 +30,9 @@ import { faBorderAll } from '@fortawesome/free-solid-svg-icons/faBorderAll';
 import { faBorderNone } from '@fortawesome/free-solid-svg-icons/faBorderNone';
 import { faWrench } from '@fortawesome/free-solid-svg-icons/faWrench';
 import { faGhost } from '@fortawesome/free-solid-svg-icons/faGhost';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
+import { faClock } from '@fortawesome/free-solid-svg-icons/faClock';
 
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 
@@ -37,7 +40,7 @@ library.add(
   faPlusCircle, faInfoCircle, faInfo, faCheck, faBan,
   faAngleRight, faPen, faDoorOpen, faTimes, faTrashAlt, faComment,
   faSquare, faAngleDoubleLeft, faCog, faUsers, faUser, faUserFriends,
-  faColumns, faBorderAll, faBorderNone, faWrench, faGhost,
+  faColumns, faBorderAll, faBorderNone, faWrench, faGhost, faArrowRight, faArrowDown, faClock,
   faMarkdown
 );
 
