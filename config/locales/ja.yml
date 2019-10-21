@@ -28,6 +28,8 @@ ja:
     settings: 管理
   message:
     ticket_prefix_description: チケットプレフィックスとは、チケット作成時にチケット番号に付与される特定の文字列です。好きな文字(英字の大文字か小文字)を数文字入力してください
+    ticket_not_found: チケット %{ticket_number} が見つかりませんでした
+    task_is_not_in_sprint: タスク %{ticket_number} が Sprint に含まれていません。現在 Story を表示しています。
   commons:
     sidebar:
       opening_sprints: オープン中の Sprint
