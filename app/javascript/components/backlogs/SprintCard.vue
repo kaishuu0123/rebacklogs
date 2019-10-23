@@ -96,6 +96,7 @@ import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import VueDraggable from 'vuedraggable'
 import StoryListItem from './StoryListItem'
 import CustomMoment from '../../commons/custom-moment'
+import moment from '../../commons/custom-moment'
 
 Vue.use(vueNumeralFilter)
 
