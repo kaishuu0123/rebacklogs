@@ -22,7 +22,10 @@
       "openSprint": "Open Sprint",
       "upload": "Upload",
       "browse": "Browse",
-      "actions": "Actions"
+      "actions": "Actions",
+      "copyToClipboard": "Copy to Clipboard",
+      "copiedToClipboard": "Copied to Clipboard",
+      "cannotCopiedToClipboard": "Cannot copy to Clipboard"
     },
     "title": {
       "relatedTasks": "Related Tasks"
@@ -110,7 +113,10 @@
       "openSprint": "Sprint をリオープンする",
       "upload": "アップロード",
       "browse": "参照",
-      "actions": "操作"
+      "actions": "操作",
+      "copyToClipboard": "コピー",
+      "copiedToClipboard": "クリップボードにコピーしました",
+      "cannotCopiedToClipboard": "クリップボードにコピーできませんでした"
     },
     "title": {
       "relatedTasks": "関連するタスク"

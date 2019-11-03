@@ -10,7 +10,7 @@
     hide-header
     hide-footer
     no-fade>
-    <div class="container">
+    <div class="container" ref="container">
       <div class="row">
         <div class="col-9">
           <div class="d-flex mb-2">
@@ -22,6 +22,37 @@
               </div>
             </div>
             <div class="d-flex ml-auto">
+              <div class="mr-2" v-if="task.id != null">
+                <div class="dropdown">
+                  <button class="btn rb-btn-s btn-outline-secondary shadow-sm dropdown-toggle" type="button" id="clickboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-paperclip mr-1" /> {{ $t('action.copyToClipboard') }}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="clickboardMenuButton">
+                    <a class="dropdown-item" @click="onClickCopyTitle">
+                      <div class="text-gray-600 font-weight-bold">Title</div>
+                      <pre class="text-gray-500 small mb-0">{{ taskTitle }}</pre>
+                    </a>
+                    <a class="dropdown-item" @click="onClickCopyURL">
+                      <div class="text-gray-600 font-weight-bold">URL</div>
+                      <pre class="text-gray-500 mb-0">{{ taskURL }}</pre>
+                    </a>
+                    <a class="dropdown-item" @click="onClickCopyURLWithTitle">
+                      <div class="text-gray-600 font-weight-bold">URL with Title</div>
+                      <pre class="text-gray-500 small mb-0">{{ taskURLWithTitle }}</pre>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <h6 class="dropdown-header">With Story</h6>
+                    <a class="dropdown-item" @click="onClickCopyTitleWithStory">
+                      <div class="text-gray-600 font-weight-bold">Title</div>
+                      <pre class="text-gray-500 small mb-0">{{ taskTitleWithStory }}</pre>
+                    </a>
+                    <a class="dropdown-item" @click="onClickCopyURLWithStory">
+                      <div class="text-gray-600 font-weight-bold">URL</div>
+                      <pre class="text-gray-500 small mb-0">{{ taskURLWithStory }}</pre>
+                    </a>
+                  </div>
+                </div>
+              </div>
               <div v-if="!isEdit" class="mr-2">
                 <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.isEdit = true">
                   <i class="fas fa-pen mr-1" /> {{ $t('action.edit') }}
@@ -117,6 +148,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import axios from 'axios'
 import MarkdownText from '../MarkdownText'
@@ -128,6 +160,10 @@ import SelectStatus from '../commons/SelectStatus'
 import CommentFormAndList from '../commons/CommentFormAndList'
 import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
+import urlparse from 'url-parse'
+import VueClipboard2 from 'vue-clipboard2'
+
+Vue.use(VueClipboard2)
 
 export default {
   components: {
@@ -178,6 +214,24 @@ export default {
       return {
         "background-color": color
       }
+    },
+    taskTitle() {
+      return `${this.task.ticket_number_with_ticket_prefix} ${this.task.title}`
+    },
+    taskURL() {
+      return `${urlparse().origin + '/' + this.task.ticket_number_with_ticket_prefix}`
+    },
+    taskURLWithTitle() {
+      return `${this.taskTitle}\n` +
+             `${this.taskURL}`
+    },
+    taskTitleWithStory() {
+      return `${this.task.story.ticket_number_with_ticket_prefix} ${this.task.story.title}\n` +
+             `  ${this.task.ticket_number_with_ticket_prefix} ${this.task.title}`
+    },
+    taskURLWithStory() {
+      return `${urlparse().origin + '/' + this.task.story.ticket_number_with_ticket_prefix}\n` +
+             `  ${urlparse().origin + '/' + this.task.ticket_number_with_ticket_prefix}`
     },
     ...mapState({
       selectedTask: 'selectedTask'
@@ -232,6 +286,42 @@ export default {
       } else {
         this.$refs.modal.hide()
       }
+    },
+    onClickCopyTitle () {
+      const textBody = this.taskTitle
+      this.copyText(textBody)
+    },
+    onClickCopyURL () {
+      const textBody = this.taskURL
+      this.copyText(textBody)
+    },
+    onClickCopyURLWithTitle() {
+      const textBody = this.taskURLWithTitle
+      this.copyText(textBody)
+    },
+    onClickCopyTitleWithStory() {
+      const textBody = this.taskTitleWithStory
+      this.copyText(textBody)
+    },
+    onClickCopyURLWithStory() {
+      const textBody = this.taskURLWithStory
+      this.copyText(textBody)
+    },
+    copyText(textBody) {
+      const container = this.$refs.container
+      this.$copyText(textBody, container).then((e) => {
+        this.$bvToast.toast(this.$t('action.copiedToClipboard'), {
+          noCloseButton: true,
+          variant: 'success',
+          autoHideDelay: 2000
+        })
+      }, (e) => {
+        this.$bvToast.toast(this.$t('action.cannotCopiedToClipboard'), {
+          noCloseButton: true,
+          variant: 'danger',
+          autoHideDelay: 3000
+        })
+      })
     },
     onClickDelete() {
       if (confirm('Are you sure?')) {
