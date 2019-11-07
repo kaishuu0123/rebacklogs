@@ -1,7 +1,7 @@
 <template>
   <div class="card mt-2 shadow-sm mb-3">
     <div class="card-header px-3 py-2 d-flex flex-row flex-wrap align-items-center justify-content-between">
-      <h6 class="m-0 text-gray-700">Backlogs</h6>
+      <h6 class="m-0 text-gray-700">{{ $t('title.productBacklogs') }}</h6>
       <div class="d-flex flex-row flex-wrap align-items-center">
         <router-link :to="createStoryPath" class="btn rb-btn-xs p-1 btn-outline-primary shadow-sm mr-2">
           <i class="fas fa-plus-circle mr-1"></i>{{ $t('action.addStory') }}

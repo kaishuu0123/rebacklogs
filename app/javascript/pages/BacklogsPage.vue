@@ -1,5 +1,10 @@
 <template>
-  <div id="rb-backlogs" class="container-fluid mt-2">
+  <div id="rb-backlogs" class="container-fluid mt-3">
+    <div class="row px-2">
+      <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h4 mb-0 text-gray-700">{{ $t('title.masterBacklogs')}}</h1>
+      </div>
+    </div>
     <div class="row">
       <div v-if="sprints.length > 0" class="col-6">
         <SprintCard class="mb-3" v-for="sprint in sprints" :key="sprint.id" :sprint="sprint" :projectId="projectId" />

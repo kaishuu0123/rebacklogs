@@ -3,7 +3,7 @@ import Vue from 'vue'
 import {
   FormPlugin, FormGroupPlugin, FormInputPlugin, FormTextareaPlugin, FormFilePlugin, FormCheckboxPlugin,
   ModalPlugin, TooltipPlugin, ToastPlugin, TabsPlugin,
-  ButtonPlugin, NavPlugin
+  ButtonPlugin, NavbarPlugin, NavPlugin
 } from 'bootstrap-vue'
 
 Vue.use(FormPlugin)
@@ -17,5 +17,6 @@ Vue.use(TooltipPlugin)
 Vue.use(ToastPlugin)
 Vue.use(TabsPlugin)
 Vue.use(ButtonPlugin)
+Vue.use(NavbarPlugin)
 Vue.use(NavPlugin)
 import 'bootstrap-vue/dist/bootstrap-vue.css'

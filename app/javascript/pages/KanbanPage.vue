@@ -1,7 +1,14 @@
 <template>
   <div class="container-fluid mt-2">
-    <div class="row mb-2">
-      <a :href="`/projects/${projectId}`" class="btn btn-default"><i class="fas fa-angle-double-left"></i> {{ $t('action.backToBacklogs') }}</a>
+    <div class="row mb-2 bg-light sticky-top">
+      <nav class="navbar px-1 py-0 navbar-light">
+        <a class="navbar-brand text-gray-700" href="#">{{ sprintTitle }}</a>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+              <a :href="`/projects/${projectId}`" class="nav-link"><i class="fas fa-angle-double-left"></i> {{ $t('action.backToBacklogs') }}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
     <div class="row">
       <table class="table table-bordered rb-table-fixed">
@@ -85,12 +92,14 @@ export default {
     return {
       projectId: null,
       sprintId: null,
+      sprintTitle: null,
       newTask: false
     }
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
     this.sprintId = this.$route.meta.sprintId
+    this.sprintTitle = this.$route.meta.sprintTitle
     this.newTask = this.$route.meta.newTask
 
     this.setProjectId(this.projectId)
