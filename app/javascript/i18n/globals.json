@@ -30,7 +30,10 @@
     "title": {
       "relatedTasks": "Related Tasks",
       "masterBacklogs": "Master Backlogs",
-      "productBacklogs": "Product Backlogs"
+      "productBacklogs": "Product Backlogs",
+      "layout": "Layout",
+      "default": "Default",
+      "horizontal": "Horizontal"
     },
     "ticket": {
       "title": "Title",
@@ -123,7 +126,10 @@
     "title": {
       "relatedTasks": "関連するタスク",
       "masterBacklogs": "マスターバックログ",
-      "productBacklogs": "プロダクトバックログ"
+      "productBacklogs": "プロダクトバックログ",
+      "layout": "レイアウト",
+      "default": "デフォルト",
+      "horizontal": "水平"
     },
     "ticket": {
       "title": "タイトル",

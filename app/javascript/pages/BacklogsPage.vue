@@ -1,11 +1,39 @@
 <template>
   <div id="rb-backlogs" class="container-fluid mt-3">
     <div class="row px-2">
-      <div class="d-sm-flex align-items-center justify-content-between mb-2">
+      <div class="d-flex w-100 align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-700">{{ $t('title.masterBacklogs')}}</h1>
+        <div class="d-flex align-items-center">
+          <span class="h6 mb-0 mr-2">{{ $t('title.layout') }}: </span>
+          <b-form-radio-group
+            id="layout-radios"
+            v-model="layout"
+            :options="layoutOptions"
+            buttons
+            button-variant="outline-secondary"
+            size="sm"
+            name="radio-btn-outline"
+          ></b-form-radio-group>
+        </div>
       </div>
     </div>
-    <div class="row">
+
+    <div class="row" v-if="layout === 'HORIZONTAL'">
+      <div class="row flex-row flex-sm-nowrap w-100 rb-overflow-x" >
+        <div class="col-6">
+          <BacklogsCard :stories='storiesInBacklogs' :projectId='projectId' />
+        </div>
+        <div v-for="sprint in sprints" :key="sprint.id" class="col-6">
+          <SprintCard class="mb-3" :sprint="sprint" :projectId="projectId" />
+        </div>
+        <div v-if="sprints.length <= 0" class="col-6">
+          <div class="rb-alert-primary mt-2 p-3 border rounded rb-border-dotted">
+            <p class="m-0"><i class="fas fa-info-circle mr-1"></i> {{ $t('message.sprintDoesNotExists')}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" v-else>
       <div v-if="sprints.length > 0" class="col-6">
         <SprintCard class="mb-3" v-for="sprint in sprints" :key="sprint.id" :sprint="sprint" :projectId="projectId" />
       </div>
@@ -37,7 +65,18 @@ export default {
   data () {
     return {
       projectId: null,
-      newStory: false
+      newStory: false,
+      layout: 'DEFAULT',
+      layoutOptions: [
+        {
+          text: this.$t('title.default'),
+          value: 'DEFAULT'
+        },
+        {
+          text: this.$t('title.horizontal'),
+          value: 'HORIZONTAL'
+        }
+      ]
     }
   },
   components: {
@@ -90,5 +129,26 @@ export default {
 .rb-alert-primary {
   @extend .alert;
   @extend .alert-primary;
+}
+
+.rb-overflow-x {
+  overflow-x: scroll;
+}
+
+.rb-overflow-x::-webkit-scrollbar {
+  height: 5px;
+  background:#eee;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.rb-overflow-x::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+
+.rb-overflow-x::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background:#666;
 }
 </style>
