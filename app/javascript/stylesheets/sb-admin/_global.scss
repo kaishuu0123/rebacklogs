@@ -21,7 +21,8 @@ a {
   #content-wrapper {
     background-color: $gray-100;
     width: 100%;
-    overflow-x: hidden;
+    // overflow-x: hidden;
+    overflow-x: visible;
     #content {
       flex: 1 0 auto;
     }

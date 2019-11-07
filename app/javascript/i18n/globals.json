@@ -28,7 +28,9 @@
       "cannotCopiedToClipboard": "Cannot copy to Clipboard"
     },
     "title": {
-      "relatedTasks": "Related Tasks"
+      "relatedTasks": "Related Tasks",
+      "masterBacklogs": "Master Backlogs",
+      "productBacklogs": "Product Backlogs"
     },
     "ticket": {
       "title": "Title",
@@ -119,7 +121,9 @@
       "cannotCopiedToClipboard": "クリップボードにコピーできませんでした"
     },
     "title": {
-      "relatedTasks": "関連するタスク"
+      "relatedTasks": "関連するタスク",
+      "masterBacklogs": "マスターバックログ",
+      "productBacklogs": "プロダクトバックログ"
     },
     "ticket": {
       "title": "タイトル",
