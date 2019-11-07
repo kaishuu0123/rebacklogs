@@ -41,9 +41,9 @@
                       <div class="text-gray-600 font-weight-bold">URL</div>
                       <pre class="text-gray-500 mb-0">{{ storyURL }}</pre>
                     </a>
-                    <a class="dropdown-item" @click="onClickCopyURLwithTitle">
+                    <a class="dropdown-item" @click="onClickCopyURLWithTitle">
                       <div class="text-gray-600 font-weight-bold">URL with Title</div>
-                      <pre class="text-gray-500 small mb-0">{{ storyURLwithTitle }}</pre>
+                      <pre class="text-gray-500 small mb-0">{{ storyURLWithTitle }}</pre>
                     </a>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export default {
     storyURL() {
       return `${urlparse().origin + '/' + this.story.ticket_number_with_ticket_prefix}`
     },
-    storyURLwithTitle() {
+    storyURLWithTitle() {
       return `${this.storyTitle}\n` +
              `${this.storyURL}`
     },
@@ -316,7 +316,7 @@ export default {
       const textBody = this.storyURL
       this.copyText(textBody)
     },
-    onClickCopyURLwithTitle() {
+    onClickCopyURLWithTitle() {
       const textBody = this.storyURLWithTitle
       this.copyText(textBody)
     },
