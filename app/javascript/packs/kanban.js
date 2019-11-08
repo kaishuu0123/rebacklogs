@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
   const projectId = rootElement.dataset.projectId
   const sprintId = rootElement.dataset.sprintId
+  const sprintTitle = rootElement.dataset.sprintTitle
   Vue.use(VueRouter)
   Vue.use(VueI18n)
 
@@ -20,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: true,
           projectId: projectId,
-          sprintId: sprintId
+          sprintId: sprintId,
+          sprintTitle: sprintTitle
         }
       },
       {
@@ -30,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
-          sprintId: sprintId
+          sprintId: sprintId,
+          sprintTitle: sprintTitle
         }
       },
       {
@@ -40,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
-          sprintId: sprintId
+          sprintId: sprintId,
+          sprintTitle: sprintTitle
         }
       },
       {
@@ -49,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
-          sprintId: sprintId
+          sprintId: sprintId,
+          sprintTitle: sprintTitle
         }
       },
     ]

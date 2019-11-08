@@ -10,7 +10,7 @@
     hide-header
     hide-footer
     no-fade>
-    <div class="container">
+    <div class="container-fluid" ref="container">
       <div v-if="message.body" class="row">
         <div :class="`w-100 p-2 alert alert-${this.message.type}`">
           {{ this.message.body }}
@@ -27,6 +27,27 @@
               </div>
             </div>
             <div class="d-flex ml-auto">
+              <div class="mr-2" v-if="story.id != null">
+                <div class="dropdown">
+                  <button class="btn rb-btn-s btn-outline-secondary shadow-sm dropdown-toggle" type="button" id="clickboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-paperclip mr-1" /> {{ $t('action.copyToClipboard') }}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="clickboardMenuButton">
+                    <a class="dropdown-item" @click="onClickCopyTitle">
+                      <div class="text-gray-600 font-weight-bold">Title</div>
+                      <pre class="text-gray-500 small mb-0">{{ storyTitle }}</pre>
+                    </a>
+                    <a class="dropdown-item" @click="onClickCopyURL">
+                      <div class="text-gray-600 font-weight-bold">URL</div>
+                      <pre class="text-gray-500 mb-0">{{ storyURL }}</pre>
+                    </a>
+                    <a class="dropdown-item" @click="onClickCopyURLWithTitle">
+                      <div class="text-gray-600 font-weight-bold">URL with Title</div>
+                      <pre class="text-gray-500 small mb-0">{{ storyURLWithTitle }}</pre>
+                    </a>
+                  </div>
+                </div>
+              </div>
               <div v-if="!isEdit" class="mr-2">
                 <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.isEdit = true">
                   <i class="fas fa-pen mr-1" /> {{ $t('action.edit') }}
@@ -128,6 +149,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import axios from 'axios'
 import MarkdownText from '../MarkdownText'
@@ -140,6 +162,10 @@ import InputPoint from '../commons/InputPoint'
 import CommentFormAndList from '../commons/CommentFormAndList'
 import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
+import urlparse from 'url-parse'
+import VueClipboard2 from 'vue-clipboard2'
+
+Vue.use(VueClipboard2)
 
 export default {
   components: {
@@ -150,7 +176,8 @@ export default {
     SelectStatus,
     InputPoint,
     CommentFormAndList,
-    HistoryList
+    HistoryList,
+    VueClipboard2
   },
   name: 'StoryModal',
   props: {
@@ -185,6 +212,16 @@ export default {
       return {
         "background-color": color
       }
+    },
+    storyTitle() {
+      return `${this.story.ticket_number_with_ticket_prefix} ${this.story.title}`
+    },
+    storyURL() {
+      return `${urlparse().origin + '/' + this.story.ticket_number_with_ticket_prefix}`
+    },
+    storyURLWithTitle() {
+      return `${this.storyTitle}\n` +
+             `${this.storyURL}`
     },
     ...mapState('Stories', {
       selectedStory: 'selectedStory'
@@ -270,6 +307,34 @@ export default {
       } else {
         this.$refs.modal.hide()
       }
+    },
+    onClickCopyTitle () {
+      const textBody = this.storyTitle
+      this.copyText(textBody)
+    },
+    onClickCopyURL () {
+      const textBody = this.storyURL
+      this.copyText(textBody)
+    },
+    onClickCopyURLWithTitle() {
+      const textBody = this.storyURLWithTitle
+      this.copyText(textBody)
+    },
+    copyText(textBody) {
+      const container = this.$refs.container
+      this.$copyText(textBody, container).then((e) => {
+        this.$bvToast.toast(this.$t('action.copiedToClipboard'), {
+          noCloseButton: true,
+          variant: 'success',
+          autoHideDelay: 2000
+        })
+      }, (e) => {
+        this.$bvToast.toast(this.$t('action.cannotCopiedToClipboard'), {
+          noCloseButton: true,
+          variant: 'danger',
+          autoHideDelay: 3000
+        })
+      })
     },
     onClickDelete() {
       if (confirm('Are you sure?')) {

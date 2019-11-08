@@ -22,10 +22,18 @@
       "openSprint": "Open Sprint",
       "upload": "Upload",
       "browse": "Browse",
-      "actions": "Actions"
+      "actions": "Actions",
+      "copyToClipboard": "Copy to Clipboard",
+      "copiedToClipboard": "Copied to Clipboard",
+      "cannotCopiedToClipboard": "Cannot copy to Clipboard"
     },
     "title": {
-      "relatedTasks": "Related Tasks"
+      "relatedTasks": "Related Tasks",
+      "masterBacklogs": "Master Backlogs",
+      "productBacklogs": "Product Backlogs",
+      "layout": "Layout",
+      "default": "Default",
+      "horizontal": "Horizontal"
     },
     "ticket": {
       "title": "Title",
@@ -110,10 +118,18 @@
       "openSprint": "Sprint をリオープンする",
       "upload": "アップロード",
       "browse": "参照",
-      "actions": "操作"
+      "actions": "操作",
+      "copyToClipboard": "コピー",
+      "copiedToClipboard": "クリップボードにコピーしました",
+      "cannotCopiedToClipboard": "クリップボードにコピーできませんでした"
     },
     "title": {
-      "relatedTasks": "関連するタスク"
+      "relatedTasks": "関連するタスク",
+      "masterBacklogs": "マスターバックログ",
+      "productBacklogs": "プロダクトバックログ",
+      "layout": "レイアウト",
+      "default": "デフォルト",
+      "horizontal": "水平"
     },
     "ticket": {
       "title": "タイトル",

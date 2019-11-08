@@ -33,6 +33,7 @@ import { faGhost } from '@fortawesome/free-solid-svg-icons/faGhost';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import { faClock } from '@fortawesome/free-solid-svg-icons/faClock';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons/faPaperclip'
 
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons/faMarkdown'
 
@@ -40,7 +41,8 @@ library.add(
   faPlusCircle, faInfoCircle, faInfo, faCheck, faBan,
   faAngleRight, faPen, faDoorOpen, faTimes, faTrashAlt, faComment,
   faSquare, faAngleDoubleLeft, faCog, faUsers, faUser, faUserFriends,
-  faColumns, faBorderAll, faBorderNone, faWrench, faGhost, faArrowRight, faArrowDown, faClock,
+  faColumns, faBorderAll, faBorderNone, faWrench, faGhost,
+  faArrowRight, faArrowDown, faClock, faPaperclip,
   faMarkdown
 );
 
