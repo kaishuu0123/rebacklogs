@@ -71,13 +71,13 @@
             </h2>
             <div class="mr-2">
               <span v-if="task.created_user">
-                Created by {{ task.created_user.username }}
+                {{ $t('ticket.createdBy') }} {{ task.created_user.username }}
                  <span :title="toMoment(task.created_at)">{{ fromNow(task.created_at) }}</span>
               </span>
             </div>
             <div>
               <span v-if="task.last_updated_user">
-                Last updated by {{ task.last_updated_user.username }}
+                {{ $t('ticket.lastUpdatedBy') }} {{ task.last_updated_user.username }}
                  <span :title="toMoment(task.updated_at)">{{ fromNow(task.updated_at) }}</span>
               </span>
             </div>
