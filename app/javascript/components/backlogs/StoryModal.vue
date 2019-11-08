@@ -10,7 +10,7 @@
     hide-header
     hide-footer
     no-fade>
-    <div class="container" ref="container">
+    <div class="container-fluid" ref="container">
       <div v-if="message.body" class="row">
         <div :class="`w-100 p-2 alert alert-${this.message.type}`">
           {{ this.message.body }}

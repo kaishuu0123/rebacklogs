@@ -2,7 +2,7 @@
   <li class="list-group-item px-3 py-2" >
     <div v-if="!isEdit">
       <div class="d-flex justify-content-between align-items-center">
-        <router-link :to="createStoryPath" class="badge badge-info p-1 mr-2" :style="badgeColor">
+        <router-link :id="`popover-story-${story.id}`" :to="createStoryPath" class="badge badge-info p-1 mr-2" :style="badgeColor">
           {{story.ticket_number_with_ticket_prefix}}
         </router-link>
         <span class="text-gray-700 d-block text-truncate w-100 mr-2" :title="story.title">
@@ -37,18 +37,31 @@
         </div>
       </b-form>
     </div>
+
+    <b-popover :target="`popover-story-${story.id}`" triggers="hover" placement="right" delay="300">
+      <dl>
+        <dt>{{ $t('ticket.title') }}</dt>
+        <dd>{{ story.title }}</dd>
+        <dt>{{ $t('ticket.body') }}</dt>
+        <dd><MarkdownText :content="story.body" /></dd>
+      </dl>
+    </b-popover>
   </li>
 </template>
 
 <script>
 import Vue from 'vue'
 import vueNumeralFilter from 'vue-numeral-filter'
+import MarkdownText from '../MarkdownText'
 import { mapMutations, mapActions } from 'vuex';
 
 Vue.use(vueNumeralFilter)
 
 export default {
   name: 'StoryListItem',
+  components: {
+    MarkdownText
+  },
   props: {
     story: Object
   },
