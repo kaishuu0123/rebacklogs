@@ -10,7 +10,7 @@
     hide-header
     hide-footer
     no-fade>
-    <div class="container" ref="container">
+    <div class="container-fluid" ref="container">
       <div class="row">
         <div class="col-9">
           <div class="d-flex mb-2">
