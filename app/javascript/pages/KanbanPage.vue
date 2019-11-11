@@ -30,7 +30,7 @@
                 </div>
                 <div>
                   <router-link :id="`popover-story-${story.id}`" :to="createShowStoryPath(story.id)" class="text-secondary">
-                    <span class="badge badge-info mr-1" :style="badgeColor(story)">
+                    <span class="badge badge-info rb-badge-radius mr-1" :style="badgeColor(story)">
                       {{story.ticket_number_with_ticket_prefix}}
                     </span>
                     <span>

@@ -65,7 +65,7 @@
           </div>
           <div class="d-flex align-items-center mb-2" v-if="task.id">
             <h2 class="h5 m-0">
-              <span class="badge badge-info mr-2" :style="badgeColor">
+              <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColor">
                 {{task.ticket_number_with_ticket_prefix}}
               </span>
             </h2>
@@ -131,7 +131,7 @@
                 >
                 <router-link :to="createShowStoryPath(task.story.id)">
                   <div class="rb-select py-2 text-truncate text-secondary">
-                    <span class="badge badge-info mr-2" :style="badgeColorForStory">
+                    <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColorForStory">
                       {{ task.story.ticket_number_with_ticket_prefix }}
                     </span>{{ task.story.title }}
                   </div>
