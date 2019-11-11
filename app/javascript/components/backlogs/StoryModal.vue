@@ -62,7 +62,7 @@
           </div>
           <div class="d-flex align-items-center mb-2" v-if="story.id">
             <h2 class="h5 m-0">
-              <span class="badge badge-info mr-2" :style="badgeColor">
+              <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColor">
                 {{story.ticket_number_with_ticket_prefix}}
               </span>
             </h2>
@@ -97,7 +97,7 @@
             <div>
               <p class="text-gray-600 mb-2">{{ $t('title.relatedTasks')}}</p>
               <div class="d-flex w-100 align-items-center ml-1 mb-1" v-for="task in story.tasks" :key="task.id">
-                <div class="badge badge-secondary mr-2">
+                <div class="badge badge-secondary rb-badge-radius mr-2">
                   {{ task.ticket_number_with_ticket_prefix }}
                 </div>
                 <div>

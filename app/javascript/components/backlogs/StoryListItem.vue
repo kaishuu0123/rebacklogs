@@ -2,13 +2,13 @@
   <li class="list-group-item px-3 py-2" >
     <div v-if="!isEdit">
       <div class="d-flex justify-content-between align-items-center">
-        <router-link :id="`popover-story-${story.id}`" :to="createStoryPath" class="badge badge-info p-1 mr-2" :style="badgeColor">
+        <router-link :id="`popover-story-${story.id}`" :to="createStoryPath" class="badge badge-info rb-badge-radius p-1 mr-2" :style="badgeColor">
           {{story.ticket_number_with_ticket_prefix}}
         </router-link>
-        <span class="text-gray-700 d-block text-truncate w-100 mr-2" :title="story.title">
+        <div class="text-gray-700 d-block text-truncate w-100 mr-2" :title="story.title">
           <s v-if="story.is_done" @click="onClickTitle">{{story.title}}</s>
           <span v-else @click="onClickTitle">{{story.title}}</span>
-        </span>
+        </div>
         <span @click="onClickPoint">
           {{ story.point | numeral('0.0') }}
         </span>
@@ -17,7 +17,7 @@
     <div v-else>
       <b-form @submit.stop.prevent="editDone(true)">
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <router-link :to="createStoryPath" class="badge badge-info p-1 mr-2" :style="badgeColor">
+          <router-link :to="createStoryPath" class="badge badge-info rb-badge-radius p-1 mr-2" :style="badgeColor">
             {{story.ticket_number_with_ticket_prefix}}
           </router-link>
           <span class="text-monospace d-block text-truncate w-100 mr-2">
