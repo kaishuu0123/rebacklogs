@@ -31,3 +31,52 @@ $font-size-xm: 0.8em !default;
 .rb-border-dotted {
    border-style: dotted;
 }
+
+.rb-badge-radius {
+   border-radius: 0.2rem;
+}
+
+.badge {
+   &.badge-outlined {
+      background-color: transparent;
+      border: 1px solid;
+      border-radius: 0.2rem;
+      font-weight: 500;
+
+      &.badge-default {
+         border-color: $gray-600;
+         color: $gray-600;
+         background-color: #fff;
+      }
+
+      &.badge-primary {
+         border-color: #2196F3;
+         color: #2196F3
+      }
+
+      &.badge-secondary {
+         border-color: #6e707e;
+         color: #6e707e;
+      }
+
+      &.badge-success {
+         border-color: #64DD17;
+         color: #64DD17
+      }
+
+      &.badge-warning {
+         border-color: #FFD600;
+         color: #FFD600
+      }
+
+      &.badge-info {
+         border-color: #29B6F6;
+         color: #29B6F6
+      }
+
+      &.badge-danger {
+         border-color: #ef1c1c;
+         color: #ef1c1c
+      }
+   }
+}

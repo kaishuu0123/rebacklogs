@@ -54,9 +54,12 @@
           <b-form-group
             :label="$t(`category.${input.attributeName}`)"
             :label-for="`input-${input.attributeName}`">
-            <div v-if="input.attributeName === 'color'" class="d-flex align-items-center">
-              <span :style="textColor(category)" class="mr-2"><i class="fas fa-square"></i></span>
-              <b-form-input size="sm" v-model="category[input.attributeName]"></b-form-input>
+            <div v-if="input.attributeName === 'color'">
+              <div class="mt-2 px-2 py-1 alert rb-preview" :style="`background-color: ${category[input.attributeName]}`">
+                <span :style="`color: ${idealTextColor(category[input.attributeName])}`">Preview</span>
+              </div>
+
+              <ColorPicker :color="category[input.attributeName]" v-model="category[input.attributeName]" />
             </div>
             <b-form-input v-else size="sm" v-model="category[input.attributeName]"></b-form-input>
           </b-form-group>
@@ -72,8 +75,16 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import ColorPicker from '../../components/commons/ColorPicker'
+import ColorUtils from '../../mixins/colorUtils'
 
 export default {
+  components: {
+    ColorPicker
+  },
+  mixins: [
+    ColorUtils
+  ],
   data() {
     return {
       projectId: null,

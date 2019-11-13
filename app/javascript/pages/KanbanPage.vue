@@ -24,14 +24,17 @@
             <td :colspan="statusesLength" class="border-bottom-0">
               <div class="d-flex align-items-center">
                 <div class="mr-2">
-                  <router-link :to="createNewTaskPath(story.id)" class="btn rb-btn-xs btn-outline-primary shadow-sm">
+                  <router-link :to="createNewTaskPath(story.id)" class="btn rb-btn-xs btn-outline-primary">
                     <i class="fas fa-plus-circle mr-1"></i> {{ $t('action.addTask') }}
                   </router-link>
                 </div>
                 <div>
-                  <router-link :id="`popover-story-${story.id}`" :to="createShowStoryPath(story.id)" class="text-secondary">
-                    <span class="badge badge-info mr-1" :style="badgeColor(story)">
+                  <router-link :id="`popover-story-${story.id}`" :to="createShowStoryPath(story.id)" :style="idealTextColorForStory(story)">
+                    <span class="text-gray-500 mr-1">
                       {{story.ticket_number_with_ticket_prefix}}
+                    </span>
+                    <span v-if="story.project_ticket_category" class="badge badge-secondary rb-badge-radius mr-1" :style="categoryBadgeStyle(story)">
+                      {{ story.project_ticket_category.title }}
                     </span>
                     <span>
                       <s v-if="story.is_done">{{ story.title }}</s>
@@ -89,6 +92,7 @@ import TaskCard from '../components/kanban/TaskCard'
 import MarkdownText from '../components/MarkdownText'
 import VueDraggable from 'vuedraggable'
 import '../commons/custom-bootstrap-vue'
+import ColorUtils from '../mixins/colorUtils'
 
 export default {
   components: {
@@ -98,6 +102,9 @@ export default {
     MarkdownText,
     VueDraggable
   },
+  mixins: [
+    ColorUtils
+  ],
   data () {
     return {
       projectId: null,
@@ -195,14 +202,38 @@ export default {
         taskId: taskId
       })
     },
-    badgeColor(story) {
-      let color = '#858796'
+    backgroundColor(story) {
+      let color = '#E2E3E5'
       if (story.project_ticket_category) {
         color = story.project_ticket_category.color
       }
 
       return {
         "background-color": color
+      }
+    },
+    categoryBadgeStyle(story) {
+      let Color = require('color');
+
+      let color = '#E2E3E5'
+      if (story.project_ticket_category) {
+        color = story.project_ticket_category.color
+      }
+
+      return {
+        "background-color": color,
+        color: this.idealTextColor(color),
+        border: `1px solid ${Color(color).darken(0.1)}`
+      }
+    },
+    idealTextColorForStory(story) {
+      let color = '#ffffff'
+      if (story.project_ticket_category) {
+        color = story.project_ticket_category.color;
+      }
+
+      return {
+        color: this.idealTextColor(color)
       }
     },
     ...mapMutations({
