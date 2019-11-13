@@ -16,27 +16,27 @@ class MasterTicketCategory < ApplicationRecord
       {
         title: 'None',
         sort_order: 1,
-        color: '#858796'
+        color: '#FFFFFF'
       },
       {
         title: 'Feature',
         sort_order: 2,
-        color: '#4e73df'
+        color: '#CCE5FF'
       },
       {
         title: 'Improvement',
         sort_order: 3,
-        color: '#1cc88a'
+        color: '#D4EDDA'
       },
       {
         title: 'Bugfix',
         sort_order: 4,
-        color: '#e74a3b'
+        color: '#F8D7DA'
       },
       {
         title: 'Support',
         sort_order: 5,
-        color: '#36b9cc'
+        color: '#FFF3CD'
       }
     ])
   end
@@ -46,27 +46,27 @@ class MasterTicketCategory < ApplicationRecord
       {
         title: 'なし',
         sort_order: 1,
-        color: '#858796'
+        color: '#FFFFFF'
       },
       {
         title: '機能',
         sort_order: 2,
-        color: '#4e73df'
+        color: '#CCE5FF'
       },
       {
         title: '改善',
         sort_order: 3,
-        color: '#1cc88a'
+        color: '#D4EDDA'
       },
       {
         title: 'バグフィックス',
         sort_order: 4,
-        color: '#e74a3b'
+        color: '#F8D7DA'
       },
       {
         title: 'サポート',
         sort_order: 5,
-        color: '#36b9cc'
+        color: '#FFF3CD'
       }
     ])
   end

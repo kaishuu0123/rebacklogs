@@ -1,11 +1,13 @@
 <template>
-  <li class="list-group-item px-3 py-2" >
+  <li class="list-group-item p-2" :style="backgroundColor">
     <div v-if="!isEdit">
-      <div class="d-flex justify-content-between align-items-center">
-        <router-link :id="`popover-story-${story.id}`" :to="createStoryPath" class="badge badge-info rb-badge-radius p-1 mr-2" :style="badgeColor">
+      <div
+        class="d-flex justify-content-between align-items-center rb-story-list-font"
+        :style="idealTextColorForItem">
+        <router-link :id="`popover-story-${story.id}`" :to="createStoryPath" class="badge badge-secondary bg-white badge-outlined rb-badge-radius p-1 mr-2">
           {{story.ticket_number_with_ticket_prefix}}
         </router-link>
-        <div class="text-gray-700 d-block text-truncate w-100 mr-2" :title="story.title">
+        <div class="d-block text-truncate w-100 mr-2" :title="story.title">
           <s v-if="story.is_done" @click="onClickTitle">{{story.title}}</s>
           <span v-else @click="onClickTitle">{{story.title}}</span>
         </div>
@@ -16,8 +18,8 @@
     </div>
     <div v-else>
       <b-form @submit.stop.prevent="editDone(true)">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <router-link :to="createStoryPath" class="badge badge-info rb-badge-radius p-1 mr-2" :style="badgeColor">
+        <div class="d-flex justify-content-between align-items-center mb-2 rb-story-list-font">
+          <router-link :to="createStoryPath" class="badge badge-secondary bg-white badge-outlined rb-badge-radius p-1 mr-2">
             {{story.ticket_number_with_ticket_prefix}}
           </router-link>
           <span class="text-monospace d-block text-truncate w-100 mr-2">
@@ -38,7 +40,7 @@
       </b-form>
     </div>
 
-    <b-popover :target="`popover-story-${story.id}`" triggers="hover" placement="right" delay="300">
+    <b-popover :target="`popover-story-${story.id}`" triggers="hover" placement="right" delay="500">
       <dl>
         <dt>{{ $t('ticket.title') }}</dt>
         <dd>{{ story.title }}</dd>
@@ -54,6 +56,7 @@ import Vue from 'vue'
 import vueNumeralFilter from 'vue-numeral-filter'
 import MarkdownText from '../MarkdownText'
 import { mapMutations, mapActions } from 'vuex';
+import ColorUtils from '../../mixins/colorUtils'
 
 Vue.use(vueNumeralFilter)
 
@@ -62,6 +65,9 @@ export default {
   components: {
     MarkdownText
   },
+  mixins: [
+    ColorUtils
+  ],
   props: {
     story: Object
   },
@@ -74,14 +80,24 @@ export default {
     createStoryPath() {
       return `/stories/${this.story.id}`
     },
-    badgeColor() {
-      let color = '#858796'
+    backgroundColor() {
+      let color = '#ffffff'
       if (this.story.project_ticket_category) {
         color = this.story.project_ticket_category.color
       }
 
       return {
         "background-color": color
+      }
+    },
+    idealTextColorForItem() {
+      let color = '#ffffff'
+      if (this.story.project_ticket_category) {
+        color = this.story.project_ticket_category.color;
+      }
+
+      return {
+        color: this.idealTextColor(color)
       }
     }
   },
@@ -117,5 +133,7 @@ export default {
 </script>
 
 <style>
-
+.rb-story-list-font {
+  font-weight: 500 !important;
+}
 </style>

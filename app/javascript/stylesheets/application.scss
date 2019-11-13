@@ -41,11 +41,12 @@ $font-size-xm: 0.8em !default;
       background-color: transparent;
       border: 1px solid;
       border-radius: 0.2rem;
-      font-weight: normal;
+      font-weight: 500;
 
       &.badge-default {
          border-color: $gray-600;
          color: $gray-600;
+         background-color: #fff;
       }
 
       &.badge-primary {
@@ -54,8 +55,8 @@ $font-size-xm: 0.8em !default;
       }
 
       &.badge-secondary {
-         border-color: #323a45;
-         color: #323a45
+         border-color: #6e707e;
+         color: #6e707e;
       }
 
       &.badge-success {
