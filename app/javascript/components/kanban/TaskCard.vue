@@ -1,6 +1,6 @@
 <template>
   <div class="card shadow-sm mb-2" :class="assignedUserClass(task)">
-    <div class="card-body px-2 py-2">
+    <div class="card-body px-2 py-1">
       <div class="d-flex align-items-center">
         <router-link :to="createSelectTaskPath(storyId, task.id)">
           <span class="text-gray-500 text-xs mr-1">{{ task.ticket_number_with_ticket_prefix }}</span>

@@ -64,22 +64,27 @@
             </div>
           </div>
           <div class="d-flex align-items-center mb-2" v-if="task.id">
-            <h2 class="h5 m-0">
-              <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColor">
+            <h2 class="h6 m-0">
+              <span class="badge badge-secondary badge-outlined rb-badge-radius mr-2">
                 {{task.ticket_number_with_ticket_prefix}}
               </span>
+              <span class="badge badge-secondary rb-badge-radius mr-2">
+                {{ $t('title.task') }}
+              </span>
             </h2>
-            <div class="mr-2">
-              <span v-if="task.created_user">
-                {{ $t('ticket.createdBy') }} {{ task.created_user.username }}
-                 <span :title="toMoment(task.created_at)">{{ fromNow(task.created_at) }}</span>
-              </span>
-            </div>
-            <div>
-              <span v-if="task.last_updated_user">
-                {{ $t('ticket.lastUpdatedBy') }} {{ task.last_updated_user.username }}
-                 <span :title="toMoment(task.updated_at)">{{ fromNow(task.updated_at) }}</span>
-              </span>
+            <div class="d-flex ml-auto">
+              <div class="mr-2">
+                <span v-if="task.created_user">
+                  {{ $t('ticket.createdBy') }} {{ task.created_user.username }}
+                  <span :title="toMoment(task.created_at)">{{ fromNow(task.created_at) }}</span>
+                </span>
+              </div>
+              <div>
+                <span v-if="task.last_updated_user">
+                  {{ $t('ticket.lastUpdatedBy') }} {{ task.last_updated_user.username }}
+                  <span :title="toMoment(task.updated_at)">{{ fromNow(task.updated_at) }}</span>
+                </span>
+              </div>
             </div>
           </div>
           <div class="mb-2">
@@ -131,7 +136,7 @@
                 >
                 <router-link :to="createShowStoryPath(task.story.id)">
                   <div class="rb-select py-2 text-truncate text-secondary">
-                    <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColorForStory">
+                    <span class="badge badge-secondary badge-outlined rb-badge-radius mr-2">
                       {{ task.story.ticket_number_with_ticket_prefix }}
                     </span>{{ task.story.title }}
                   </div>
@@ -195,26 +200,6 @@ export default {
     }
   },
   computed: {
-    badgeColor() {
-      let color = '#858796'
-      if (this.task.project_ticket_category) {
-        color = this.task.project_ticket_category.color
-      }
-
-      return {
-        "background-color": color
-      }
-    },
-    badgeColorForStory() {
-      let color = '#858796'
-      if (this.task.story.project_ticket_category) {
-        color = this.task.story.project_ticket_category.color
-      }
-
-      return {
-        "background-color": color
-      }
-    },
     taskTitle() {
       return `${this.task.ticket_number_with_ticket_prefix} ${this.task.title}`
     },

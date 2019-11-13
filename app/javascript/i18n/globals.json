@@ -33,7 +33,8 @@
       "productBacklogs": "Product Backlogs",
       "layout": "Layout",
       "default": "Default",
-      "horizontal": "Horizontal"
+      "horizontal": "Horizontal",
+      "task": "Task"
     },
     "ticket": {
       "title": "Title",
@@ -129,7 +130,8 @@
       "productBacklogs": "プロダクトバックログ",
       "layout": "レイアウト",
       "default": "デフォルト",
-      "horizontal": "水平"
+      "horizontal": "水平",
+      "task": "タスク"
     },
     "ticket": {
       "title": "タイトル",

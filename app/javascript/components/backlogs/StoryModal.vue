@@ -61,20 +61,25 @@
             </div>
           </div>
           <div class="d-flex align-items-center mb-2" v-if="story.id">
-            <h2 class="h5 m-0">
-              <span class="badge badge-info rb-badge-radius mr-2" :style="badgeColor">
+            <h2 class="h6 m-0 mr-2">
+              <span class="badge badge-secondary badge-outlined rb-badge-radius mr-1">
                 {{story.ticket_number_with_ticket_prefix}}
               </span>
+              <span v-if="story.projectTicketCategory" class="badge badge-secondary rb-badge-radius" :style="categoryBadgeStyle">
+                {{ story.projectTicketCategory.title }}
+              </span>
             </h2>
-            <div class="mr-2">
-              <span v-if="story.created_user">
-                {{ $t('ticket.createdBy') }} {{ story.created_user.username }} <span :title="toMoment(story.created_at)">{{ fromNow(story.created_at) }}</span>
-              </span>
-            </div>
-            <div>
-              <span v-if="story.last_updated_user">
-                {{ $t('ticket.lastUpdatedBy') }} {{ story.last_updated_user.username }} <span :title="toMoment(story.updated_at)">{{ fromNow(story.updated_at) }}</span>
-              </span>
+            <div class="d-flex ml-auto">
+              <div class="mr-2">
+                <span v-if="story.created_user">
+                  {{ $t('ticket.createdBy') }} {{ story.created_user.username }} <span :title="toMoment(story.created_at)">{{ fromNow(story.created_at) }}</span>
+                </span>
+              </div>
+              <div>
+                <span v-if="story.last_updated_user">
+                  {{ $t('ticket.lastUpdatedBy') }} {{ story.last_updated_user.username }} <span :title="toMoment(story.updated_at)">{{ fromNow(story.updated_at) }}</span>
+                </span>
+              </div>
             </div>
           </div>
           <div class="mb-2">
@@ -97,7 +102,7 @@
             <div>
               <p class="text-gray-600 mb-2">{{ $t('title.relatedTasks')}}</p>
               <div class="d-flex w-100 align-items-center ml-1 mb-1" v-for="task in story.tasks" :key="task.id">
-                <div class="badge badge-secondary rb-badge-radius mr-2">
+                <div class="badge badge-secondary badge-outlined rb-badge-radius mr-2">
                   {{ task.ticket_number_with_ticket_prefix }}
                 </div>
                 <div>
@@ -164,6 +169,7 @@ import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
 import urlparse from 'url-parse'
 import VueClipboard2 from 'vue-clipboard2'
+import ColorUtils from '../../mixins/colorUtils'
 
 Vue.use(VueClipboard2)
 
@@ -179,6 +185,9 @@ export default {
     HistoryList,
     VueClipboard2
   },
+  mixins: [
+    ColorUtils
+  ],
   name: 'StoryModal',
   props: {
     projectId: String,
@@ -203,16 +212,6 @@ export default {
     }
   },
   computed: {
-    badgeColor() {
-      let color = '#858796'
-      if (this.story.project_ticket_category) {
-        color = this.story.project_ticket_category.color
-      }
-
-      return {
-        "background-color": color
-      }
-    },
     storyTitle() {
       return `${this.story.ticket_number_with_ticket_prefix} ${this.story.title}`
     },
@@ -222,6 +221,20 @@ export default {
     storyURLWithTitle() {
       return `${this.storyTitle}\n` +
              `${this.storyURL}`
+    },
+    categoryBadgeStyle() {
+      let Color = require('color');
+
+      let color = '#E2E3E5'
+      if (this.story.projectTicketCategory) {
+        color = this.story.projectTicketCategory.color
+      }
+
+      return {
+        "background-color": color,
+        color: this.idealTextColor(color),
+        border: `1px solid ${Color(color).darken(0.1)}`
+      }
     },
     ...mapState('Stories', {
       selectedStory: 'selectedStory'
