@@ -9,6 +9,12 @@ if @ticket.class == Story && project_ticket_category = @ticket.project_ticket_ca
 end
 
 if @ticket.class == Story
+  json.tags do
+    json.array! @ticket.tags do |tag|
+      json.extract! tag, *Tag.attribute_names
+    end
+  end
+
   json.tasks do
     json.array! @ticket.tasks do |task|
       json.extract! task, *Task.attribute_names

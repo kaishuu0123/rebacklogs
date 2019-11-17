@@ -7,6 +7,11 @@ json.array! @sprint.stories do |story|
       json.title project_ticket_category.title
       json.color project_ticket_category.color
     end
+    json.tags do
+      json.array! story.tags do |tag|
+        json.extract! tag, *Tag.attribute_names
+      end
+    end
   end
 
   json.tasks do

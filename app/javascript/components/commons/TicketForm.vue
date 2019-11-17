@@ -1,5 +1,5 @@
 <template>
-  <b-form ref="form" @submit.stop.prevent="handleSubmit">
+  <b-form ref="form" @submit.stop.prevent="handleSubmit" @keydown.enter="onEnterKeyDown">
     <b-form-group
       id="title-group"
       label-for="title-input"
@@ -14,6 +14,19 @@
         ref="titleInput"
         size="sm"
       />
+    </b-form-group>
+    <b-form-group
+      id="tag-group"
+      label-for="tag-input"
+    >
+      <div class="d-flex align-items-center">
+        <div class="text-nowrap text-gray-600 mr-2">
+          {{ $t('title.tag') }}:
+        </div>
+        <div class="w-100">
+          <TagInput v-model="ticket.tags" :projectId="projectId" />
+        </div>
+      </div>
     </b-form-group>
     <b-form-group
       id="body-group"
@@ -31,7 +44,9 @@
     </b-form-group>
     <div class="d-flex align-items-center">
       <b-form-text><i class="fab fa-markdown"></i> Markdown available</b-form-text>
-      <b-button class="ml-auto" variant="primary" size="sm" type="submit">{{ $t('action.submit') }}</b-button>
+      <b-button class="ml-auto" variant="primary" size="sm" type="submit">
+        {{ (() => isNew ? $t('action.create') : $t('action.submit'))() }}
+      </b-button>
     </div>
   </b-form>
 </template>
@@ -39,13 +54,18 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
+import TagInput from './TagInput'
 
 export default {
+  components: {
+    TagInput
+  },
   props: {
     projectId: String,
     ticket: Object,
     ticketType: String,
     isLoading: Boolean,
+    isNew: Boolean,
     afterSubmit: Function
   },
   mounted() {
@@ -58,6 +78,11 @@ export default {
     updateValue(key, value) {
       this.ticket[key] = value;
       this.$emit('input', this.value)
+    },
+    onEnterKeyDown(e) {
+      if (e.target.className.includes("vs__search")) {
+        e.preventDefault();
+      }
     },
     handleSubmit(event) {
       if (!this.$refs.form.checkValidity()) {
@@ -116,5 +141,4 @@ export default {
 </script>
 
 <style>
-
 </style>

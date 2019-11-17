@@ -7,7 +7,8 @@ class ProjectsController < ApplicationController
     :settings,
     :users,
     :groups, :add_group, :delete_group,
-    :delete_image
+    :delete_image,
+    :project_tags
   ]
 
   def index
@@ -120,6 +121,10 @@ class ProjectsController < ApplicationController
     @project.image.purge
 
     head :no_content
+  end
+
+  def project_tags
+    @tags = Tag.where(project: @project)
   end
 
   private

@@ -29,6 +29,8 @@ class Ticket < ApplicationRecord
   belongs_to :project_ticket_status
   acts_as_sequenced scope: :project_id, column: :ticket_number
   has_many :comments
+  has_many :tag_tickets, inverse_of: :ticket, dependent: :destroy
+  has_many :tags, through: :tag_tickets
 
   before_validation :update_is_done, if: :will_save_change_to_project_ticket_status_id?
 

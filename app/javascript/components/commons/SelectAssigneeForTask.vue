@@ -7,7 +7,7 @@
     :options="assignee.assignees"
     label='username'
     v-model="assignee.selected"
-    placeholder='Unassigned'
+    :placeholder="$t('title.unassigned')"
     value="id"
     ref="vSelect"
     dir="rtl"

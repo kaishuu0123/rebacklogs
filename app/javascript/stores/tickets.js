@@ -21,6 +21,10 @@ const getDefaultState = () => {
     projectTicketCategory: {
       selected: null,
       categories: []
+    },
+    projectTags: {
+      selected: [],
+      tags: []
     }
   }
 }
@@ -134,6 +138,13 @@ export default {
           }
         })
     },
+    getProjectTags({ commit, state }, { projectId }) {
+      axios
+        .get(`/projects/${projectId}/project_tags`)
+        .then(result => {
+          commit('SET_PROJECT_TAGS', result.data)
+        })
+    },
     createComment({ commit, state }, { projectId, ticketType, ticketId, commentBody }) {
       const comment = {
         ticket_id: ticketId,
@@ -182,6 +193,13 @@ export default {
     },
     SET_PROJECT_TICKET_CATEGORY (state, projectTicketCategory) {
       state.projectTicketCategory.selected = projectTicketCategory
+    },
+    SET_PROJECT_TAGS (state, projectTags) {
+      state.projectTags.tags = projectTags
+    },
+    SET_PROGJECT_TAG (state, projectTag) {
+      // Array
+      state.projectTags.selected = projectTag
     },
     RESET_TICKET_ATTRIBUTES (state) {
       Object.assign(state, getDefaultState())

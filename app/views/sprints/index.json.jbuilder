@@ -11,6 +11,11 @@ json.sprints do
             json.color project_ticket_category.color
           end
         end
+        json.tags do
+          json.array! story.tags do |tag|
+            json.extract! tag, *Tag.attribute_names
+          end
+        end
       end
     end
   end
@@ -23,6 +28,11 @@ json.storiesInBacklogs do
         json.id project_ticket_category.id
         json.title project_ticket_category.title
         json.color project_ticket_category.color
+      end
+    end
+    json.tags do
+      json.array! story.tags do |tag|
+        json.extract! tag, *Tag.attribute_names
       end
     end
   end

@@ -5,6 +5,7 @@
     <% custom_title << @project.title if @project.present? %>
     <% custom_title << Setting.site_title if Setting.site_title.present? %>
 
+    <%# <meta name="viewport" content="width=device-width,initial-scale=1.0"> %>
 
     <% if custom_title.present? %>
     <title><%= custom_title.push('Re:Backlogs').join(' | ') %></title>
