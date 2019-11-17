@@ -5,6 +5,7 @@
       "cancel": "Cancel",
       "edit": "Edit",
       "submit": "Submit",
+      "create": "Create",
       "delete": "Delete",
       "close": "Close",
       "addSprint": "Add Sprint",
@@ -34,7 +35,9 @@
       "layout": "Layout",
       "default": "Default",
       "horizontal": "Horizontal",
-      "task": "Task"
+      "task": "Task",
+      "tag": "Tags",
+      "unassigned": "Unassigned"
     },
     "ticket": {
       "title": "Title",
@@ -89,7 +92,8 @@
       "sprintDoesNotExists": "Sprint doesn't exists. Let's create an Sprint with the \"Create Sprint\" button in Backlogs.",
       "storyDoesNotExists": "Story doesn't exists. Let's create a story with the \"Add Story\" button.",
       "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs.",
-      "historyIsEmpty": "History is empty."
+      "historyIsEmpty": "History is empty.",
+      "tagInput": "Please input tags"
     },
     "tab": {
       "comment": "Comment",
@@ -102,6 +106,7 @@
       "cancel": "キャンセル",
       "edit": "編集する",
       "submit": "更新する",
+      "create": "作成する",
       "delete": "削除",
       "close": "閉じる",
       "addSprint": "Sprint を追加",
@@ -131,7 +136,9 @@
       "layout": "レイアウト",
       "default": "デフォルト",
       "horizontal": "水平",
-      "task": "タスク"
+      "task": "タスク",
+      "tag": "タグ",
+      "unassigned": "未アサイン"
     },
     "ticket": {
       "title": "タイトル",
@@ -186,7 +193,8 @@
       "sprintDoesNotExists": "Sprint がありません。Backlogs にある「Sprint を作成」ボタンで Sprint を作成してみましょう。",
       "storyDoesNotExists": "Story がありません。「Story を追加」ボタンで Story を作成してみましょう。",
       "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう",
-      "historyIsEmpty": "更新履歴はありません"
+      "historyIsEmpty": "更新履歴はありません",
+      "tagInput": "タグを入力してください"
     },
     "tab": {
       "comment": "コメント",

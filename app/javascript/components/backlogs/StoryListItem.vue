@@ -15,6 +15,11 @@
           {{ story.point | numeral('0.0') }}
         </span>
       </div>
+      <div class="mt-1" v-if="story.tags && story.tags.length > 0">
+        <span class="rb-tag mr-1" v-for="tag in story.tags" :key="tag.id">
+          {{ tag.name }}
+        </span>
+      </div>
     </div>
     <div v-else>
       <b-form @submit.stop.prevent="editDone(true)">
