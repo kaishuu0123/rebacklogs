@@ -35,7 +35,7 @@
         </a>
       </div>
     </div>
-    <div v-else class="card-header px-3 py-2 d-flex flex-wrap align-items-center justify-content-between">
+    <div v-else class="card-header px-2 py-2 d-flex flex-wrap align-items-center justify-content-between">
       <h6 class="m-0 text-gray-700" @click="editEnter">{{ sprint.title }}</h6>
       <div class="d-flex flex-wrap align-items-center">
         <div class="mr-3" @click="editEnter">

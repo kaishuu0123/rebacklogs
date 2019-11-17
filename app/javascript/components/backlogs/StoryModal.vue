@@ -20,14 +20,14 @@
         <div class="col-9">
           <div class="d-flex mb-2">
             <div>
-              <div v-if="story.id != null">
+              <div v-if="!isNew">
                 <button type="button" class="btn rb-btn-s btn-outline-danger shadow-sm" @click="onClickDelete">
                   <i class="fas fa-trash-alt mr-1" /> {{ $t('action.delete') }}
                 </button>
               </div>
             </div>
             <div class="d-flex ml-auto">
-              <div class="mr-2" v-if="story.id != null">
+              <div class="mr-2" v-if="!isNew">
                 <div class="dropdown">
                   <button class="btn rb-btn-s btn-outline-secondary shadow-sm dropdown-toggle" type="button" id="clickboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-paperclip mr-1" /> {{ $t('action.copyToClipboard') }}
@@ -51,6 +51,11 @@
               <div v-if="!isEdit" class="mr-2">
                 <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.isEdit = true">
                   <i class="fas fa-pen mr-1" /> {{ $t('action.edit') }}
+                </button>
+              </div>
+              <div v-else-if="isEdit && !isNew" class="mr-2">
+                <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.$refs.ticketForm.handleSubmit()">
+                  <i class="fas fa-pen mr-1" /> {{ $t('action.submit') }}
                 </button>
               </div>
               <div>
@@ -89,7 +94,9 @@
               :ticket="story"
               ticketType="stories"
               :isLoading="isLoading"
-              :afterSubmit="afterSubmit" />
+              :afterSubmit="afterSubmit"
+              :isNew="isNew"
+              ref="ticketForm" />
             <TicketPreview
               v-else
               :projectId="projectId"
@@ -116,13 +123,12 @@
             <hr />
           </div>
           <div>
-            <b-tabs content-class="mt-3">
+            <b-tabs content-class="mt-3" v-if="!isNew">
               <b-tab>
                 <template v-slot:title>
                   <i class="fas fa-comment"></i> {{ $t('tab.comment') }}
                 </template>
                 <CommentFormAndList
-                  v-if="story.id"
                   :projectId="projectId"
                   :ticket="selectedStory"
                   ticketType="stories"
@@ -142,9 +148,9 @@
         </div>
         <div class="col-3 p-0">
           <div class="p-3 bg-gray-100">
-            <SelectCategory :projectId="projectId" :ticket="story" ticketType="stories" :isNew="story.id == null" v-model="story.projectTicketCategory" />
-            <SelectAssignee :projectId="projectId" :ticket="story" ticketType="stories" :isNew="story.id == null" v-model="story.assignee" />
-            <SelectStatus :projectId="projectId" :ticket="story" ticketType="stories" :isNew="story.id == null" v-model="story.projectTicketStatus" />
+            <SelectCategory :projectId="projectId" :ticket="story" ticketType="stories" :isNew="isNew" v-model="story.projectTicketCategory" />
+            <SelectAssignee :projectId="projectId" :ticket="story" ticketType="stories" :isNew="isNew" v-model="story.assignee" />
+            <SelectStatus :projectId="projectId" :ticket="story" ticketType="stories" :isNew="isNew" v-model="story.projectTicketStatus" />
             <InputPoint v-if="story.id != null" :projectId="projectId" :ticket="story" ticketType="stories" />
           </div>
         </div>
@@ -235,6 +241,9 @@ export default {
         color: this.idealTextColor(color),
         border: `1px solid ${Color(color).darken(0.1)}`
       }
+    },
+    isNew() {
+      return this.story.id == null
     },
     ...mapState('Stories', {
       selectedStory: 'selectedStory'

@@ -15,14 +15,14 @@
         <div class="col-9">
           <div class="d-flex mb-2">
             <div class="mr-2">
-              <div v-if="task.id != null">
+              <div v-if="!isNew">
                 <button type="button" class="btn rb-btn-s btn-outline-danger shadow-sm" @click="onClickDelete">
                   <i class="fas fa-trash-alt mr-1" /> {{ $t('action.delete') }}
                 </button>
               </div>
             </div>
             <div class="d-flex ml-auto">
-              <div class="mr-2" v-if="task.id != null">
+              <div class="mr-2" v-if="!isNew">
                 <div class="dropdown">
                   <button class="btn rb-btn-s btn-outline-secondary shadow-sm dropdown-toggle" type="button" id="clickboardMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-paperclip mr-1" /> {{ $t('action.copyToClipboard') }}
@@ -90,6 +90,7 @@
           <div class="mb-2">
             <TicketForm
               v-if="isEdit"
+              :isNew="isNew"
               :projectId="projectId"
               :ticket="task"
               ticketType="tasks"
@@ -104,13 +105,12 @@
           </div>
           <hr />
           <div>
-            <b-tabs content-class="mt-3">
+            <b-tabs content-class="mt-3" v-if="!isNew">
               <b-tab>
                 <template v-slot:title>
                   <i class="fas fa-comment"></i> {{ $t('tab.comment') }}
                 </template>
                 <CommentFormAndList
-                  v-if="task.id"
                   :projectId="projectId"
                   :ticket="selectedTask"
                   ticketType="tasks"
@@ -143,8 +143,8 @@
                 </router-link>
               </b-form-group>
             </div>
-            <SelectAssignee :projectId="projectId" :ticket="task" ticketType="tasks" :isNew="task.id == null" v-model="task.assignee" />
-            <SelectStatus :projectId="projectId" :ticket="task" ticketType="tasks" :isNew="task.id == null" v-model="task.projectTicketStatus" />
+            <SelectAssignee :projectId="projectId" :ticket="task" ticketType="tasks" :isNew="isNew" v-model="task.assignee" />
+            <SelectStatus :projectId="projectId" :ticket="task" ticketType="tasks" :isNew="isNew" v-model="task.projectTicketStatus" />
           </div>
         </div>
       </div>
@@ -217,6 +217,9 @@ export default {
     taskURLWithStory() {
       return `${urlparse().origin + '/' + this.task.story.ticket_number_with_ticket_prefix}\n` +
              `  ${urlparse().origin + '/' + this.task.ticket_number_with_ticket_prefix}`
+    },
+    isNew() {
+      return this.task.id == null;
     },
     ...mapState({
       selectedTask: 'selectedTask'

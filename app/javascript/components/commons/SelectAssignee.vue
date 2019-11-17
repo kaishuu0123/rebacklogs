@@ -12,7 +12,7 @@
       :options="assignee.assignees"
       :components="{OpenIndicator}"
       label='username'
-      placeholder='Unassigned'
+      :placeholder="$t('title.unassigned')"
       v-model="assignee.selected"
       value="id"
       ref="vSelect"

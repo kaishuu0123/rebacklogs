@@ -17,6 +17,7 @@ class Project < ApplicationRecord
   has_many :sprints, -> { order(created_at: :asc) }
   has_many :project_ticket_statuses
   has_many :project_ticket_categories
+  has_many :tags
   has_one_attached :image
 
   validates :title, presence: true

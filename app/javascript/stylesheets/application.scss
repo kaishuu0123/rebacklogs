@@ -55,8 +55,8 @@ $font-size-xm: 0.8em !default;
       }
 
       &.badge-secondary {
-         border-color: #6e707e;
-         color: #6e707e;
+         border-color: $gray-800;
+         color: $gray-800;
       }
 
       &.badge-success {
@@ -79,4 +79,15 @@ $font-size-xm: 0.8em !default;
          color: #ef1c1c
       }
    }
+}
+
+.rb-tag {
+   @extend .badge;
+   @extend .text-gray-800;
+   @extend .bg-gray-200;
+   @extend .font-weight-normal;
+   @extend .rb-badge-radius;
+
+   border: 1px solid $gray-500;
+   font-size: 80%;
 }

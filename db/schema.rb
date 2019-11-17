@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_19_180101) do
+ActiveRecord::Schema.define(version: 2019_11_15_015542) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -145,6 +145,25 @@ ActiveRecord::Schema.define(version: 2019_10_19_180101) do
     t.index ["project_id"], name: "index_sprints_on_project_id"
   end
 
+  create_table "tag_tickets", force: :cascade do |t|
+    t.integer "tag_id"
+    t.integer "ticket_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_id", "ticket_id"], name: "index_tag_tickets_on_tag_id_and_ticket_id", unique: true
+    t.index ["tag_id"], name: "index_tag_tickets_on_tag_id"
+    t.index ["ticket_id"], name: "index_tag_tickets_on_ticket_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id", "project_id"], name: "index_tags_on_id_and_project_id", unique: true
+    t.index ["project_id"], name: "index_tags_on_project_id"
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.integer "project_id"
     t.integer "sprint_id"
@@ -211,6 +230,9 @@ ActiveRecord::Schema.define(version: 2019_10_19_180101) do
   add_foreign_key "group_users", "users"
   add_foreign_key "project_ticket_statuses", "projects"
   add_foreign_key "sprints", "projects"
+  add_foreign_key "tag_tickets", "tags"
+  add_foreign_key "tag_tickets", "tickets"
+  add_foreign_key "tags", "projects"
   add_foreign_key "tickets", "project_ticket_categories"
   add_foreign_key "tickets", "project_ticket_statuses"
   add_foreign_key "tickets", "projects"

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   get '/projects/:id/users', to: 'projects#users'
   get '/projects/:id/groups', to: 'projects#groups'
+  get '/projects/:id/project_tags', to: 'projects#project_tags'
 
   post '/projects/:id/add_group', to: 'projects#add_group'
   delete '/projects/:id/delete_group/:group_id', to: 'projects#delete_group'

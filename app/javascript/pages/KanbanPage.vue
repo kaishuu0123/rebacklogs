@@ -50,6 +50,11 @@
                     </dl>
                   </b-popover>
                 </div>
+                <div class="ml-auto">
+                  <span class="rb-tag ml-1" v-for="tag in story.tags" :key="tag.id">
+                    {{ tag.name }}
+                  </span>
+                </div>
               </div>
             </td>
           </tr>
