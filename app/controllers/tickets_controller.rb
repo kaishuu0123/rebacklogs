@@ -20,7 +20,9 @@ class TicketsController < ApplicationController
 
     if ticket_params[:tags].class == Array
       (ticket_params[:tags] || []).each do |tag|
-        @ticket.tags << Tag.find_or_create_by(name: tag[:name], project_id: ticket_params[:project_id])
+        tag_name = tag
+        tag[:name] if tag == Hash
+        @ticket.tags << Tag.find_or_create_by!(name: tag_name, project_id: ticket_params[:project_id])
       end
     end
 
@@ -40,7 +42,9 @@ class TicketsController < ApplicationController
       @ticket.tag_tickets.destroy_all
 
       (ticket_params[:tags] || []).each do |tag|
-        @ticket.tags << Tag.find_or_create_by(name: tag[:name], project_id: ticket_params[:project_id])
+        tag_name = tag
+        tag[:name] if tag == Hash
+        @ticket.tags << Tag.find_or_create_by!(name: tag_name, project_id: ticket_params[:project_id])
       end
     end
 
@@ -66,7 +70,7 @@ class TicketsController < ApplicationController
     params.permit(
       :title, :body, :project_id, :sprint_id, :row_order_position,
       :story_id, :project_ticket_status_id, :project_ticket_category_id,
-      :assignee_id, :point, tags: [:id, :name, :project_id]
+      :assignee_id, :point, tags: []
     )
   end
 
