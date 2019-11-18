@@ -10,6 +10,7 @@
       :placeholder="$t('message.tagInput')"
       :components="{OpenIndicator}"
       :multiple="true"
+      :create-option="tag => ({ name: tag })"
       :taggable="true"
       ref="vSelect"
     >
