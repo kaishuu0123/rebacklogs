@@ -1,14 +1,14 @@
 <template>
   <div class="card shadow-sm mb-2" :class="assignedUserClass(task)">
     <div class="card-body px-2 py-1">
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center flex-wrap">
         <router-link :to="createSelectTaskPath(storyId, task.id)">
-          <span class="text-gray-500 text-xs mr-1">{{ task.ticket_number_with_ticket_prefix }}</span>
-          <span class="text-secondary">
+          <span class="text-gray-500 text-xs text-nowrap mr-1">{{ task.ticket_number_with_ticket_prefix }}</span>
+        </router-link>
+        <span class="text-secondary">
             <s v-if="task.is_done">{{task.title}}</s>
             <span v-else>{{task.title}}</span>
           </span>
-        </router-link>
       </div>
       <div class="d-flex flex-row justify-content-end">
         <SelectAssigneeForTask :projectId="projectId" :ticket="task" ticketType="tasks" v-model="task.assignee" />

@@ -65,16 +65,18 @@
                 :list="tasksByStatus(story.tasks, status)"
                 v-bind="dragOptions"
                 :data-story-id="story.id"
-                :emptyInsertThreshold="60"
+                :emptyInsertThreshold="10"
                 :data-project-ticket-status-id="status.id"
-                @end="dragEnd($event, story)">
+                @end="dragEnd($event, story)"
+                multi-drag
+                selected-class="selected">
                   <TaskCard
                     v-for="task in tasksByStatus(story.tasks, status)"
                     :projectId="projectId"
                     :key="task.id"
                     :task="task"
                     :storyId="story.id"
-                    :data-story="story"
+                    :data-story-id="story.id"
                     :data-task-id="task.id" />
               </VueDraggable>
             </td>
@@ -179,7 +181,35 @@ export default {
     createShowStoryPath(storyId) {
       return { name: 'ShowStory', params: {storyId: storyId} }
     },
-    dragEnd($event, story) {
+    // dragEnd($event, story) {
+    //   const from = {
+    //     storyId: parseInt($event.from.dataset.storyId),
+    //     statusId: parseInt($event.from.dataset.projectTicketStatusId),
+    //     oldIndex: parseInt($event.oldIndex)
+    //   }
+    //   const to = {
+    //     storyId: parseInt($event.to.dataset.storyId),
+    //     statusId: parseInt($event.to.dataset.projectTicketStatusId),
+    //     newIndex: parseInt($event.newIndex)
+    //   }
+    //   const taskId = parseInt($event.item.dataset.taskId)
+
+    //   story.tasks.some((task) => {
+    //     if (task.id === taskId) {
+    //       task.story_id = to.storyId
+    //       task.project_ticket_status_id = to.statusId
+    //       return true
+    //     }
+    //     return false
+    //   });
+
+    //   this.updateTaskByDrag({
+    //     from: from,
+    //     to: to,
+    //     taskId: taskId
+    //   })
+    // },
+    dragEnd($event) {
       const from = {
         storyId: parseInt($event.from.dataset.storyId),
         statusId: parseInt($event.from.dataset.projectTicketStatusId),
@@ -190,21 +220,30 @@ export default {
         statusId: parseInt($event.to.dataset.projectTicketStatusId),
         newIndex: parseInt($event.newIndex)
       }
-      const taskId = parseInt($event.item.dataset.taskId)
 
-      story.tasks.some((task) => {
-        if (task.id === taskId) {
-          task.story_id = to.storyId
-          task.project_ticket_status_id = to.statusId
-          return true
-        }
-        return false
-      });
-
-      this.updateTaskByDrag({
-        from: from,
-        to: to,
-        taskId: taskId
+      let tasks = []
+      if (Array.isArray($event.items) && $event.items.length) {
+        tasks = $event.items.map((item, index) => {
+          return {
+            storyId: to.storyId,
+            id: item.dataset.taskId,
+            statusId: to.statusId,
+            newIndex: to.newIndex + index
+          }
+        });
+      } else {
+        const taskId = parseInt($event.item.dataset.taskId)
+        tasks.push({
+          storyId: to.storyId,
+          id: taskId,
+          statusId: to.statusId,
+          newIndex: to.newIndex
+        })
+      }
+      console.log(tasks)
+      this.updateTasksByDrag({
+        projectId: this.projectId,
+        tasks: tasks
       })
     },
     backgroundColor(story) {
@@ -248,7 +287,8 @@ export default {
     ...mapActions({
       getStoriesWithTasks: 'getStoriesWithTasks',
       getProjectTicketStatuses: 'getProjectTicketStatuses',
-      updateTaskByDrag: 'updateTaskByDrag'
+      updateTaskByDrag: 'updateTaskByDrag',
+      updateTasksByDrag: 'updateTasksByDrag',
     })
   }
 }
@@ -280,5 +320,10 @@ export default {
 }
 .rb-draggable-area {
   min-height: 60px;
+}
+
+.selected {
+	border: solid rgb(78, 115, 223) 2px;
+	z-index: 1 !important;
 }
 </style>

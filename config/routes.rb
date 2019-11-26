@@ -14,9 +14,11 @@ Rails.application.routes.draw do
     resources :project_ticket_categories, constraints: { format: :json }
     resources :project_ticket_statuses, constraints: { format: :json }
 
+    patch '/stories/row_orders', to: 'tickets#row_orders', type: Story
     resources :stories, controller: :tickets, type: Story, constraints: { format: :json } do
       resources :comments
     end
+    patch '/tasks/row_orders', to: 'tickets#row_orders', type: Task
     resources :tasks, controller: :tickets, type: Task, constraints: { format: :json } do
       resources :comments
     end

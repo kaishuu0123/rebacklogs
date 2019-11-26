@@ -63,6 +63,22 @@ export default new Vuex.Store({
           this.dispatch('getSprintsWithStories', projectId)
         })
     },
+    updateStoriesByDrag({ commit }, { projectId, stories }) {
+      const storiesData = stories.map((story) => {
+        return {
+          sprint_id: story.sprintId,
+          id: story.id,
+          row_order_position: story.newIndex
+        }
+      })
+
+      axios
+        .patch(`/projects/${projectId}/stories/row_orders`, storiesData)
+        .then(r => r.data)
+        .then(data => {
+          this.dispatch('getSprintsWithStories', projectId)
+        })
+    },
     closeSprint({ commit }, { projectId, sprint }) {
       const closedSprint = Object.assign(sprint, {
         closed: true

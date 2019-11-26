@@ -33,6 +33,46 @@ class TicketsController < ApplicationController
     end
   end
 
+  def row_orders
+    story_params = params.permit(_json: [
+      :id, :row_order_position, :sprint_id,
+      :story_id, :project_ticket_status_id
+    ]).fetch(:_json).map do |story|
+      {
+        id: story[:id]&.to_i,
+        row_order_position: story[:row_order_position]&.to_i,
+        sprint_id: story[:sprint_id]&.to_i,
+        story_id: story[:story_id]&.to_i,
+        project_ticket_status_id: story[:project_ticket_status_id]&.to_i
+      }
+    end.sort_by { |param| param[:row_order_position] }
+
+    ids = story_params.map { |story_param| story_param[:id] }
+    @tickets = ticket_type.where(id: ids)
+    @tickets.each do |ticket|
+      authorize! :manage, ticket
+    end
+
+    story_params.each do |story_param|
+      ticket = @tickets.find { |t| t.id == story_param[:id] }
+
+      if ticket_type == Story
+        ticket.sprint_id = story_param[:sprint_id]
+        ticket.row_order_position = story_param[:row_order_position]
+      elsif ticket_type == Task
+        ticket.story_id = story_param[:story_id]
+        ticket.project_ticket_status_id = story_param[:project_ticket_status_id]
+        ticket.row_order_position = story_param[:row_order_position]
+      end
+
+      ticket.save!
+    end
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
   def update
     authorize! :manage, @ticket
 

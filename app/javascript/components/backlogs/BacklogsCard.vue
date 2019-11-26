@@ -18,7 +18,9 @@
         v-bind="dragOptions"
         :emptyInsertThreshold="40"
         :data-sprint-id="null"
-        @end="dragEnd">
+        @end="dragEnd"
+        multi-drag
+        selected-class="selected">
         <StoryListItem :story="story" v-for="story in stories" :key="story.id" :data-story-id="story.id" />
         <li v-if="stories.length == 0" class="list-group-item rb-alert-primary px-3 py-2">
           <div class="d-flex align-items-center">
@@ -66,6 +68,23 @@ export default {
         }
       })
     },
+    // dragEnd($event) {
+    //   const from = {
+    //     sprintId: parseInt($event.from.dataset.sprintId),
+    //     oldIndex: parseInt($event.oldIndex)
+    //   }
+    //   const to = {
+    //     sprintId: parseInt($event.to.dataset.sprintId),
+    //     newIndex: parseInt($event.newIndex)
+    //   }
+    //   const storyId = parseInt($event.item.dataset.storyId)
+    //   this.updateStoryByDrag({
+    //     projectId: this.projectId,
+    //     from: from,
+    //     to: to,
+    //     storyId, storyId
+    //   })
+    // },
     dragEnd($event) {
       const from = {
         sprintId: parseInt($event.from.dataset.sprintId),
@@ -75,17 +94,34 @@ export default {
         sprintId: parseInt($event.to.dataset.sprintId),
         newIndex: parseInt($event.newIndex)
       }
-      const storyId = parseInt($event.item.dataset.storyId)
-      this.updateStoryByDrag({
+
+      let stories = []
+      if (Array.isArray($event.items) && $event.items.length) {
+        stories = $event.items.map((item, index) => {
+          return {
+            sprintId: to.sprintId,
+            id: item.dataset.storyId,
+            newIndex: to.newIndex + index
+          }
+        });
+      } else {
+        const storyId = parseInt($event.item.dataset.storyId)
+        stories.push({
+          sprintId: to.sprintId,
+          id: storyId,
+          newIndex: to.newIndex
+        })
+      }
+      console.log(stories)
+      this.updateStoriesByDrag({
         projectId: this.projectId,
-        from: from,
-        to: to,
-        storyId, storyId
+        stories: stories
       })
     },
     ...mapActions([
       'createSprint',
-      'updateStoryByDrag'
+      'updateStoryByDrag',
+      'updateStoriesByDrag'
     ])
   }
 }
@@ -111,5 +147,10 @@ export default {
 li.rb-alert-primary {
   @extend .alert;
   @extend .alert-primary;
+}
+
+.selected {
+  border: solid rgb(78, 115, 223) 2px !important;
+	z-index: 1 !important;
 }
 </style>

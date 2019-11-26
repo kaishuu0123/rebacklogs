@@ -52,6 +52,24 @@ export default new Vuex.Store({
         .then(data => {
           this.dispatch('getStoriesWithTasks')
         })
+    },
+    updateTasksByDrag ({ commit }, { tasks }) {
+      const tasksData = tasks.map((task) => {
+        return {
+          project_id: this.state.projectId,
+          id: task.id,
+          story_id: task.storyId,
+          project_ticket_status_id: task.statusId,
+          row_order_position: task.newIndex
+        }
+      })
+
+      axios
+        .patch(`/projects/${this.state.projectId}/tasks/row_orders`, tasksData)
+        .then(r => r.data)
+        .then(data => {
+          this.dispatch('getStoriesWithTasks')
+        })
     }
   },
   mutations: {

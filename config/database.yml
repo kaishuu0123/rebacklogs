@@ -12,6 +12,12 @@ default: &default
 development:
   <<: *default
   database: db/development.sqlite3
+  # adapter: postgresql
+  # database: <%= ENV['DB_NAME'] || 'rebacklogs_development' %>
+  # username: <%= ENV['DB_USER'] || 'root' %>
+  # password: <%= ENV['DB_PASS'] || 'root' %>
+  # host: <%= ENV['DB_HOST'] || 'localhost' %>
+  # port: <%= ENV['DB_PORT'] || 5432 %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
