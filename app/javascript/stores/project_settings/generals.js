@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default {
   namespaced: true,
@@ -16,7 +11,7 @@ export default {
   },
   actions: {
     getProject({ commit, state }, projectId) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}`)
         .then(r => r.data)
         .then(project => {
@@ -28,7 +23,7 @@ export default {
     },
     updateProject({ commit, state }, { projectId, project }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .patch(`/projects/${projectId}`, project)
           .then(r => r.data)
           .then(project => {
@@ -48,7 +43,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .patch(`/projects/${projectId}`, formData, config)
           .then(result => {
             resolve(result)
@@ -60,7 +55,7 @@ export default {
     },
     deleteImage({ commit, state }, projectId) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .delete(`/projects/${projectId}/delete_image`)
           .then(result => {
             resolve(result)

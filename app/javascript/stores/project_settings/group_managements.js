@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default {
   namespaced: true,
@@ -17,7 +12,7 @@ export default {
   actions: {
     getGroups ({ commit, state }, { projectId }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .get(`/projects/${projectId}/groups`)
           .then(r => r.data)
           .then(groups => {
@@ -31,7 +26,7 @@ export default {
     },
     getGroupsByName({ commit, state }, name) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .get('/groups_by_name', { params: { name: name } })
           .then(r => r.data)
           .then(groups => {
@@ -43,14 +38,14 @@ export default {
       })
     },
     addGroup ({ dispatch, commit, state }, { projectId, group }) {
-      axios
+      Vue.http
         .post(`/projects/${projectId}/add_group`, { group_id: group.id })
         .then(r => {
           dispatch('getGroups', { projectId: projectId })
         })
     },
     deleteGroup ({ dispatch, commit, state }, { projectId, groupId }) {
-      axios
+      Vue.http
         .delete(`/projects/${projectId}/delete_group/${groupId}`)
         .then(r => {
           dispatch('getGroups', { projectId: projectId })

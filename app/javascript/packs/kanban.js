@@ -3,6 +3,7 @@ import VueI18n from 'vue-i18n'
 import store from '../stores/kanban'
 import VueRouter from 'vue-router';
 import KanbanPage from '../pages/KanbanPage'
+import http from '../commons/custom-axios'
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sprintTitle = rootElement.dataset.sprintTitle
   Vue.use(VueRouter)
   Vue.use(VueI18n)
+  Vue.use(http, { store })
 
   const router = new VueRouter({
     routes: [

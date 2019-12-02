@@ -3,12 +3,14 @@ import VueI18n from 'vue-i18n'
 import store from '../stores/backlogs'
 import VueRouter from 'vue-router';
 import ClosedSprintsPage from '../pages/ClosedSprintsPage'
+import http from '../commons/custom-axios'
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
   const projectId = rootElement.dataset.projectId
   Vue.use(VueRouter)
   Vue.use(VueI18n)
+  Vue.use(http, { store })
 
   const router = new VueRouter({
     routes: [

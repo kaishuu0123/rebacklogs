@@ -155,7 +155,6 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import axios from 'axios'
 import MarkdownText from '../MarkdownText'
 import TicketForm from '../commons/TicketForm'
 import TicketPreview from '../commons/TicketPreview'

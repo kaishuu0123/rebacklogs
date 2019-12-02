@@ -1,13 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default {
   namespaced: true,
@@ -16,7 +10,7 @@ export default {
   },
   actions: {
     getTicketCategories({ commit, state }, projectId) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/project_ticket_categories`)
         .then(r => r.data)
         .then(ticketCategories => {
@@ -28,7 +22,7 @@ export default {
     },
     getTicketCategory({ commit, state }, { projectId, categoryId }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .get(`/projects/${projectId}/project_ticket_categories/${categoryId}`)
           .then(r => r.data)
           .then(category => {
@@ -40,21 +34,21 @@ export default {
       })
     },
     createTicketCategory({ dispatch, commit, state }, { projectId, category }) {
-      axios
+      Vue.http
         .post(`/projects/${projectId}/project_ticket_categories`, category)
         .then(r => {
           dispatch('getTicketCategories', projectId)
         })
     },
     updateTicketCategory({ dispatch, commit, state }, { projectId, category }) {
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/project_ticket_categories/${category.id}`, category)
         .then(r => {
           dispatch('getTicketCategories', projectId)
         })
     },
     deleteTicketCategory({ dispatch, commit, state }, { projectId, category }) {
-      axios
+      Vue.http
         .delete(`/projects/${projectId}/project_ticket_categories/${category.id}`)
         .then(r => {
           dispatch('getTicketCategories', projectId)
