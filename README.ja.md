@@ -26,7 +26,7 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 
 ## デモ
 
-* https://rebacklogs.herokuapp.com/
+* https://rebacklogs.saino.me/
   * これはデモサイトです。
   * データが突然消える可能性があります。 お試し版としてご利用ください。
 
