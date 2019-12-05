@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
 
 export default {
   namespaced: true,
@@ -16,22 +12,22 @@ export default {
   actions: {
     getTask ({ commit, state }, { projectId, taskId }) {
       return new Promise((resolve, reject) => {
-        axios
-        .get(`/projects/${projectId}/tasks/${taskId}`)
-        .then(r => r.data)
-        .then(task => {
-          commit('SET_SELECTED_TASK', task, { root: true })
-          resolve(task)
-        })
-        .catch(error => {
-          reject()
-        })
+        Vue.http
+          .get(`/projects/${projectId}/tasks/${taskId}`)
+          .then(r => r.data)
+          .then(task => {
+            commit('SET_SELECTED_TASK', task, { root: true })
+            resolve(task)
+          })
+          .catch(error => {
+            reject()
+          })
       })
     },
     createTask ({ commit, state, getters }, {projectId, task}) {
       const requestTask = getters.getRequestTask(task)
 
-      axios
+      Vue.http
         .post(`/projects/${projectId}/tasks`, requestTask)
         .then(() => {
           this.dispatch('getStoriesWithTasks', projectId, { root: true })
@@ -40,14 +36,14 @@ export default {
     updateTask ({ commit, state }, {storyId, projectId, task }) {
       task.story_id = storyId
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/tasks/${task.id}`, task)
         .then(() => {
           this.dispatch('getStoriesWithTasks', projectId, { root: true })
         })
     },
     deleteTask ({ commit, state }, { projectId, taskId }) {
-      axios
+      Vue.http
         .delete(`/projects/${projectId}/tasks/${taskId}`)
         .then(() => {
           this.dispatch('getStoriesWithTasks', projectId, { root: true })

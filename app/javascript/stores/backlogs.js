@@ -1,23 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 import Stories from './stories'
 import Tickets from './tickets'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default new Vuex.Store({
   state: {
     sprints: [],
-    storiesInBacklogs: []
+    storiesInBacklogs: [],
+    isLoading: false
   },
   actions: {
     getSprintsWithStories ({ commit }, projectId) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/sprints`)
         .then(r => r.data)
         .then(data => {
@@ -26,7 +23,7 @@ export default new Vuex.Store({
         })
     },
     getClosedSprintsWithStories ({ commit }, projectId) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/api/closed_sprints`)
         .then(r => r.data)
         .then(data => {
@@ -35,7 +32,7 @@ export default new Vuex.Store({
         })
     },
     createSprint({ commit }, { projectId, sprint }) {
-      axios
+      Vue.http
         .post(`/projects/${projectId}/sprints`, sprint)
         .then(r => r.data)
         .then(data => {
@@ -43,7 +40,7 @@ export default new Vuex.Store({
         })
     },
     updateSprint({ commit }, { projectId, sprint }) {
-      axios
+      Vue.http
         .put(`/projects/${projectId}/sprints/${sprint.id}`, sprint)
         .then(r => r.data)
         .then(data => {
@@ -56,7 +53,7 @@ export default new Vuex.Store({
         row_order_position: to.newIndex
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/stories/${storyId}`, story)
         .then(r => r.data)
         .then(data => {
@@ -68,7 +65,7 @@ export default new Vuex.Store({
         closed: true
       })
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/sprints/${sprint.id}`, closedSprint)
         .then(r => r.data)
         .then(data => {
@@ -80,7 +77,7 @@ export default new Vuex.Store({
         closed: false
       })
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/sprints/${sprint.id}`, openSprint)
         .then(r => r.data)
         .then(data => {
@@ -94,6 +91,9 @@ export default new Vuex.Store({
     },
     SET_STORIES_IN_BACKLOGS (state, storiesInBacklogs) {
       state.storiesInBacklogs = storiesInBacklogs
+    },
+    SET_IS_LOADING (state, isLoading) {
+      state.isLoading = isLoading
     }
   },
   modules: {

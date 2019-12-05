@@ -1,13 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default {
   namespaced: true,
@@ -16,7 +10,7 @@ export default {
   },
   actions: {
     getTicketStatuses({ commit, state }, projectId) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/project_ticket_statuses`)
         .then(r => r.data)
         .then(ticketStatuses => {
@@ -28,7 +22,7 @@ export default {
     },
     getTicketStatus({ commit, state }, { projectId, statusId }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .get(`/projects/${projectId}/project_ticket_statuses/${statusId}`)
           .then(r => r.data)
           .then(status => {
@@ -40,7 +34,7 @@ export default {
       })
     },
     updateTicketStatus({ dispatch, commit, state }, { projectId, status }) {
-      axios
+      Vue.http
         .patch(`//projects/${projectId}/project_ticket_statuses`)
         .then(r => r.data)
         .then(ticketStatus => {
@@ -48,21 +42,21 @@ export default {
         })
     },
     createTicketStatus({ dispatch, commit, state }, { projectId, status }) {
-      axios
+      Vue.http
         .post(`/projects/${projectId}/project_ticket_statuses`, status)
         .then(r => {
           dispatch('getTicketStatuses', projectId)
         })
     },
     updateTicketStatus({ dispatch, commit, state }, { projectId, status }) {
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/project_ticket_statuses/${status.id}`, status)
         .then(r => {
           dispatch('getTicketStatuses', projectId)
         })
     },
     deleteTicketStatus({ dispatch, commit, state }, { projectId, status }) {
-      axios
+      Vue.http
         .delete(`/projects/${projectId}/project_ticket_statuses/${status.id}`)
         .then(r => {
           dispatch('getTicketStatuses', projectId)

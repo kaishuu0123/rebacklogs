@@ -1,5 +1,13 @@
 <template>
-  <div class="container-fluid mt-2">
+  <div id="kanban" class="container-fluid mt-2">
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="false"
+      color="#4e73df"
+      background-color="#f8f9fc"
+      loader="dots"></loading>
+
     <div class="row mb-2 bg-light sticky-top">
       <nav class="navbar px-1 py-0 navbar-light">
         <a class="navbar-brand text-gray-700" href="#">{{ sprintTitle }}</a>
@@ -83,8 +91,8 @@
       </table>
     </div>
 
-    <TaskModal :projectId="projectId" />
-    <StoryModal :projectId="projectId" />
+    <TaskModal :projectId="projectId" :isLoading="isLoading" />
+    <StoryModal :projectId="projectId" :isLoading="isLoading" />
   </div>
 </template>
 
@@ -98,6 +106,10 @@ import MarkdownText from '../components/MarkdownText'
 import VueDraggable from 'vuedraggable'
 import '../commons/custom-bootstrap-vue'
 import ColorUtils from '../mixins/colorUtils'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+// import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   components: {
@@ -105,7 +117,8 @@ export default {
     TaskModal,
     TaskCard,
     MarkdownText,
-    VueDraggable
+    VueDraggable,
+    Loading
   },
   mixins: [
     ColorUtils
@@ -163,6 +176,7 @@ export default {
       return this.projectTicketStatuses.length
     },
     ...mapState([
+      'isLoading',
       'stories',
       'projectTicketStatuses'
     ])
@@ -255,6 +269,11 @@ export default {
 </script>
 
 <style lang="scss">
+#kanban {
+  /* for vue-loading-overlay */
+  position: relative;
+}
+
 .no-move {
   transition: transform 0s;
 }

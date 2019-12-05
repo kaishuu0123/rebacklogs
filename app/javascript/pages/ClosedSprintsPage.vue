@@ -1,5 +1,13 @@
 <template>
   <div class="container-fluid">
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="false"
+      color="#4e73df"
+      background-color="#f8f9fc"
+      loader="dots"></loading>
+
     <div class="row">
       <div class="col-6" v-for="sprint in sprints" :key="sprint.id">
         <SprintCard class="mb-3" :sprint="sprint" :projectId="projectId" />
@@ -22,6 +30,10 @@ import BacklogsCard from '../components/backlogs/BacklogsCard'
 import SprintCard from '../components/backlogs/SprintCard'
 import StoryListItem from '../components/backlogs/StoryListItem'
 import '../commons/custom-bootstrap-vue'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   data () {
@@ -34,7 +46,8 @@ export default {
     StoryModal,
     BacklogsCard,
     SprintCard,
-    StoryListItem
+    StoryListItem,
+    Loading
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
@@ -55,6 +68,7 @@ export default {
   },
   computed: {
     ...mapState({
+      isLoading: 'isLoading',
       sprints: 'sprints',
       storiesInBacklogs: 'storiesInBacklogs'
     }),

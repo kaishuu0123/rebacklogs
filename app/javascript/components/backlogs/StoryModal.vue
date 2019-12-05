@@ -4,13 +4,20 @@
     modal-class="rb-modal"
     size="lg"
     ref="modal"
-    :visible='visible'
     @shown="onShow"
     @hidden="onHide"
     hide-header
     hide-footer
     no-fade>
-    <div class="container-fluid" ref="container">
+    <div id="rb-story-modal" class="container-fluid" ref="container">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="false"
+        :is-full-page="false"
+        color="#4e73df"
+        background-color="#f8f9fc"
+        loader="dots"></loading>
+
       <div v-if="message.body" class="row">
         <div :class="`w-100 p-2 alert alert-${this.message.type}`">
           {{ this.message.body }}
@@ -162,7 +169,6 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import axios from 'axios'
 import MarkdownText from '../MarkdownText'
 import TicketForm from '../commons/TicketForm'
 import TicketPreview from '../commons/TicketPreview'
@@ -176,6 +182,10 @@ import CustomMoment from '../../commons/custom-moment'
 import urlparse from 'url-parse'
 import VueClipboard2 from 'vue-clipboard2'
 import ColorUtils from '../../mixins/colorUtils'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.use(VueClipboard2)
 
@@ -189,7 +199,8 @@ export default {
     InputPoint,
     CommentFormAndList,
     HistoryList,
-    VueClipboard2
+    VueClipboard2,
+    Loading
   },
   mixins: [
     ColorUtils
@@ -197,12 +208,11 @@ export default {
   name: 'StoryModal',
   props: {
     projectId: String,
-    visible: Boolean
+    isLoading: Boolean,
   },
   data() {
     return {
       isEdit: false,
-      isLoading: false,
       story: {
         id: null,
         title: '',
@@ -290,13 +300,9 @@ export default {
       }
 
       if (this.$route.params.storyId) {
-        this.isLoading = true
         this.getStory({
             projectId: this.projectId,
             storyId: this.$route.params.storyId
-          })
-          .then(story => {
-            this.isLoading = false
           })
       } else {
         this.isEdit = true
@@ -392,11 +398,30 @@ export default {
 </script>
 
 <style lang="scss">
+#rb-story-modal {
+  /* for vue-loading-overlay */
+  position: relative;
+}
+
 .rb-modal {
   font-size: 0.8rem;
 
   .modal-dialog {
-    max-width: 75%
+    max-width: 75%k
   }
+}
+
+/**
+* Bootstrap Modal
+*/
+.modal {
+    z-index: 1101 !important;
+}
+
+/**
+* Vue Loading
+*/
+.vld-overlay.is-full-page {
+    z-index: 1103 !important;
 }
 </style>

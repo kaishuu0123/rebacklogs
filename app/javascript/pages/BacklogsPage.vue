@@ -1,5 +1,12 @@
 <template>
   <div id="rb-backlogs" class="container-fluid mt-3">
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="false"
+      color="#4e73df"
+      background-color="#f8f9fc"
+      loader="dots"></loading>
     <div class="row px-2">
       <div class="d-flex w-100 align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-700">{{ $t('title.masterBacklogs')}}</h1>
@@ -47,7 +54,7 @@
       </div>
     </div>
 
-    <StoryModal id="storyModal" :projectId="projectId" />
+    <StoryModal id="storyModal" :projectId="projectId" :isLoading="isLoading" />
   </div>
 </template>
 
@@ -60,6 +67,10 @@ import BacklogsCard from '../components/backlogs/BacklogsCard'
 import SprintCard from '../components/backlogs/SprintCard'
 import StoryListItem from '../components/backlogs/StoryListItem'
 import '../commons/custom-bootstrap-vue'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   data () {
@@ -83,7 +94,8 @@ export default {
     StoryModal,
     BacklogsCard,
     SprintCard,
-    StoryListItem
+    StoryListItem,
+    Loading
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
@@ -104,6 +116,7 @@ export default {
   },
   computed: {
     ...mapState({
+      isLoading: 'isLoading',
       sprints: 'sprints',
       storiesInBacklogs: 'storiesInBacklogs'
     }),
@@ -124,6 +137,9 @@ export default {
 
 #rb-backlogs {
   font-size: 0.8em;
+
+  /* for vue-loading-overlay */
+  position: relative;
 }
 
 .rb-alert-primary {

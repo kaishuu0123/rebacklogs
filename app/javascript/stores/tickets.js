@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content')
 
 const getDefaultState = () => {
   return {
@@ -35,7 +31,7 @@ export default {
   actions: {
     getAssignees({ commit, state }, { projectId }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .get(`/projects/${projectId}/users`)
           .then(result => {
             let assignees = [
@@ -55,7 +51,7 @@ export default {
         assignee_id: state.assignee.selected.id
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, ticket)
         .then(result => {
           if (ticketType === 'stories') {
@@ -71,14 +67,14 @@ export default {
         assignee_id: assigneeId
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, ticket)
         .then(result => {
           this.dispatch('getStoriesWithTasks', {root: true})
         })
     },
     getProjectTicketStatuses({ commit, state }, { projectId }) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/project_ticket_statuses`)
         .then(result => {
           commit('SET_PROJECT_TICKET_STATUSES', result.data)
@@ -90,7 +86,7 @@ export default {
         project_ticket_status_id: state.projectTicketStatus.selected.id
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, ticket)
         .then(result => {
           if (ticketType === 'stories') {
@@ -101,7 +97,7 @@ export default {
         })
     },
     getProjectTicketCategories({ commit, state }, { projectId }) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/project_ticket_categories`)
         .then(result => {
           commit('SET_PROJECT_TICKET_CATEGORIES', result.data)
@@ -113,7 +109,7 @@ export default {
         project_ticket_category_id: state.projectTicketCategory.selected.id
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, ticket)
         .then(result => {
           if (ticketType === 'stories') {
@@ -128,7 +124,7 @@ export default {
         point: point
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, ticket)
         .then(result => {
           if (ticketType === 'stories') {
@@ -139,7 +135,7 @@ export default {
         })
     },
     getProjectTags({ commit, state }, { projectId }) {
-      axios
+      Vue.http
         .get(`/projects/${projectId}/project_tags`)
         .then(result => {
           commit('SET_PROJECT_TAGS', result.data)
@@ -152,7 +148,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .post(`/projects/${projectId}/${ticketType}/${ticketId}/comments`, comment)
           .then((result) => {
             resolve(result)
@@ -164,7 +160,7 @@ export default {
     },
     deleteComment({ commit, state }, { projectId, ticketType, ticketId, commentId }) {
       return new Promise((resolve, reject) => {
-        axios
+        Vue.http
           .delete(`/projects/${projectId}/${ticketType}/${ticketId}/comments/${commentId}`)
           .then((result) => {
             resolve(result)

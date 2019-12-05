@@ -1,26 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 import Stories from './stories'
 import Tasks from './tasks'
 import Tickets from './tickets'
 
 Vue.use(Vuex)
-Vue.use(VueAxios, axios)
-
-axios.defaults.headers.common['Accept'] = 'application/json'
 
 export default new Vuex.Store({
   state: {
     sprintId: null,
     selectedTask: null,
     stories: [],
-    projectTicketStatuses: []
+    projectTicketStatuses: [],
+    isLoading: false
   },
   actions: {
     getStoriesWithTasks ({ commit }) {
-      axios
+      Vue.http
         .get(`/projects/${this.state.projectId}/sprints/${this.state.sprintId}/kanban/api`)
         .then(r => r.data)
         .then(data => {
@@ -29,13 +26,13 @@ export default new Vuex.Store({
     },
     getProjectTicketStatuses ({ commit }) {
       return new Promise((resolve, reject) => {
-        axios
-        .get(`/projects/${this.state.projectId}/project_ticket_statuses`)
-        .then(r => r.data)
-        .then(data => {
-          commit('SET_PROJECT_TICKET_STATUSES', data)
-          resolve(data)
-        })
+        Vue.http
+          .get(`/projects/${this.state.projectId}/project_ticket_statuses`)
+          .then(r => r.data)
+          .then(data => {
+            commit('SET_PROJECT_TICKET_STATUSES', data)
+            resolve(data)
+          })
       })
     },
     updateTaskByDrag ({ commit }, { from, to, taskId }) {
@@ -46,7 +43,7 @@ export default new Vuex.Store({
         row_order_position: to.newIndex
       }
 
-      axios
+      Vue.http
         .patch(`/projects/${this.state.projectId}/tasks/${taskId}`, task)
         .then(r => r.data)
         .then(data => {
@@ -75,6 +72,9 @@ export default new Vuex.Store({
     },
     SET_SELECTED_TASK (state, task) {
       state.selectedTask = task
+    },
+    SET_IS_LOADING (state, isLoading) {
+      state.isLoading = isLoading
     }
   },
   modules: {
