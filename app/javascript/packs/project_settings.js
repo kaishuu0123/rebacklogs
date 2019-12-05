@@ -7,12 +7,14 @@ import GeneralSettingsPage from '../pages/ProjectSettings/GeneralSettingsPage'
 import GroupManagementsPage from '../pages/ProjectSettings/GroupManagementsPage'
 import TicketCategories from '../pages/ProjectSettings/TicketCategories'
 import TicketStatuses from '../pages/ProjectSettings/TicketStatuses'
+import http from '../commons/custom-axios'
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
   const projectId = rootElement.dataset.projectId
   Vue.use(VueRouter)
   Vue.use(VueI18n)
+  Vue.use(http, { store })
 
   const router = new VueRouter({
     routes: [

@@ -10,7 +10,15 @@
     hide-header
     hide-footer
     no-fade>
-    <div class="container-fluid" ref="container">
+    <div id="rb-task-modal" class="container-fluid" ref="container">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="false"
+        :is-full-page="false"
+        color="#4e73df"
+        background-color="#f8f9fc"
+        loader="dots"></loading>
+
       <div class="row">
         <div class="col-9">
           <div class="d-flex mb-2">
@@ -155,7 +163,6 @@
 <script>
 import Vue from 'vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import axios from 'axios'
 import MarkdownText from '../MarkdownText'
 import TicketForm from '../commons/TicketForm'
 import TicketPreview from '../commons/TicketPreview'
@@ -167,6 +174,10 @@ import HistoryList from '../commons/HistoryList'
 import CustomMoment from '../../commons/custom-moment'
 import urlparse from 'url-parse'
 import VueClipboard2 from 'vue-clipboard2'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.use(VueClipboard2)
 
@@ -178,7 +189,8 @@ export default {
     SelectAssignee,
     SelectStatus,
     CommentFormAndList,
-    HistoryList
+    HistoryList,
+    Loading
   },
   name: 'TaskModal',
   props: {
@@ -360,12 +372,31 @@ export default {
 </script>
 
 <style lang="scss">
+#rb-task-modal {
+  /* for vue-loading-overlay */
+  position: relative;
+}
+
 .rb-modal {
   font-size: 0.8rem;
 
   .modal-dialog {
-    max-width: 75%
+    max-width: 75%k
   }
+}
+
+/**
+* Bootstrap Modal
+*/
+.modal {
+    z-index: 1101 !important;
+}
+
+/**
+* Vue Loading
+*/
+.vld-overlay.is-full-page {
+    z-index: 1103 !important;
 }
 
 .rb-select {
