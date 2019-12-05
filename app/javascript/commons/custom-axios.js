@@ -23,7 +23,7 @@ export default (Vue, { store }) => {
   });
 
   http.interceptors.response.use((response) => {
-    store.commit('SET_IS_LOADING', true);
+    store.commit('SET_IS_LOADING', false);
     return response;
   }, (error) => {
     const errorMsg = `${error.response.status} ${error.response.statusText}`
