@@ -140,7 +140,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (4.0.1)
-    puma (3.12.1)
+    puma (3.12.2)
     rack (2.0.7)
     rack-proxy (0.6.5)
       rack
@@ -295,7 +295,7 @@ DEPENDENCIES
   paper_trail (~> 10.3.0)
   pg (~> 1.1)
   pry
-  puma (~> 3.11)
+  puma (~> 3.12)
   rails (~> 6.0.0)
   rails-i18n (~> 6.0.0)
   rails-settings-cached (~> 2.0)
