@@ -38,6 +38,12 @@ ja:
   projects:
     index:
       project_does_not_exists: プロジェクトが作成されていません。「プロジェクトを作成」ボタンからプロジェクトを作成してみましょう。
+      is_public: 公開
+    show:
+      public_project_message: これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。
+  sprints:
+    kanban:
+      public_project_message: これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。
   profiles:
     index:
       user_settings: 個人設定
