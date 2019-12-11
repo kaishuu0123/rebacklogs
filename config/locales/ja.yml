@@ -83,3 +83,9 @@ ja:
       english: 英語
       japanese: 日本語
       install: インストールする
+  omniauth_callbacks:
+    need_info_before_signup: 登録前にユーザ名とメールアドレスの入力が必要です
+  omniauth_finished:
+    finish_signup:
+      sign_up_with_app_name: "%{app_name} アカウント登録"
+      sign_up: アカウント登録

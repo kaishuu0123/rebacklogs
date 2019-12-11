@@ -1,21 +1,31 @@
-<div class="row">
-  <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-    <h2 class="text-center"><%= t('.forgot_your_password') %></h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card o-hidden border-0 shadow-lg my-5 col-lg-6">
+      <div class="card-body p-0">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <h2 class="text-center"><%= t('.forgot_your_password', default: 'Forgot your password?') %></h2>
 
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-      <%= devise_error_messages! %>
-      <br>
-      <p class="text-left"><%= t('.forgot_your_password_message') %></p>
-      <div class="form-group">
-        <%= f.email_field :email, autofocus: true, placeholder: 'Email Address', class: 'form-control' %>
-      </div>
+              <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+                <%= devise_error_messages! %>
+                <br>
+                <p class="text-left"><%= t('.forgot_your_password_message', default: 'Enter the email address used for registration.') %></p>
+                <div class="form-group">
+                  <%= f.email_field :email, autofocus: true, placeholder: 'Email Address', class: 'form-control' %>
+                </div>
 
-      <div class="form-group">
-        <%= f.submit t('.send_me_reset_password_instructions', default: 'Send me reset password instructions'), class: 'btn btn-primary btn-block btn-lg' %>
+                <div class="form-group">
+                  <%= f.submit t('.send_me_reset_password_instructions', default: 'Send me reset password instructions'), class: 'btn btn-primary btn-block btn-lg' %>
+                </div>
+              <% end %>
+              <div class="text-center">
+                <%= render "devise/shared/links" %>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    <% end %>
-    <div class="text-center">
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 </div>

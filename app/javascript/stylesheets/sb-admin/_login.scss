@@ -41,6 +41,22 @@ form.user {
 
 }
 
+.omniauth {
+  .btn-user {
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+.btn-twitter {
+  @include button-variant($brand-twitter, $white);
+}
+
+.btn-github {
+  @include button-variant($brand-github, $white);
+}
+
 .btn-google {
   @include button-variant($brand-google, $white);
 }

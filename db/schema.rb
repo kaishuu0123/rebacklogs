@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_015542) do
+ActiveRecord::Schema.define(version: 2019_12_09_064135) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -134,6 +134,25 @@ ActiveRecord::Schema.define(version: 2019_11_15_015542) do
     t.index ["var"], name: "index_settings_on_var", unique: true
   end
 
+  create_table "social_profiles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "provider"
+    t.string "uid"
+    t.string "name"
+    t.string "nickname"
+    t.string "email"
+    t.string "url"
+    t.string "image_url"
+    t.string "description"
+    t.text "others"
+    t.text "credentials"
+    t.text "raw_info"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider", "uid"], name: "index_social_profiles_on_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_social_profiles_on_user_id"
+  end
+
   create_table "sprints", force: :cascade do |t|
     t.integer "project_id"
     t.string "title"
@@ -229,6 +248,7 @@ ActiveRecord::Schema.define(version: 2019_11_15_015542) do
   add_foreign_key "group_users", "groups"
   add_foreign_key "group_users", "users"
   add_foreign_key "project_ticket_statuses", "projects"
+  add_foreign_key "social_profiles", "users"
   add_foreign_key "sprints", "projects"
   add_foreign_key "tag_tickets", "tags"
   add_foreign_key "tag_tickets", "tickets"

@@ -20,10 +20,13 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  TEMP_EMAIL_PREFIX = 'change@me'
+  TEMP_EMAIL_REGEX = /\Achange@me/
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :omniauthable
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates_format_of :username, with: /^[a-zA-Z0-9_-]*$/, :multiline => true
@@ -33,6 +36,10 @@ class User < ApplicationRecord
   has_many :groups, through: :group_users
   has_many :tickets, foreign_key: :assignee_id, dependent: :nullify
   has_one_attached :image
+  has_many :social_profiles, dependent: :destroy
+
+  # emailの登録状況を判定するカスタムvalidatorを使用するためのおまじない。
+  validates :email, presence: true, email: true
 
   def validate_username
     if User.where(email: username).exists?
@@ -71,5 +78,34 @@ class User < ApplicationRecord
 
   def assign_default_role
     self.add_role(:developer) if self.roles.blank?
+  end
+
+  ###
+  # refs: https://qiita.com/mnishiguchi/items/e15bbef61287f84b546e
+  ###
+  def social_profile(provider)
+    social_profiles.select { |sp| sp.provider == provider.to_s }.first
+  end
+
+  # 本物の email がセットされているか確認。
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
+  # email 確認がされていない状態にする。
+  # def reset_confirmation!
+  #   self.update_column(:confirmed_at, nil)
+  # end
+
+  # Userモデル経由でcurrent_userを参照できるようにする。
+  def self.current_user=(user)
+    # Set current user in Thread.
+    Thread.current[:current_user] = user
+  end
+
+  # Userモデル経由でcurrent_userを参照する。
+  def self.current_user
+    # Get current user from Thread.
+    Thread.current[:current_user]
   end
 end
