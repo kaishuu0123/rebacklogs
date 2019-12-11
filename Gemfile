@@ -110,3 +110,10 @@ gem 'cancancan'
 
 # Settings plugin for Rails that makes managing a table of global keys. (https://github.com/huacnlee/rails-settings-cached)
 gem 'rails-settings-cached', '~> 2.0'
+
+gem 'omniauth', '~> 1.9'
+gem 'omniauth-twitter', '~> 1.4'
+gem 'omniauth-github', '~> 1.3'
+gem 'omniauth-google-oauth2', '~> 0.8'
+
+gem 'config'

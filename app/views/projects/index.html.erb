@@ -16,6 +16,9 @@
           </div>
           <div class="d-flex flex-column">
             <div class="mb-1">
+              <% if project.is_public %>
+                <span class="badge badge-pill badge-info"><%= t('.is_public', default: 'Public') %></span>
+              <% end %>
               <%= link_to project.title, project_path(project) %>
             </div>
             <div class=""><%= project.body %></div>

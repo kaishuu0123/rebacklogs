@@ -1,3 +1,36 @@
+<%- if devise_mapping.omniauthable? && (controller_name == 'sessions' || controller_name == 'registrations') %>
+  <div class="omniauth">
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%
+      css_class = ''
+      fontawesome_class = ''
+      case provider
+      when :twitter
+        css_class = 'btn btn-twitter btn-user btn-block'
+        fontawesome_class = 'fab fa-twitter fa-fw'
+        provider_for_view = 'Twitter'
+      when :github
+        css_class = 'btn btn-github btn-user btn-block'
+        fontawesome_class = 'fab fa-github fa-fw'
+        provider_for_view = 'Github'
+      when :google_oauth2
+        css_class = 'btn btn-google btn-user btn-block'
+        fontawesome_class = 'fab fa-google fa-fw'
+        provider_for_view = 'Google'
+      end
+    %>
+    <%
+      i18n_key = controller_name == 'sessions' ? '.sign_in_with_provider' : '.sign_up_with_provider'
+    %>
+    <%= link_to omniauth_authorize_path(resource_name, provider), class: css_class do %>
+      <i class="<%= fontawesome_class%>"></i> <%= t(i18n_key, provider: OmniAuth::Utils.camelize(provider_for_view), default: "Sign in with #{OmniAuth::Utils.camelize(provider_for_view)}") %>
+    <% end %><br />
+  <% end %>
+  </div>
+<% end %>
+
+<hr />
+
 <%- if controller_name != 'sessions' %>
   <%= link_to t('.sign_in', default: 'Sign in'), new_session_path(resource_name) %><br />
 <% end %>
@@ -16,10 +49,4 @@
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />
-  <% end %>
 <% end %>
