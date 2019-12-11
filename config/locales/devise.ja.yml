@@ -83,6 +83,7 @@ ja:
         new_password: 新しいパスワード
       new:
         forgot_your_password: パスワードを忘れましたか?
+        forgot_your_password_message: 登録に利用したメールアドレスを入力してください
         send_me_reset_password_instructions: パスワードの再設定方法を送信する
       no_token: このページにはアクセスできません。パスワード再設定メールのリンクからアクセスされた場合には、URL をご確認ください。
       send_instructions: パスワードの再設定について数分以内にメールでご連絡いたします。
@@ -123,8 +124,9 @@ ja:
         didn_t_receive_unlock_instructions: アカウントの凍結解除方法のメールを受け取っていませんか?
         forgot_your_password: パスワードを忘れましたか?
         sign_in: ログイン
-        sign_in_with_provider: "%{provider}でログイン"
+        sign_in_with_provider: "%{provider} アカウントでログイン"
         sign_up: アカウント登録
+        sign_up_with_provider: "%{provider} アカウントで新規登録"
       minimum_password_length: "（%{count}字以上）"
     unlocks:
       new:

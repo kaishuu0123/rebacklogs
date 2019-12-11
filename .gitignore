@@ -53,3 +53,8 @@ yarn-debug.log*
 /docker-volumes/*
 !/docker-volumes/.keep
 stats.json
+
+# ignore local settings
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

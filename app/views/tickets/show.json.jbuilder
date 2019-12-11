@@ -90,7 +90,7 @@ if versions = @ticket.versions.where(event: 'update').order(:created_at)
       next if changes.blank?
 
       json.id version.id
-      json.changed_by User.find_by(id: version.whodunnit).username
+      json.changed_by User.find_by(id: version.whodunnit)&.username
       json.changed_at version.created_at
 
       json.changes do

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  # OmniAuth認証後、email入力を求める処理のため。
+  match '/users/:id/finish_signup' => 'omniauth_finished#finish_signup', via: [:get, :patch], as: :finish_signup
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: 'projects#index'
