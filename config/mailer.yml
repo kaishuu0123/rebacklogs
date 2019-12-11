@@ -1,0 +1,14 @@
+defaults: &defaults
+
+# production:
+#   raise_delivery_errors: true
+#   delivery_method: :smtp
+#   default_url_options:
+#     host: https://production.mailhost.exaple.com
+#   smtp_settings:
+#     address: localhost
+
+development:
+  perform_deliveries: true
+  raise_delivery_errors: false
+  delivery_method: :letter_opener_web

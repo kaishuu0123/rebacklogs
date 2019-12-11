@@ -62,6 +62,9 @@ group :development do
   gem 'annotate_gem', require: false
   # Annotates Rails Models, routes, fixtures, and others based on the database schema. (http://github.com/ctran/annotate_models)
   gem 'annotate', require: false
+
+  # Preview email in the default browser instead of sending it.
+  gem 'letter_opener_web'
 end
 
 group :production do
