@@ -26,6 +26,7 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
       if @ticket.save
+        @ticket.update row_order_position: :first
         format.json { render :show, status: :ok, location: [@ticket.project, @ticket] }
       else
         format.json { render json: @ticket.errors, status: :unprocessable_entity }
