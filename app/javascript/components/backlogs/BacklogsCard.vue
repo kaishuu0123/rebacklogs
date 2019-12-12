@@ -19,7 +19,7 @@
         :emptyInsertThreshold="40"
         :data-sprint-id="null"
         @end="dragEnd">
-        <StoryListItem :story="story" v-for="story in stories" :key="story.id" :data-story-id="story.id" />
+        <StoryListItem :story="story" v-for="story in searchStoryByKeyword(stories)" :key="story.id" :data-story-id="story.id" />
         <li v-if="stories.length == 0" class="list-group-item rb-alert-primary px-3 py-2">
           <div class="d-flex align-items-center">
             <i class="fas fa-info-circle mr-1"></i> {{ $t('message.storyDoesNotExists') }}
@@ -39,7 +39,8 @@ export default {
   name: 'BacklogsCard',
   props: {
     projectId: String,
-    stories: Array
+    stories: Array,
+    searchKeyword: String,
   },
   components: {
     StoryListItem,
@@ -82,6 +83,20 @@ export default {
         to: to,
         storyId, storyId
       })
+    },
+    searchStoryByKeyword(stories) {
+      return stories.filter(story => {
+        return this.searchKeyword.toLowerCase()
+          .split(/\s+/)
+          .map(query => {
+            return (
+              story.ticket_number_with_ticket_prefix.toLowerCase().indexOf(query) > -1
+              || story.title.toLowerCase().indexOf(query) > -1
+              || story.tags.some(tag => tag.name.toLowerCase().indexOf(query) > -1)
+            )
+          })
+          .every( result => result === true)
+      });
     },
     ...mapActions([
       'createSprint',
