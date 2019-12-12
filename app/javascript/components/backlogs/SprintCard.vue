@@ -75,7 +75,7 @@
         :emptyInsertThreshold="40"
         :data-sprint-id="sprint.id"
         @end="dragEnd">
-        <StoryListItem v-for="story in sprint.stories" :key="story.id" :story="story" :data-story-id="story.id" />
+        <StoryListItem v-for="story in searchStoryByKeyword(sprint.stories)" :key="story.id" :story="story" :data-story-id="story.id" />
         <li v-if="sprint.stories.length == 0" class="list-group-item rb-alert-primary px-3 py-2">
           <div class="d-flex align-items-center">
             <i class="fas fa-info-circle mr-1"></i> {{ $t('message.storyDoesNotExistsInSprint') }}
@@ -109,7 +109,8 @@ export default {
   },
   props: {
     sprint: Object,
-    projectId: String
+    projectId: String,
+    searchKeyword: String,
   },
   mounted () {
     this.dirtySprint = this.sprint
@@ -204,6 +205,20 @@ export default {
         to: to,
         storyId: storyId
       })
+    },
+    searchStoryByKeyword(stories) {
+      return stories.filter(story => {
+        return this.searchKeyword.toLowerCase()
+          .split(/\s+/)
+          .map(query => {
+            return (
+              story.ticket_number_with_ticket_prefix.toLowerCase().indexOf(query) > -1
+              || story.title.toLowerCase().indexOf(query) > -1
+              || (story.tags && story.tags.some(tag => tag.name.toLowerCase().indexOf(query) > -1))
+            )
+          })
+          .every(result => result === true)
+      });
     },
     ...mapActions({
       updateSprint: 'updateSprint',

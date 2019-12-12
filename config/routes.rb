@@ -61,4 +61,9 @@ Rails.application.routes.draw do
   match '/installer', to: 'installer#update', via: [:post, :patch]
 
   get '/health', to: 'health#health'
+
+  # 開発環境でメールを確認するために LetterOpenerWeb エンジンのパスをマウントする
+  # これにより以下 URL で開発環境でのメール確認が可能になる
+  # http://localhost:3000/letter_opener
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
