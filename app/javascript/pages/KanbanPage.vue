@@ -9,13 +9,28 @@
       loader="dots"></loading>
 
     <div class="row mb-2 bg-light sticky-top">
-      <nav class="navbar px-1 py-0 navbar-light">
+      <nav class="navbar navbar-expand-md px-1 py-0 navbar-light w-100">
         <a class="navbar-brand text-gray-700" href="#">{{ sprintTitle }}</a>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-              <a :href="`/projects/${projectId}`" class="nav-link"><i class="fas fa-angle-double-left"></i> {{ $t('action.backToBacklogs') }}</a>
-          </li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fas fa-bars"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a :href="`/projects/${projectId}`" class="nav-link"><i class="fas fa-angle-double-left"></i> {{ $t('action.backToBacklogs') }}</a>
+            </li>
+          </ul>
+          <div>
+            <b-form-input
+              id="searchInput"
+              v-model="searchKeyword"
+              type="text"
+              size="sm"
+              :placeholder="$t('title.search')"
+            ></b-form-input>
+          </div>
+        </div>
       </nav>
     </div>
     <div class="row">
@@ -27,7 +42,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-for="story in stories" :key="story.id">
+        <tbody v-for="story in searchStoryAndTaskByKeyword(stories)" :key="story.id">
           <tr>
             <td :colspan="statusesLength" class="border-bottom-0">
               <div class="d-flex align-items-center">
@@ -128,7 +143,8 @@ export default {
       projectId: null,
       sprintId: null,
       sprintTitle: null,
-      newTask: false
+      newTask: false,
+      searchKeyword: ''
     }
   },
   mounted() {
@@ -254,6 +270,27 @@ export default {
       return {
         color: this.idealTextColor(color)
       }
+    },
+    searchStoryAndTaskByKeyword(stories) {
+      return stories.filter(story => {
+        return this.searchKeyword.toLowerCase()
+          .split(/\s+/)
+          .map(query => {
+            return (
+              story.ticket_number_with_ticket_prefix.toLowerCase().indexOf(query) > -1
+              || story.title.toLowerCase().indexOf(query) > -1
+              || (story.tags && story.tags.some(tag => tag.name.toLowerCase().indexOf(query) > -1))
+              || story.tasks.some((task) => {
+                return (
+                  task.ticket_number_with_ticket_prefix.toLowerCase().indexOf(query) > -1
+                  || task.title.toLowerCase().indexOf(query) > -1
+                  || (task.assignee && task.assignee.username.toLowerCase().indexOf(query) > -1)
+                )
+              })
+            )
+          })
+          .every(result => result === true)
+      });
     },
     ...mapMutations({
       setSprintId: 'SET_SPRINT_ID',

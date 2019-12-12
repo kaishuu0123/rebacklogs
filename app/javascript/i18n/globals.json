@@ -37,7 +37,8 @@
       "horizontal": "Horizontal",
       "task": "Task",
       "tag": "Tags",
-      "unassigned": "Unassigned"
+      "unassigned": "Unassigned",
+      "search": "Search by keyword"
     },
     "ticket": {
       "title": "Title",
@@ -138,7 +139,8 @@
       "horizontal": "水平",
       "task": "タスク",
       "tag": "タグ",
-      "unassigned": "未アサイン"
+      "unassigned": "未アサイン",
+      "search": "キーワード検索"
     },
     "ticket": {
       "title": "タイトル",

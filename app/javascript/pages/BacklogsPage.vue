@@ -11,16 +11,27 @@
       <div class="d-flex w-100 align-items-center justify-content-between mb-2">
         <h1 class="h4 mb-0 text-gray-700">{{ $t('title.masterBacklogs')}}</h1>
         <div class="d-flex align-items-center">
-          <span class="h6 mb-0 mr-2">{{ $t('title.layout') }}: </span>
-          <b-form-radio-group
-            id="layout-radios"
-            v-model="layout"
-            :options="layoutOptions"
-            buttons
-            button-variant="outline-secondary"
-            size="sm"
-            name="radio-btn-outline"
-          ></b-form-radio-group>
+          <div class="d-flex align-items-center mr-2">
+            <b-form-input
+              id="searchInput"
+              v-model="searchKeyword"
+              type="text"
+              size="sm"
+              :placeholder="$t('title.search')"
+            ></b-form-input>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="h6 mb-0 mr-2">{{ $t('title.layout') }}: </span>
+            <b-form-radio-group
+              id="layout-radios"
+              v-model="layout"
+              :options="layoutOptions"
+              buttons
+              button-variant="outline-secondary"
+              size="sm"
+              name="radio-btn-outline"
+            ></b-form-radio-group>
+          </div>
         </div>
       </div>
     </div>
@@ -28,10 +39,10 @@
     <div class="row" v-if="layout === 'HORIZONTAL'">
       <div class="row flex-row flex-sm-nowrap w-100 rb-overflow-x" >
         <div class="col-6">
-          <BacklogsCard :stories='storiesInBacklogs' :projectId='projectId' />
+          <BacklogsCard :stories='storiesInBacklogs' :projectId='projectId' :searchKeyword="searchKeyword" />
         </div>
         <div v-for="sprint in sprints" :key="sprint.id" class="col-6">
-          <SprintCard class="mb-3" :sprint="sprint" :projectId="projectId" />
+          <SprintCard class="mb-3" :sprint="sprint" :projectId="projectId" :searchKeyword="searchKeyword" />
         </div>
         <div v-if="sprints.length <= 0" class="col-6">
           <div class="rb-alert-primary mt-2 p-3 border rounded rb-border-dotted">
@@ -42,7 +53,7 @@
     </div>
     <div class="row" v-else>
       <div v-if="sprints.length > 0" class="col-6">
-        <SprintCard class="mb-3" v-for="sprint in sprints" :key="sprint.id" :sprint="sprint" :projectId="projectId" />
+        <SprintCard class="mb-3" v-for="sprint in sprints" :key="sprint.id" :sprint="sprint" :projectId="projectId" :searchKeyword="searchKeyword" />
       </div>
       <div v-else class="col-6">
         <div class="w-100 rb-alert-primary mt-2 p-3 border rounded rb-border-dotted">
@@ -50,7 +61,7 @@
         </div>
       </div>
       <div class="col-6">
-        <BacklogsCard :stories='storiesInBacklogs' :projectId='projectId' />
+        <BacklogsCard :stories='storiesInBacklogs' :projectId='projectId' :searchKeyword="searchKeyword" />
       </div>
     </div>
 
@@ -78,6 +89,7 @@ export default {
       projectId: null,
       newStory: false,
       layout: 'DEFAULT',
+      searchKeyword: '',
       layoutOptions: [
         {
           text: this.$t('title.default'),
