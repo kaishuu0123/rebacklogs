@@ -217,7 +217,7 @@ export default {
               || (story.tags && story.tags.some(tag => tag.name.toLowerCase().indexOf(query) > -1))
             )
           })
-          .every( result => result === true)
+          .every(result => result === true)
       });
     },
     ...mapActions({

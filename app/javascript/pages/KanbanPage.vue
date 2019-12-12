@@ -289,7 +289,7 @@ export default {
               })
             )
           })
-          .every( result => result === true)
+          .every(result => result === true)
       });
     },
     ...mapMutations({
