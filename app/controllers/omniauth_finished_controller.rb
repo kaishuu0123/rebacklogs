@@ -8,6 +8,8 @@ class OmniauthFinishedController < ApplicationController
     @provider = params[:provider]
 
     if (request.post? || request.patch?) && @user.update(user_params)
+      # OAuth の場合には希望アカウントが入力された後にグループを作る
+      @user.create_default_group
       # @user.send_confirmation_instructions unless @user.confirmed?
       sign_in(@user, bypass: true)
       redirect_to root_url, notice: t('devise.omniauth_callbacks.success', kind: @provider.capitalize)
