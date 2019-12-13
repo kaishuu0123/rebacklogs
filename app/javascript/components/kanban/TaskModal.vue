@@ -66,6 +66,11 @@
                   <i class="fas fa-pen mr-1" /> {{ $t('action.edit') }}
                 </button>
               </div>
+              <div v-else-if="isEdit && !isNew" class="mr-2">
+                <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.$refs.ticketForm.handleSubmit()">
+                  <i class="fas fa-pen mr-1" /> {{ $t('action.submit') }}
+                </button>
+              </div>
               <button type="button" class="btn rb-btn-s btn-outline-secondary shadow-sm" @click="() => this.$refs.modal.hide()">
                 <i class="fas fa-times mr-1" /> {{ $t('action.close') }}
               </button>
@@ -103,7 +108,8 @@
               :ticket="task"
               ticketType="tasks"
               :isLoading="isLoading"
-              :afterSubmit="afterSubmit" />
+              :afterSubmit="afterSubmit"
+              ref="ticketForm" />
             <TicketPreview
               v-else
               :projectId="projectId"
