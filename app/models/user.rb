@@ -15,7 +15,8 @@
 
 class User < ApplicationRecord
   rolify
-  after_commit :create_default_group, on: [:create]
+  attr_accessor :skip_create_default_group
+  after_commit :create_default_group, on: [:create], if: Proc.new { skip_create_default_group == false }
   after_create :assign_default_role
 
   attr_writer :login
