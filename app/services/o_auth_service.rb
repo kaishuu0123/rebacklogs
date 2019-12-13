@@ -39,6 +39,7 @@ module OAuthService
             email:    email ? email : temp_email,
             password: Devise.friendly_token[0, 20]
           )
+          user.skip_create_default_group = true
           # email確認メール送信を延期するために一時的にemail確認済みの状態にする。
           # user.skip_confirmation!
           # email仮をデータベースに保存するため、validationを一時的に無効化。
