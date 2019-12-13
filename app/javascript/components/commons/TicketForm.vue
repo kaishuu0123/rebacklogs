@@ -74,6 +74,14 @@ export default {
       this.$refs.titleInput.focus()
     })
   },
+  watch: {
+    isLoading: function(newLoading, oldLoading) {
+      Vue.nextTick(() => {
+        // Focus Input
+        this.$refs.titleInput.focus()
+      })
+    }
+  },
   methods: {
     updateValue(key, value) {
       this.ticket[key] = value;
