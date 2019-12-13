@@ -272,6 +272,10 @@ export default {
       }
     },
     searchStoryAndTaskByKeyword(stories) {
+      if (this.searchKeyword == null) {
+        return stories;
+      }
+
       return stories.filter(story => {
         return this.searchKeyword.toLowerCase()
           .split(/\s+/)
