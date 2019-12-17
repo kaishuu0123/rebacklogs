@@ -42,12 +42,12 @@ class Ticket < ApplicationRecord
 
   def created_user_by
     whodunnit = versions.reorder(:created_at).find_by(event: 'create').whodunnit
-    whodunnit ? User.find(whodunnit) : nil
+    whodunnit ? User.find_by_id(id: whodunnit) : nil
   end
 
   def last_updated_user_by
     whodunnit = versions.reorder(created_at: :desc).find_by(event: 'update')&.whodunnit
-    whodunnit ? User.find(whodunnit) : nil
+    whodunnit ? User.find_by_id(id: whodunnit) : nil
   end
 
   def update_is_done
