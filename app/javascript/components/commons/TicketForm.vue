@@ -68,6 +68,11 @@ export default {
     isNew: Boolean,
     afterSubmit: Function
   },
+  data() {
+    return {
+      initialFocused: false
+    };
+  },
   mounted() {
     Vue.nextTick(() => {
       // Focus Input
@@ -76,10 +81,17 @@ export default {
   },
   watch: {
     isLoading: function(newLoading, oldLoading) {
-      Vue.nextTick(() => {
-        // Focus Input
-        this.$refs.titleInput.focus()
-      })
+      // XXX:
+      // 一度だけ Title に Focus する
+      // この条件がないと、新規作成時に isLoading が変わる度に
+      // titleInput に focus があたってしまう
+      if (this.initialFocused === false) {
+        Vue.nextTick(() => {
+          // Focus Input
+          this.$refs.titleInput.focus()
+          this.initialFocused = true
+        })
+      }
     }
   },
   methods: {

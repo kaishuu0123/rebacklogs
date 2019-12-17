@@ -23,6 +23,15 @@ class Project < ApplicationRecord
   validates :title, presence: true
   validates :ticket_prefix, presence: true, uniqueness: true, format: { with: /[a-zA-Z]/}
 
+  scope :search_by_keyword, -> (keywords) {
+    if keywords.present?
+      columns = %i[title body]
+      where(keywords.split(/[[:space:]]/).reject(&:empty?).map { |keyword|
+        columns.map { |a| arel_table[a].matches("%#{keyword}%") }.inject(:or)
+      }.inject(:and))
+    end
+  }
+
   def project_image_url
     if image.present?
       base64 = Base64.strict_encode64(image.download)

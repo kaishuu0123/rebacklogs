@@ -8,6 +8,8 @@ import http from '../commons/custom-axios'
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
   const projectId = rootElement.dataset.projectId
+  const projectTitle = rootElement.dataset.projectTitle
+  const isPublic = rootElement.dataset.isPublic
   Vue.use(VueRouter)
   Vue.use(VueI18n)
   Vue.use(http, { store })
@@ -19,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         component: BacklogsPage,
         meta: {
           newStory: true,
-          projectId: projectId
+          projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic
         }
       },
       {
@@ -27,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
         component: BacklogsPage,
         meta: {
           newStory: false,
-          projectId: projectId
+          projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic
         }
       },
       {
@@ -35,7 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         component: BacklogsPage,
         meta: {
           newStory: false,
-          projectId: projectId
+          projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic
         }
       },
     ]

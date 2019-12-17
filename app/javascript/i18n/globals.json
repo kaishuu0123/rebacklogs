@@ -38,7 +38,8 @@
       "task": "Task",
       "tag": "Tags",
       "unassigned": "Unassigned",
-      "search": "Search by keyword"
+      "search": "Search by keyword",
+      "is_public": "Public"
     },
     "ticket": {
       "title": "Title",
@@ -94,7 +95,8 @@
       "storyDoesNotExists": "Story doesn't exists. Let's create a story with the \"Add Story\" button.",
       "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs.",
       "historyIsEmpty": "History is empty.",
-      "tagInput": "Please input tags"
+      "tagInput": "Please input tags",
+      "publicProject": "This is a public project. Non-member users are only allowed to comment on tickets."
     },
     "tab": {
       "comment": "Comment",
@@ -140,7 +142,8 @@
       "task": "タスク",
       "tag": "タグ",
       "unassigned": "未アサイン",
-      "search": "キーワード検索"
+      "search": "キーワード検索",
+      "is_public": "公開"
     },
     "ticket": {
       "title": "タイトル",
@@ -196,7 +199,8 @@
       "storyDoesNotExists": "Story がありません。「Story を追加」ボタンで Story を作成してみましょう。",
       "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう",
       "historyIsEmpty": "更新履歴はありません",
-      "tagInput": "タグを入力してください"
+      "tagInput": "タグを入力してください",
+      "publicProject": "これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。"
     },
     "tab": {
       "comment": "コメント",

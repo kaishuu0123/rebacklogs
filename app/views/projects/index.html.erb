@@ -1,11 +1,50 @@
 <div class="container mt-4">
-  <div class="row d-flex justify-content-end">
-    <%= link_to t('actions.create_project', default: 'Create Project'), new_project_path, class: 'btn btn-outline-secondary'%>
+  <div class="row d-flex align-items-center justify-content-between mb-2">
+    <div>
+      <h1 class="h3 text-gray-800"><%= t('.title', default: 'Projects') %></h1>
+    </div>
+    <%= link_to t('actions.create_project', default: 'Create Project'), new_project_path, class: 'btn btn-sm btn-primary shadow-sm'%>
   </div>
   <div class="row">
-    <% if @projects.empty? %>
+    <%= form_tag projects_path, method: :get, class: 'd-flex w-100 align-items-center justify-content-end' do %>
+      <div class="w-25 mr-2">
+        <%=
+          text_field_tag(
+            :keywords,
+            params[:keywords],
+            placeholder: t('.placeholder_for_search', default: 'Search Projects'),
+            class: 'form-control form-control-sm'
+          )
+        %>
+      </div>
+      <%= button_tag type: :submit, class: 'btn btn-sm btn-outline-primary' do %>
+        <i class="fa fa-search"></i> <%= t('.search', default: 'Search') %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @is_not_exits_own_project %>
+    <div class="row mt-3">
+      <div class="alert alert-info w-100">
+        <%= t(
+          '.is_not_exists_own_project',
+          default: "Can't find your own project. Create your project with the \"Create Project\" button"
+          )
+        %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <% if @projects.empty? && params[:keywords].blank? %>
       <div class="mt-4 w-100 bg-gray-200 p-4 rounded">
         <%= t('.project_does_not_exists', default: "Project doesn't exists. Let's create a project with the \"Create Project\" button.") %>
+      </div>
+    <% end %>
+    <% if @projects.empty? && params[:keywords].present? %>
+      <div class="mt-4 w-100 bg-gray-200 p-4 rounded">
+        <%= t('.project_does_not_exists_when_keywords', default: "Project doesn't exists.") %>
+        <%= link_to t('.back_to_projects_index', default: 'Back to project index'), projects_path %>
       </div>
     <% end %>
     <ul class="list-group list-group-flush w-100">
@@ -17,19 +56,27 @@
           <div class="d-flex flex-column">
             <div class="mb-1">
               <% if project.is_public %>
-                <span class="badge badge-pill badge-info"><%= t('.is_public', default: 'Public') %></span>
+                <span class="badge badge-pill badge-info"
+                  data-toggle="tooltip" data-placement="top" title="<%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>">
+                  <%= t('.is_public', default: 'Public') %> <i class="fas fa-question-circle"></i>
+                </span>
               <% end %>
               <%= link_to project.title, project_path(project) %>
             </div>
             <div class=""><%= project.body %></div>
           </div>
           <div class="ml-auto align-self-center">
-            <%= link_to edit_project_path(project) do %>
-              <i class="far fa-edit"></i>
+            <%= link_to edit_project_path(project), class: 'btn btn-sm btn-link' do %>
+              <i class="far fa-edit"></i> <%= t('.edit', default: 'Edit') %>
             <% end %>
           </div>
         </li>
       <% end %>
     </ul>
+  </div>
+  <div class="row">
+    <div class="mx-auto">
+      <%= paginate @projects %>
+    </div>
   </div>
 </div>

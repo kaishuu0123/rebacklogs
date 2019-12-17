@@ -120,3 +120,6 @@ gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-google-oauth2', '~> 0.8'
 
 gem 'config'
+
+gem 'kaminari', '~> 1.1'
+

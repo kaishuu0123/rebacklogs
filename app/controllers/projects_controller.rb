@@ -11,7 +11,12 @@ class ProjectsController < ApplicationController
     :project_tags
   ]
 
+  PROJECT_PER_PAGE = 25
+
   def index
+    @projects = @projects.search_by_keyword(params[:keywords]).page(params[:page]).per(PROJECT_PER_PAGE)
+    # 自分が属している自身のプロジェクトがない場合には作成を促すメッセージを表示するためのフラグ
+    @is_not_exits_own_project = @projects.all? { |project| project.is_public && !project.users.include?(current_user) }
   end
 
   def show
