@@ -5,14 +5,17 @@
 <div id="wrapper">
   <%= render 'commons/sidebar', { project: @project } %>
   <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content"
+      data-project-id="<%= @project.id %>"
+      data-project-title="<%= @project.title %>"
+      data-is-public="<%= @project.is_public %>">
+      <router-view />
+    </div>
     <% if @project.is_public %>
-      <div class="alert alert-info mb-1">
+      <div class="alert alert-warning mb-0 fixed-bottom">
         <%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>
       </div>
     <% end %>
-    <!-- Main Content -->
-    <div id="content" data-project-id="<%= @project.id %>">
-      <router-view />
-    </div>
   </div>
 </div>

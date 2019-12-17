@@ -9,7 +9,21 @@
       loader="dots"></loading>
     <div class="row px-2">
       <div class="d-flex w-100 align-items-center justify-content-between mb-2">
-        <h1 class="h4 mb-0 text-gray-700">{{ $t('title.masterBacklogs')}}</h1>
+        <div class="d-flex flex-column">
+          <div>
+            <h1 class="h5 mb-0 text-gray-700">
+              {{ projectTitle }}
+            </h1>
+          </div>
+          <div class="text-gray-600">
+            {{ $t('title.masterBacklogs')}}
+            <span v-if="isPublic == 'true'">
+              <span class="badge badge-pill badge-info" v-b-tooltip.hover :title="$t('message.publicProject')">
+                {{ $t('title.is_public') }} <i class="fas fa-question-circle"></i>
+              </span>
+            </span>
+          </div>
+        </div>
         <div class="d-flex align-items-center">
           <div class="d-flex align-items-center mr-2">
             <b-form-input
@@ -87,6 +101,8 @@ export default {
   data () {
     return {
       projectId: null,
+      projectTitle: '',
+      isPublic: '',
       newStory: false,
       layout: 'DEFAULT',
       searchKeyword: '',
@@ -111,6 +127,8 @@ export default {
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
+    this.projectTitle = this.$route.meta.projectTitle
+    this.isPublic = this.$route.meta.isPublic
     this.newStory = this.$route.meta.newStory
 
     this.getSprintsWithStories(this.projectId)

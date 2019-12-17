@@ -8,6 +8,8 @@ import http from '../commons/custom-axios'
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById('content')
   const projectId = rootElement.dataset.projectId
+  const projectTitle = rootElement.dataset.projectTitle
+  const isPublic = rootElement.dataset.isPublic
   const sprintId = rootElement.dataset.sprintId
   const sprintTitle = rootElement.dataset.sprintTitle
   Vue.use(VueRouter)
@@ -23,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: true,
           projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic,
           sprintId: sprintId,
           sprintTitle: sprintTitle
         }
@@ -34,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic,
           sprintId: sprintId,
           sprintTitle: sprintTitle
         }
@@ -45,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic,
           sprintId: sprintId,
           sprintTitle: sprintTitle
         }
@@ -55,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         meta: {
           newTask: false,
           projectId: projectId,
+          projectTitle: projectTitle,
+          isPublic: isPublic,
           sprintId: sprintId,
           sprintTitle: sprintTitle
         }

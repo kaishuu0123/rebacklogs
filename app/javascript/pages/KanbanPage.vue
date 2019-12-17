@@ -10,7 +10,23 @@
 
     <div class="row mb-2 bg-light sticky-top">
       <nav class="navbar navbar-expand-md px-1 py-0 navbar-light w-100">
-        <a class="navbar-brand text-gray-700" href="#">{{ sprintTitle }}</a>
+        <a class="navbar-brand text-gray-700" href="#">
+          <div class="d-flex flex-column">
+            <div>
+              <h1 class="h5 mb-0 text-gray-700">{{ projectTitle }}</h1>
+            </div>
+            <div class="text-gray-600">
+              <p class="h6 mb-0">
+                {{ sprintTitle }}
+                <span v-if="isPublic == 'true'">
+                  <span class="badge badge-pill badge-info" v-b-tooltip.hover :title="$t('message.publicProject')">
+                    {{ $t('title.is_public') }} <i class="fas fa-question-circle"></i>
+                  </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="fas fa-bars"></span>
         </button>
@@ -141,6 +157,8 @@ export default {
   data () {
     return {
       projectId: null,
+      projectTitle: '',
+      isPublic: '',
       sprintId: null,
       sprintTitle: null,
       newTask: false,
@@ -149,8 +167,10 @@ export default {
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
+    this.projectTitle = this.$route.meta.projectTitle
     this.sprintId = this.$route.meta.sprintId
     this.sprintTitle = this.$route.meta.sprintTitle
+    this.isPublic = this.$route.meta.isPublic
     this.newTask = this.$route.meta.newTask
 
     this.setProjectId(this.projectId)
