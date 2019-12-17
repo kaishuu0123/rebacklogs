@@ -11,9 +11,11 @@
     </div>
   <% end %>
 
-  <%= f.input :title %>
-  <%= f.input :body, as: :text, input_html: { rows: 5 } %>
-  <%= f.input :ticket_prefix, hint: t('message.ticket_prefix_description', default: 'Ticket Prefix is an arbitrary string that is added to the beginning of the ticket number.') %>
+  <%= f.input :title, placeholder: t('.placeholder.title', default: 'My awesome project') %>
+  <%= f.input :body, as: :text, input_html: { rows: 5 }, placeholder: t('.placeholder.description', default: 'Description format') %>
+  <%= f.input :ticket_prefix,
+    placeholder: t('.placeholder.ticket_prefix', default: 'e.g.) AWE'),
+    hint: t('message.ticket_prefix_description', default: 'Ticket Prefix is an arbitrary string that is added to the beginning of the ticket number.') %>
   <%= f.input :is_public %>
 
   <div class="action d-flex justify-content-end">
