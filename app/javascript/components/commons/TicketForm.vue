@@ -16,19 +16,6 @@
       />
     </b-form-group>
     <b-form-group
-      id="tag-group"
-      label-for="tag-input"
-    >
-      <div class="d-flex align-items-center">
-        <div class="text-nowrap text-gray-600 mr-2">
-          {{ $t('title.tag') }}:
-        </div>
-        <div class="w-100">
-          <TagInput v-model="ticket.tags" :projectId="projectId" />
-        </div>
-      </div>
-    </b-form-group>
-    <b-form-group
       id="body-group"
       label-for="body-input"
     >
@@ -41,6 +28,19 @@
         rows="6"
         size="sm"
       />
+    </b-form-group>
+    <b-form-group
+      id="tag-group"
+      label-for="tag-input"
+    >
+      <div class="d-flex align-items-center">
+        <div class="text-nowrap text-gray-600 mr-2">
+          {{ $t('title.tag') }}:
+        </div>
+        <div class="w-100">
+          <TagInput v-model="ticket.tags" :projectId="projectId" />
+        </div>
+      </div>
     </b-form-group>
     <div class="d-flex align-items-center">
       <b-form-text><i class="fab fa-markdown"></i> Markdown available</b-form-text>
