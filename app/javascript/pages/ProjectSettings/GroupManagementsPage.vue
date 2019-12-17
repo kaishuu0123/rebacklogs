@@ -3,6 +3,7 @@
     <div class="row">
       <div class="card w-100 mb-4">
         <div class="card-body">
+          <p>{{ $t('message.addGroup') }}</p>
           <b-form ref="form" class="w-100" @submit.stop.prevent="handleSubmit" @keydown.enter.prevent.self="">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">{{ $t('action.selectGroup') }}</label>

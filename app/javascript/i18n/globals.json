@@ -96,7 +96,8 @@
       "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs.",
       "historyIsEmpty": "History is empty.",
       "tagInput": "Please input tags",
-      "publicProject": "This is a public project. Non-member users are only allowed to comment on tickets."
+      "publicProject": "This is a public project. Non-member users are only allowed to comment on tickets.",
+      "addGroup": "Enter a few characters for the group name you want to add to the project. If you want to add a user, enter the username."
     },
     "tab": {
       "comment": "Comment",
@@ -200,7 +201,8 @@
       "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう",
       "historyIsEmpty": "更新履歴はありません",
       "tagInput": "タグを入力してください",
-      "publicProject": "これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。"
+      "publicProject": "これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。",
+      "addGroup": "プロジェクトに追加したいグループ名を数文字入力してください。ユーザを追加したい場合にはユーザ名を入力してください。"
     },
     "tab": {
       "comment": "コメント",
