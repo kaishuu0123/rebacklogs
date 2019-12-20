@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get '/profiles', to: 'profiles#index'
   patch '/profiles', to: 'profiles#update'
   patch '/profiles/update_password', to: 'profiles#update_password'
+  patch '/profiles/use_gravatar', to: 'profiles#use_gravatar'
   delete '/profiles/image', to: 'profiles#destroy_image'
 
   namespace :application_settings do

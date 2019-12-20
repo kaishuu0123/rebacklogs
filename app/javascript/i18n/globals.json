@@ -39,7 +39,10 @@
       "tag": "Tags",
       "unassigned": "Unassigned",
       "search": "Search by keyword",
-      "is_public": "Public"
+      "is_public": "Public",
+      "progress": "Progress (Done / Total)",
+      "totalStoryPoints": "Total Story Points",
+      "points": "points"
     },
     "ticket": {
       "title": "Title",
@@ -144,7 +147,10 @@
       "tag": "タグ",
       "unassigned": "未アサイン",
       "search": "キーワード検索",
-      "is_public": "公開"
+      "is_public": "公開",
+      "progress": "進捗 (完了 / 合計)",
+      "totalStoryPoints": "ストーリーポイント合計",
+      "points": "ポイント"
     },
     "ticket": {
       "title": "タイトル",

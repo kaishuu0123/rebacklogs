@@ -26,6 +26,14 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def use_gravatar
+    current_user.use_gravatar_icon
+
+    respond_to do |format|
+      format.html { redirect_to profiles_path, notice: 'Profile was successfully updated.' }
+    end
+  end
+
   def destroy_image
     current_user.image.purge
 
