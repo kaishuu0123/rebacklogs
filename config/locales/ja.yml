@@ -63,6 +63,7 @@ ja:
       current_image: 現在の画像
       change_password: パスワード変更
       choose_a_file: ファイルを選択 ...
+      user_gravatar: Gravatar アイコンを使う
   application_settings:
     common:
       sidebar:

@@ -36,8 +36,15 @@
                       <%= f.button :submit, t('actions.upload', default: 'Upload'), class: 'btn btn-sm btn-primary mr-3' %>
                       <% if current_user.image.present? %>
                         <div>
-                          <%= link_to t('actions.remove', default: 'Remove'), profiles_image_path(), method: :delete, class: 'btn btn-sm btn-danger' %>
+                          <%= link_to t('actions.remove', default: 'Remove'), profiles_image_path(), method: :delete, class: 'btn btn-sm btn-danger mr-3' %>
                         </div>
+                      <% end %>
+                      <%=
+                        link_to profiles_use_gravatar_path,
+                        class: "btn btn-sm btn-success",
+                        data: { toggle: "tooltip", html: "true", title: "#{gravatar_image_tag(current_user.email, size: 180, secure: true)}" },
+                        method: :patch do %>
+                        <%= t('.user_gravatar', default: 'Use Gravatar Icon') %>
                       <% end %>
                     </div>
                   <% end %>
