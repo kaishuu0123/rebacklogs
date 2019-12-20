@@ -135,6 +135,7 @@ GEM
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    gravatar_image_tag (1.2.0)
     hashie (3.6.0)
     htmlentities (4.3.4)
     i18n (1.7.0)
@@ -229,7 +230,7 @@ GEM
       method_source (~> 0.9.0)
     public_suffix (4.0.1)
     puma (3.12.2)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -377,6 +378,7 @@ DEPENDENCIES
   config
   devise
   devise-i18n
+  gravatar_image_tag
   identicon
   initial_avatar
   jbuilder (~> 2.7)
