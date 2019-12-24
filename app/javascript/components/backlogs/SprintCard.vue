@@ -62,9 +62,6 @@
             <i class="fas fa-door-open"></i>
           </a>
         </div>
-        <div>
-            {{ totalSprintPoint | numeral('0.0') }}
-        </div>
       </div>
     </div>
     <ul class="list-group list-group-flush rb-draggable">
@@ -83,6 +80,30 @@
         </li>
       </VueDraggable>
     </ul>
+    <div v-if="sprint.stories.length > 0" class="card-footer bg-gray-100 px-2 py-1">
+      <div class="row text-center">
+        <div class="col-sm-12 col-md mb-0">
+          <div class="d-flex">
+            <div class="text-muted mr-2">{{ $t('title.progress')}}</div>
+            <div>
+              <strong>{{ doneStoriesLength }} / {{ totalStoriesLength }} ({{ progressPercent | numeral('0') }}%)</strong>
+            </div>
+          </div>
+          <div class="progress progress-xs mt-2">
+            <div class="progress-bar bg-success" role="progressbar"
+              :style="{width: `${progressPercent}%`}" :aria-valuenow="progressPercent" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md mb-0">
+          <div class="d-flex justify-content-end">
+            <div class="text-muted mr-2">{{ $t('title.totalStoryPoints') }}</div>
+            <div>
+              <strong>{{ totalSprintPoint | numeral('0.0') }} {{ $t('title.points') }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -249,6 +270,15 @@ export default {
       return this.sprint.stories.reduce((a, b) => {
         return a + b.point
       }, 0)
+    },
+    doneStoriesLength() {
+      return this.sprint.stories.filter(story => story.is_done).length
+    },
+    totalStoriesLength() {
+      return this.sprint.stories.length
+    },
+    progressPercent() {
+      return ((this.doneStoriesLength / this.totalStoriesLength) * 100)
     }
   }
 }
@@ -277,5 +307,9 @@ export default {
 li.rb-alert-primary {
   @extend .alert;
   @extend .alert-primary;
+}
+
+.progress-xs {
+  height: 4px;
 }
 </style>
