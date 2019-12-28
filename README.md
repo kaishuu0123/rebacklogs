@@ -113,7 +113,7 @@ bundle exec rails db:create db:migrate
 
 ```
 # another window
-bin/webpack-devserver
+bin/webpack-dev-server
 
 # main window
 bin/rails s
