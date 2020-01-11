@@ -17,7 +17,7 @@
             <div class="card-body">
               <%= simple_form_for @group, url: application_settings_group_managements_add_user_path(@group) do |f| %>
                 <div class="form-group">
-                  <select name="group[user_id]" class="selectpicker w-100" data-live-search="true" title="Select Group ...">
+                  <select name="group[user_id]" class="selectpicker w-100" data-live-search="true" title="Select User ...">
                     <% @addable_users.each do |user| %>
                       <option
                         value="<%= user.id %>"
