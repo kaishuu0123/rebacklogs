@@ -20,6 +20,8 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
   end
 
   def create
+    @groups = Group.all
+
     @group = Group.new(group_params)
 
     respond_to do |format|
@@ -27,7 +29,7 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
         format.html { redirect_to application_settings_group_managements_path, notice: 'Group was successfully created.' }
         format.json { render :show, status: :ok, location: @group }
       else
-        format.html { render :edit }
+        format.html { render :index }
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
