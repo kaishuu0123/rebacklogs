@@ -23,18 +23,19 @@ Rails.application.routes.draw do
     resources :tasks, controller: :tickets, type: Task, constraints: { format: :json } do
       resources :comments
     end
+    member do
+      get 'closed_sprints'
+      get 'settings'
+
+      get 'users'
+      get 'groups'
+      get 'project_tags'
+
+      post 'add_group'
+      delete 'delete_group/:group_id', action: 'delete_group'
+      delete 'delete_image'
+    end
   end
-
-  get '/projects/:id/closed_sprints', to: 'projects#closed_sprints', as: 'project_closed_sprints'
-  get '/projects/:id/settings', to: 'projects#settings', as: 'project_settings'
-
-  get '/projects/:id/users', to: 'projects#users'
-  get '/projects/:id/groups', to: 'projects#groups'
-  get '/projects/:id/project_tags', to: 'projects#project_tags'
-
-  post '/projects/:id/add_group', to: 'projects#add_group'
-  delete '/projects/:id/delete_group/:group_id', to: 'projects#delete_group'
-  delete '/projects/:id/delete_image', to: 'projects#delete_image'
 
   get '/groups_by_name', to: 'groups#search_by_name'
 
