@@ -78,10 +78,7 @@ export default {
   },
   mounted() {
     this.projectId = this.$route.meta.projectId
-
-    this.getGroups({
-      projectId: this.projectId
-    })
+    this.getGroupsByName('').then(groups => { this.matchedGroups = groups })
   },
   computed: {
     ...mapState('GroupManagements', {
@@ -112,7 +109,6 @@ export default {
       })
     },
     ...mapActions('GroupManagements', {
-      getGroups: 'getGroups',
       addGroup: 'addGroup',
       deleteGroup: 'deleteGroup',
       getGroupsByName: 'getGroupsByName'
