@@ -36,7 +36,7 @@
 
   <!-- Nav Item -->
   <li class="nav-item">
-    <%= link_to project_closed_sprints_path(project), class: "nav-link" do %>
+    <%= link_to closed_sprints_project_path(project), class: "nav-link" do %>
       <i class="fas fa-border-none"></i>
       <span><%= t('.closed_sprints', default: 'Closed Sprints') %></span></a>
     <% end %>
@@ -44,7 +44,7 @@
 
   <!-- Nav Item - Tables -->
   <li class="nav-item">
-    <a class="nav-link"  href="<%= project_settings_path(project) %>">
+    <a class="nav-link"  href="<%= settings_project_path(project) %>">
       <i class="fas fa-fw fa-wrench"></i>
       <span><%= t('.settings', default: 'Settings') %></span></a>
   </li>
