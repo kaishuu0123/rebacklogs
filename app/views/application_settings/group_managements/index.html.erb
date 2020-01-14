@@ -13,7 +13,7 @@
             <%= simple_form_for @group, url: application_settings_group_managements_path do |f| %>
               <% if @group.errors.any? %>
                 <div id="error_explanation">
-                  <h2><%= t('errors.messages.not_saved.other', count: group.errors.count, resource: 'Group') %></h2>
+                  <h2><%= t('errors.messages.not_saved.other', count: @group.errors.count, resource: 'Group') %></h2>
 
                   <ul>
                     <% @group.errors.full_messages.each do |message| %>

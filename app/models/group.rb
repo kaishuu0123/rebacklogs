@@ -15,6 +15,8 @@ class Group < ApplicationRecord
   has_many :group_projects, dependent: :destroy
   has_many :projects, through: :group_projects
 
+  validates :name, presence: true
+
   accepts_nested_attributes_for :group_users
 
   def group_image_url
