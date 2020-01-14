@@ -105,7 +105,7 @@ bundle exec rails db:create db:migrate
 
 ```
 # 他のウインドウでコマンドを実行
-bin/webpack-devserver
+bin/webpack-dev-server
 
 # メインウインドウでコマンドを実行
 bin/rails s

@@ -6,12 +6,12 @@ class SprintsController < ApplicationController
   ]
 
   def index
-    @sprints = Sprint.opening.where(project: params[:project_id])
+    @sprints = Sprint.opening.order(:created_at).where(project: params[:project_id])
     @stories_in_backlogs = Story.where(project: params[:project_id], sprint: nil).order(:sort_order)
   end
 
   def closed_sprints
-    @sprints = Sprint.closed.where(project: params[:project_id])
+    @sprints = Sprint.closed.order(:created_at).where(project: params[:project_id])
   end
 
   def show

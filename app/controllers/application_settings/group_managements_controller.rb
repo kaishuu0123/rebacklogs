@@ -20,6 +20,8 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
   end
 
   def create
+    @groups = Group.all
+
     @group = Group.new(group_params)
 
     respond_to do |format|
@@ -27,7 +29,7 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
         format.html { redirect_to application_settings_group_managements_path, notice: 'Group was successfully created.' }
         format.json { render :show, status: :ok, location: @group }
       else
-        format.html { render :edit }
+        format.html { render :index }
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -46,11 +48,17 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
   end
 
   def add_user
-    @group.users << User.find(group_params[:user_id])
+    user = User.find_by(id: group_params[:user_id])
+    if user.present?
+      @group.users << user
 
-    respond_to do |format|
-      format.html { redirect_to application_settings_group_management_path(@group), notice: 'Group was successfully updated.' }
-      format.json { render :show, status: :ok, location: @group }
+      respond_to do |format|
+        format.html { redirect_to application_settings_group_management_path(@group), notice: 'Group was successfully updated.' }
+        format.json { render :show, status: :ok, location: @group }
+      end
+    else
+      @addable_users = User.where.not(id: @group.users)
+      render :show
     end
   end
 
