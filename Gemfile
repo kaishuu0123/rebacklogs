@@ -121,5 +121,5 @@ gem 'omniauth-google-oauth2', '~> 0.8'
 
 gem 'config'
 
-gem 'kaminari', '~> 1.1'
+gem 'kaminari', '~> 1.2'
 gem 'gravatar_image_tag'
