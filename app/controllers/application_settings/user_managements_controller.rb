@@ -5,8 +5,10 @@ class ApplicationSettings::UserManagementsController < ApplicationController
     :update_role, :destroy_image
   ]
 
+  USER_PER_PAGE = 25
+
   def index
-    @users = User.all
+    @users = User.page(params[:page]).per(USER_PER_PAGE)
   end
 
   def edit

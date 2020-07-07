@@ -5,8 +5,10 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
     :show, :edit, :update, :destroy, :add_user, :remove_user
   ]
 
+  GROUP_PER_PAGE = 25
+
   def index
-    @groups = Group.all
+    @groups = Group.page(params[:page]).per(GROUP_PER_PAGE)
 
     @group = Group.new
   end
