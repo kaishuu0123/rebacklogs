@@ -20,7 +20,7 @@
     "highlight.js": "^9.15.10",
     "install": "^0.13.0",
     "jquery": "^3.5.0",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-ins": "^3.0.0",
     "markdown-it-sanitizer": "^0.4.3",
     "popper.js": "^1.15.0",
