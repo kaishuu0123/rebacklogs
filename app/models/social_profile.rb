@@ -53,7 +53,7 @@ class SocialProfile < ApplicationRecord
 
   def policy(provider, auth)
     class_name = "#{provider}".classify
-    "OAuthPolicy::#{class_name}".constantize.new(auth)
+    "OAuth::OAuthPolicy::#{class_name}".constantize.new(auth)
   end
 
   def valid_oauth?(auth)
