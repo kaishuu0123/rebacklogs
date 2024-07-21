@@ -48,7 +48,7 @@ ENV NODE_ENV="production"
 RUN cd /opt/rebacklogs && \
   SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
 
-FROM ruby:2.5.3-alpine
+FROM ruby:3.3.1-alpine
 
 # install rails require minimum package
 RUN apk --update --no-cache add \
