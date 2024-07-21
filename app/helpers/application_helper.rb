@@ -16,7 +16,7 @@ module ApplicationHelper
   def changes_from_version_helper(version)
     return [] if version.object_changes.blank?
 
-    changes = YAML.load(version.object_changes)
+    changes = YAML.unsafe_load(version.object_changes)
     change_keys = changes.keys.reject { |key| key == :updated_at.to_s }
 
     change_keys.map do |key|

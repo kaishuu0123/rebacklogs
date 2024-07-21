@@ -1,0 +1,67 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ruby-rails-postgres
+{
+  "name": "Ruby on Rails & Postgres",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+  "features": {
+    "ghcr.io/devcontainers/features/ruby:1": {
+      "version": "3.3.1"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "16.20.2"
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // This can be used to network with other containers or the host.
+  // "forwardPorts": [3000, 5432],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "bundle install && rake db:setup",
+  "postCreateCommand": "gem install bundler --version 2.5.7",
+
+  // Configure tool-specific properties.
+  // "customizations": {},
+
+  "customizations": {
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "args": ["-l"]
+          }
+        },
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.workingDirectories": [{ "mode": "auto" }],
+        "rubyLsp.rubyVersionManager": "none"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "cschleiden.vscode-github-actions",
+        "msjsdiag.debugger-for-chrome",
+        "firefox-devtools.vscode-firefox-debug",
+        "editorconfig.editorconfig",
+        "vscode-icons-team.vscode-icons",
+        "Shopify.ruby-lsp",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "stylelint.vscode-stylelint",
+        "mikestead.dotenv",
+        "mhutchie.git-graph",
+        "eamodio.gitlens"
+      ]
+    }
+  }
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}

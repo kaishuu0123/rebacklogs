@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.3'
+# ruby '~> 3.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Full-stack web application framework. (https://rubyonrails.org)
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.4'
 # Use Puma as the app server
 # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
 gem 'puma', '~> 3.12'
@@ -14,7 +14,7 @@ gem 'puma', '~> 3.12'
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 # Use webpack to manage app-like JavaScript modules in Rails (https://github.com/rails/webpacker)
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # Create JSON structures via a Builder-style DSL (https://github.com/rails/jbuilder)
 gem 'jbuilder', '~> 2.7'
@@ -115,7 +115,6 @@ gem 'cancancan'
 gem 'rails-settings-cached', '~> 2.0'
 
 gem 'omniauth', '~> 1.9'
-gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-google-oauth2', '~> 0.8'
 

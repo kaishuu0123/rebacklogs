@@ -31,7 +31,6 @@ $cyan: #36b9cc !default;
 $brand-google: #ea4335;
 $brand-facebook: #3b5998;
 $brand-github: #24292e;
-$brand-twitter: rgba(29,161,242,1.00);
 
 // Set Contrast Threshold
 $yiq-contrasted-threshold: 195 !default;
@@ -41,15 +40,17 @@ $yiq-contrasted-threshold: 195 !default;
 // kaishuu0123 CUSTOM
 $body-color: $gray-700 !default;
 
-$font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 'Noto Color Emoji' !default;
+$font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 
 $font-weight-light: 300 !default;
 // $font-weight-base: 400;
 $headings-font-weight: 400 !default;
 
 // Shadows
-$box-shadow-sm: 0 0.125rem 0.25rem 0 rgba($gray-900, .2) !default;
-$box-shadow: 0 0.15rem 1.75rem 0 rgba($gray-900, .15) !default;
+$box-shadow-sm: 0 0.125rem 0.25rem 0 rgba($gray-900, 0.2) !default;
+$box-shadow: 0 0.15rem 1.75rem 0 rgba($gray-900, 0.15) !default;
 // $box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
 
 // Borders Radius
@@ -73,7 +74,7 @@ $spacer: 1rem;
 $grid-gutter-width: $spacer * 1.5;
 
 // Transitions
-$transition-collapse: height .15s ease !default;
+$transition-collapse: height 0.15s ease !default;
 
 // Dropdowns
 $dropdown-font-size: 0.85rem;

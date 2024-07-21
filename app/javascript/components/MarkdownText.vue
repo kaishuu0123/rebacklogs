@@ -54,7 +54,7 @@ export default {
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/type';
 
-.markdown-body /deep/ {
+.markdown-body ::v-deep {
   h1 {
     @include font-size($h4-font-size);
   }

@@ -2,7 +2,7 @@ version: '3'
 services:
   db:
     restart: always
-    image: postgres:9.6-alpine
+    image: postgres:16.3
     networks:
       - internal_network
     healthcheck:
