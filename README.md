@@ -34,7 +34,7 @@ It aims to be simple and easy to use Backlogs.
 
 ## Demo
 
-* https://rebacklogs.saino.me/
+* https://sandbox.saino.me/rebacklogs/
   * this is a demo site, there is a possibility that data may disappear suddenly. Please use for testing
 
 ## About this project
