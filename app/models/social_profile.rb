@@ -38,15 +38,15 @@ class SocialProfile < ApplicationRecord
     provider = auth["provider"]
     policy   = policy(provider, auth)
 
-    self.update_attributes( uid:         policy.uid,
-                            name:        policy.name,
-                            nickname:    policy.nickname,
-                            email:       policy.email,
-                            url:         policy.url,
-                            image_url:   policy.image_url,
-                            description: policy.description,
-                            credentials: policy.credentials,
-                            raw_info:    policy.raw_info )
+    self.update!( uid:         policy.uid,
+                  name:        policy.name,
+                  nickname:    policy.nickname,
+                  email:       policy.email,
+                  url:         policy.url,
+                  image_url:   policy.image_url,
+                  description: policy.description,
+                  credentials: policy.credentials,
+                  raw_info:    policy.raw_info )
   end
 
   private
