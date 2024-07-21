@@ -8,7 +8,7 @@ services:
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
     volumes:
-      - ./docker-volumes/postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
   redis:
     restart: always
@@ -18,7 +18,7 @@ services:
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
     volumes:
-      - ./docker-volumes/redis:/data
+      - redis-data:/data
 
 #  es:
 #    restart: always
@@ -60,9 +60,14 @@ services:
       - redis
 #      - es
     volumes:
-      - ./docker-volumes/rebacklogs/storage:/rebacklogs/storage
+      - app-storage:/rebacklogs/storage
 
 networks:
   external_network:
   internal_network:
     internal: true
+
+volumes:
+  postgres-data:
+  app-storage:
+  redis-data:
