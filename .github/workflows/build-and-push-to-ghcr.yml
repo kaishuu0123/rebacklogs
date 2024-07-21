@@ -12,7 +12,7 @@ jobs:
       contents: read
       packages: write
     env:
-      IMAGE_NAME: onetab2markdown
+      IMAGE_NAME: rebacklogs
     steps:
       - name: checkout
         uses: actions/checkout@v4
