@@ -98,9 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$vs-border-width: 0px !default;
-
-/deep/ {
+::v-deep {
   @import "~vue-select/src/scss/vue-select.scss";
 }
 
@@ -113,7 +111,7 @@ $vs-border-width: 0px !default;
   height: 20px;
 }
 
-/deep/ .vs__search::placeholder {
+::v-deep .vs__search::placeholder {
   color: #b7b9cc;
 }
 </style>

@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ {
+::v-deep {
   $vs-border-width: 0px !default;
   $vs-selected-bg: #fff;
 
@@ -112,7 +112,7 @@ export default {
   height: 20px;
 }
 
-.rb-select-assignee /deep/ .vs__search::placeholder {
+.rb-select-assignee ::v-deep .vs__search::placeholder {
   font-size: .7rem;
   color: #b7b9cc;
 }
@@ -121,7 +121,7 @@ export default {
   min-width: 120px;
 }
 
-.rb-select-assignee /deep/ .vs__search,.vs__search:focus {
+.rb-select-assignee ::v-deep .vs__search,.vs__search:focus {
   padding: 0px;
 }
 

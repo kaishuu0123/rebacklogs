@@ -20,9 +20,9 @@ class User < ApplicationRecord
   rolify
   attribute :skip_create_default_group, :boolean, default: false
   # XXX: set_gravatar_icon を create_default_group より後の行に書くと処理が継続されない問題を調べる必要がある
-  after_create_commit :set_gravatar_icon, if: Proc.new {
-    skip_create_default_group == false
-  }
+  # after_create_commit :set_gravatar_icon, if: Proc.new {
+  #   skip_create_default_group == false
+  # }
   after_create_commit :create_default_group, if: Proc.new {
     skip_create_default_group == false
   }

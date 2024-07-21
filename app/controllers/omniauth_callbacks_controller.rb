@@ -19,7 +19,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  alias twitter callback_for_all_providers
   alias github callback_for_all_providers
   alias google_oauth2 callback_for_all_providers
 end

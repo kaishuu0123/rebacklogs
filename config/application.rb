@@ -21,5 +21,7 @@ module ReBacklogs
     config.i18n.available_locales = %i[ja en]
     config.i18n.enforce_available_locales = true
     config.i18n.default_locale = :en
+
+    config.active_record.use_yaml_unsafe_load = true
   end
 end
