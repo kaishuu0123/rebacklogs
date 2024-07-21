@@ -42,13 +42,18 @@ services:
       - DB_USER=postgres
       - DB_NAME=rebacklogs
       - DB_PORT=5432
+      # - SECRET_KEY_BASE=secret_key_base_rebacklogs
+      # - GOOGLE_OAUTH_KEY=google_oauth_key
+      # - GOOGLE_OAUTH_SECRET=google_oauth_secret
+      # - GITHUB_OAUTH_KEY=github_oauth_key
+      # - GITHUB_OAUTH_SECRET=github_oauth_secret
     networks:
       - external_network
       - internal_network
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider --proxy=off localhost:3000/health || exit 1"]
     ports:
-      - "127.0.0.1:3000:3000"
+      - "3000:3000"
     depends_on:
       - db
       - redis
