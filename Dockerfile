@@ -1,9 +1,11 @@
 # refs: https://github.com/tootsuite/mastodon
 # refs: https://qiita.com/baban/items/99877f9b3065c4cf3d50
 
-FROM node:8.9.4-alpine as node
+FROM node:16.20.2-alpine as node
 
-FROM ruby:2.5.3-alpine as builder
+FROM ruby:3.3.1-alpine as builder
+
+ENV BUNDLER_VERSION 2.5.7
 
 RUN apk --update --no-cache add bash bash-completion
 
@@ -24,7 +26,7 @@ COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -s /usr/local/bin/node /usr/local/bin/nodejs && \
     ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-RUN gem install bundler --version 1.17.3 && \
+RUN gem install bundler --version ${BUNDLER_VERSION} && \
     bundle install --without development test --path vendor/bundle && \
     find vendor/bundle/ruby -path '*/gems/*/ext/*/Makefile' -exec dirname {} \; | xargs -n1 -P$(nproc) -I{} make -C {} clean
 
