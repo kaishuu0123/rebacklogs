@@ -47,6 +47,7 @@ services:
       # - GOOGLE_OAUTH_SECRET=google_oauth_secret
       # - GITHUB_OAUTH_KEY=github_oauth_key
       # - GITHUB_OAUTH_SECRET=github_oauth_secret
+      # - RAILS_RELATIVE_URL_ROOT=/rebacklogs
     networks:
       - external_network
       - internal_network
