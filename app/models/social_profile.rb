@@ -27,7 +27,7 @@ class SocialProfile < ApplicationRecord
   validates_uniqueness_of :uid, scope: :provider
 
   def self.find_for_oauth(auth)
-    profile = find_or_create_by(uid: auth.uid, provider: auth.provider)
+    profile = find_or_initialize_by(uid: auth.uid, provider: auth.provider)
     profile.save_oauth_data!(auth)
     profile
   end
@@ -35,18 +35,26 @@ class SocialProfile < ApplicationRecord
   def save_oauth_data!(auth)
     return unless valid_oauth?(auth)
 
-    provider = auth["provider"]
+    provider = auth['provider']
     policy   = policy(provider, auth)
 
-    self.update!( uid:         policy.uid,
-                  name:        policy.name,
-                  nickname:    policy.nickname,
-                  email:       policy.email,
-                  url:         policy.url,
-                  image_url:   policy.image_url,
-                  description: policy.description,
-                  credentials: policy.credentials,
-                  raw_info:    policy.raw_info )
+    update_params = {
+      uid: policy.uid,
+      name: policy.name,
+      nickname: policy.nickname,
+      email: policy.email,
+      url: policy.url,
+      image_url: policy.image_url,
+      description: policy.description,
+      credentials: policy.credentials,
+      raw_info: policy.raw_info
+    }
+
+    if persisted?
+      update!(update_params)
+    else
+      assign_attributes(update_params)
+    end
   end
 
   private
@@ -57,6 +65,6 @@ class SocialProfile < ApplicationRecord
   end
 
   def valid_oauth?(auth)
-    (self.provider.to_s == auth['provider'].to_s) && (self.uid == auth['uid'])
+    (provider.to_s == auth['provider'].to_s) && (uid == auth['uid'])
   end
 end
