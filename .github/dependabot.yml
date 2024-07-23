@@ -6,7 +6,35 @@
 
 version: 2
 updates:
- - package-ecosystem: "devcontainers"
-   directory: "/"
-   schedule:
-     interval: weekly
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    versioning-strategy: lockfile-only
+    labels:
+      - "dependencies"
+      - "gem"
+      - "ruby"
+    allow:
+      - dependency-type: "all"
+    ignore:
+      # - dependency-name: "example"
+      #   versions:
+      #     - "> 1.0.0"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    versioning-strategy: lockfile-only
+    labels:
+      - "dependencies"
+      - "npm"
+      - "javascript"
