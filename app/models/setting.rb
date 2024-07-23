@@ -11,7 +11,7 @@
 
 # RailsSettings Model
 class Setting < RailsSettings::Base
-  cache_prefix { "v1" }
+  cache_prefix { 'v2' }
 
   # Define your fields
   # field :host, type: :string, default: "http://localhost:3000"
@@ -24,4 +24,7 @@ class Setting < RailsSettings::Base
   field :installed, type: :boolean, default: false
 
   field :site_title, type: :string, default: ''
+
+  field :head_custom_script, type: :string, default: ''
+  field :body_custom_script, type: :string, default: ''
 end

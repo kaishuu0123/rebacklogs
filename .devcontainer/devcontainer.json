@@ -42,13 +42,16 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "eslint.workingDirectories": [{ "mode": "auto" }],
-        "rubyLsp.rubyVersionManager": "none"
+        "rubyLsp.erbSupport": false,
+        "rubyLsp.rubyVersionManager": "none",
+        "[ruby]": {
+          "editor.defaultFormatter": "Shopify.ruby-lsp",
+          "editor.semanticHighlighting.enabled": true
+        }
       },
-      // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
+        // Add the IDs of extensions you want installed when the container is created.
         "cschleiden.vscode-github-actions",
-        "msjsdiag.debugger-for-chrome",
-        "firefox-devtools.vscode-firefox-debug",
         "editorconfig.editorconfig",
         "vscode-icons-team.vscode-icons",
         "Shopify.ruby-lsp",
@@ -56,8 +59,7 @@
         "esbenp.prettier-vscode",
         "stylelint.vscode-stylelint",
         "mikestead.dotenv",
-        "mhutchie.git-graph",
-        "eamodio.gitlens"
+        "mhutchie.git-graph"
       ]
     }
   }

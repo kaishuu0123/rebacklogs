@@ -13,6 +13,8 @@ ja:
     labels:
       settings:
         site_title: 'サイト名'
+        head_custom_script: '<head> カスタムスクリプト'
+        body_custom_script: '<body> カスタムスクリプト'
     # Examples
     # labels:
     #   defaults:

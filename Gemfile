@@ -37,7 +37,7 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # Ruby fast debugger - base + CLI (https://github.com/deivid-rodriguez/byebug)
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -51,8 +51,6 @@ group :development do
   gem 'spring'
   # Makes spring watch files using the listen gem. (https://github.com/jonleighton/spring-watcher-listen)
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # Solargraph for Ruby (http://solargraph.org)
-  gem 'solargraph'
   # Automatic Ruby code style checking tool. (https://github.com/rubocop-hq/rubocop)
   gem 'rubocop'
   # An IRB alternative and runtime developer console (http://pryrepl.org)
@@ -85,7 +83,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # Timezone Data for TZInfo (http://tzinfo.github.io)
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Flexible authentication solution for Rails with Warden (https://github.com/plataformatec/devise)
 gem 'devise'
@@ -120,5 +118,5 @@ gem 'omniauth-google-oauth2', '~> 0.8'
 
 gem 'config'
 
-gem 'kaminari', '~> 1.2'
 gem 'gravatar_image_tag'
+gem 'kaminari', '~> 1.2'
