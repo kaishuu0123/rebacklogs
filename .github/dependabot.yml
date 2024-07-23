@@ -23,10 +23,10 @@ updates:
       - "ruby"
     allow:
       - dependency-type: "all"
-    ignore:
-      # - dependency-name: "example"
-      #   versions:
-      #     - "> 1.0.0"
+    # ignore:
+    #   - dependency-name: "example"
+    #     versions:
+    #       - "> 1.0.0"
 
   - package-ecosystem: "npm"
     directory: "/"
