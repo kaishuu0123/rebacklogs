@@ -9,10 +9,9 @@ Bundler.require(*Rails.groups)
 module ReBacklogs
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.1
 
-    config.paths.add File.join('app', 'helpers'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'helpers', '*')]
+    config.autoload_lib(ignore: %w(assets tasks))
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -21,5 +20,7 @@ module ReBacklogs
     config.i18n.available_locales = %i[ja en]
     config.i18n.enforce_available_locales = true
     config.i18n.default_locale = :en
+
+    config.active_record.use_yaml_unsafe_load = true
   end
 end

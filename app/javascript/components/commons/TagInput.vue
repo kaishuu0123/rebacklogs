@@ -81,7 +81,7 @@ export default {
 $vs-selected-bg: #eaecf4;
 $vs-selected-border-color: #b7b9cc;
 
-/deep/ {
+::v-deep {
   @import "~vue-select/src/scss/vue-select.scss";
 
   .vs__search::placeholder {

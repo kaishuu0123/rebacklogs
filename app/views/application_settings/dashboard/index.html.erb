@@ -13,6 +13,8 @@
           <div class="card-body">
             <%= simple_form_for :settings, url: application_settings_path do |f| %>
               <%= f.input :site_title, as: :string, input_html: { value: Setting.site_title } %>
+              <%= f.input :head_custom_script, as: :text, input_html: { value: Setting.head_custom_script, rows: 5  } %>
+              <%= f.input :body_custom_script, as: :text, input_html: { value: Setting.body_custom_script, rows: 5  } %>
               <div class="d-flex justify-content-end">
                 <%= f.submit nil, class: 'btn btn-primary' %>
               </div>

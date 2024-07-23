@@ -1,14 +1,47 @@
-version: '3'
+version: "3"
+
 services:
+  app:
+    image: ghcr.io/kaishuu0123/rebacklogs:latest
+    restart: always
+    command: dockerize -wait tcp://db:5432 bash -c "rm -f /opt/rebacklogs/tmp/pids/server.pid; bundle exec rails db:prepare; bundle exec rails s -p 3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_NAME=rebacklogs
+      - DB_PORT=5432
+      # - SECRET_KEY_BASE=secret_key_base_rebacklogs
+      # - GOOGLE_OAUTH_KEY=google_oauth_key
+      # - GOOGLE_OAUTH_SECRET=google_oauth_secret
+      # - GITHUB_OAUTH_KEY=github_oauth_key
+      # - GITHUB_OAUTH_SECRET=github_oauth_secret
+    networks:
+      - external_network
+      - internal_network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider --proxy=off localhost:3000/health || exit 1",
+        ]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    #      - es
+    volumes:
+      - app-storage:/rebacklogs/storage
+
   db:
     restart: always
-    image: postgres:9.6-alpine
+    image: postgres:16.3
     networks:
       - internal_network
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
     volumes:
-      - ./docker-volumes/postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
   redis:
     restart: always
@@ -18,7 +51,7 @@ services:
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
     volumes:
-      - ./docker-volumes/redis:/data
+      - redis-data:/data
 
 #  es:
 #    restart: always
@@ -32,31 +65,12 @@ services:
 #    volumes:
 #      - ./elasticsearch:/usr/share/elasticsearch/data
 
-  app:
-    build: .
-    image: kaishuu0123/rebacklogs
-    restart: always
-    command: dockerize -wait tcp://db:5432 bash -c "rm -f /opt/rebacklogs/tmp/pids/server.pid; bundle exec rails db:prepare; bundle exec rails s -p 3000"
-    environment:
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_NAME=rebacklogs
-      - DB_PORT=5432
-    networks:
-      - external_network
-      - internal_network
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider --proxy=off localhost:3000/health || exit 1"]
-    ports:
-      - "127.0.0.1:3000:3000"
-    depends_on:
-      - db
-      - redis
-#      - es
-    volumes:
-      - ./docker-volumes/rebacklogs/storage:/rebacklogs/storage
-
 networks:
   external_network:
   internal_network:
     internal: true
+
+volumes:
+  postgres-data:
+  app-storage:
+  redis-data:

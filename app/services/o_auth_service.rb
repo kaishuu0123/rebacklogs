@@ -10,10 +10,16 @@ module OAuthService
       user = current_or_profile_user(profile)
       unless user
         # 第３候補：認証データにemailが含まれていればそれを元にユーザーを探す。
-        user = User.where(email: email).first if verified_email_from_oauth(auth)
+        user = User.where(email:).first if verified_email_from_oauth(auth)
         # 見つからなければ、ユーザーを新規作成。
         user ||= find_or_create_new_user(auth)
       end
+
+      unless profile.persisted?
+        profile.user = user
+        profile.save!
+      end
+
       associate_user_with_profile!(user, profile)
       user
     end
@@ -31,21 +37,21 @@ module OAuthService
       def find_or_create_new_user(auth)
         # Query for user if verified email is provided
         email = verified_email_from_oauth(auth)
-        user = User.where(email: email).first if email
-        if user.nil?
-          temp_email = "#{User::TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
-          user = User.new(
-            username: auth.extra.raw_info.name,
-            email:    email ? email : temp_email,
-            password: Devise.friendly_token[0, 20]
-          )
-          user.skip_create_default_group = true
-          # email確認メール送信を延期するために一時的にemail確認済みの状態にする。
-          # user.skip_confirmation!
-          # email仮をデータベースに保存するため、validationを一時的に無効化。
-          user.save(validate: false)
-          user
-        end
+        user = User.where(email:).first if email
+        return unless user.nil?
+
+        temp_email = "#{User::TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
+        user = User.new(
+          username: auth.extra.raw_info.name,
+          email: email || temp_email,
+          password: Devise.friendly_token[0, 20]
+        )
+        user.skip_create_default_group = true
+        # email確認メール送信を延期するために一時的にemail確認済みの状態にする。
+        # user.skip_confirmation!
+        # email仮をデータベースに保存するため、validationを一時的に無効化。
+        user.save(validate: false)
+        user
       end
 
       def verified_email_from_oauth(auth)

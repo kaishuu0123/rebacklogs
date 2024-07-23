@@ -5,6 +5,3 @@ omniauth:
   github:
     key: <%= ENV['GITHUB_OAUTH_KEY'] %>
     secret: <%= ENV['GITHUB_OAUTH_SECRET'] %>
-  twitter:
-    key: <%= ENV['TWITTER_OAUTH_KEY'] %>
-    secret: <%= ENV['TWITTER_OAUTH_SECRET'] %>

@@ -1,23 +1,23 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.3'
+# ruby '~> 3.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Full-stack web application framework. (https://rubyonrails.org)
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
 # Use Puma as the app server
 # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
-gem 'puma', '~> 3.12'
+gem 'puma', '>= 5.0'
 # Use SCSS for stylesheets
 # Sass adapter for the Rails asset pipeline. (https://github.com/rails/sass-rails)
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 # Use webpack to manage app-like JavaScript modules in Rails (https://github.com/rails/webpacker)
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # Create JSON structures via a Builder-style DSL (https://github.com/rails/jbuilder)
-gem 'jbuilder', '~> 2.7'
+gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -28,7 +28,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 # Boot large ruby/rails apps faster (https://github.com/Shopify/bootsnap)
-gem 'bootsnap', '>= 1.4.2', require: false
+# gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
@@ -37,7 +37,7 @@ group :development, :test do
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # Ruby fast debugger - base + CLI (https://github.com/deivid-rodriguez/byebug)
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -51,8 +51,6 @@ group :development do
   gem 'spring'
   # Makes spring watch files using the listen gem. (https://github.com/jonleighton/spring-watcher-listen)
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # Solargraph for Ruby (http://solargraph.org)
-  gem 'solargraph'
   # Automatic Ruby code style checking tool. (https://github.com/rubocop-hq/rubocop)
   gem 'rubocop'
   # An IRB alternative and runtime developer console (http://pryrepl.org)
@@ -85,7 +83,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # Timezone Data for TZInfo (http://tzinfo.github.io)
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Flexible authentication solution for Rails with Warden (https://github.com/plataformatec/devise)
 gem 'devise'
@@ -102,7 +100,7 @@ gem 'ranked-model', '~> 0.4'
 # Track changes to your models. (https://github.com/paper-trail-gem/paper_trail)
 gem 'paper_trail', '~> 10.3.0'
 # Common locale data and translations for Rails i18n. (http://github.com/svenfuchs/rails-i18n)
-gem 'rails-i18n', '~> 6.0.0' # For 6.0.0 or higher
+gem 'rails-i18n', '~> 7.0.9' # For 6.0.0 or higher
 # Forms made easy! (https://github.com/plataformatec/simple_form)
 gem 'simple_form'
 
@@ -115,11 +113,10 @@ gem 'cancancan'
 gem 'rails-settings-cached', '~> 2.0'
 
 gem 'omniauth', '~> 1.9'
-gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-google-oauth2', '~> 0.8'
 
 gem 'config'
 
-gem 'kaminari', '~> 1.2'
 gem 'gravatar_image_tag'
+gem 'kaminari', '~> 1.2'

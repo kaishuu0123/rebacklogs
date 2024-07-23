@@ -26,13 +26,13 @@ class ProfilesController < ApplicationController
     end
   end
 
-  def use_gravatar
-    current_user.use_gravatar_icon
+  # def use_gravatar
+  #   current_user.use_gravatar_icon
 
-    respond_to do |format|
-      format.html { redirect_to profiles_path, notice: 'Profile was successfully updated.' }
-    end
-  end
+  #   respond_to do |format|
+  #     format.html { redirect_to profiles_path, notice: 'Profile was successfully updated.' }
+  #   end
+  # end
 
   def destroy_image
     current_user.image.purge
@@ -41,6 +41,7 @@ class ProfilesController < ApplicationController
   end
 
   private
+
   def user_params
     params.fetch(
       :user, {}

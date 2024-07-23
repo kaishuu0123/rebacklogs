@@ -10,6 +10,11 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Please review the problems below:"
+    labels:
+      settings:
+        site_title: 'サイト名'
+        head_custom_script: '<head> custom script'
+        body_custom_script: '<body> custom script'
     # Examples
     # labels:
     #   defaults:

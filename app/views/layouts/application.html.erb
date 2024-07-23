@@ -5,6 +5,8 @@
     <% custom_title << @project.title if @project.present? %>
     <% custom_title << Setting.site_title if Setting.site_title.present? %>
 
+    <%= raw(Setting.head_custom_script) if Setting.head_custom_script.present? %>
+
     <%# <meta name="viewport" content="width=device-width,initial-scale=1.0"> %>
 
     <% if custom_title.present? %>
@@ -30,5 +32,7 @@
     <% end %>
 
     <%= yield %>
+
+    <%= raw(Setting.body_custom_script) if Setting.body_custom_script.present? %>
   </body>
 </html>
