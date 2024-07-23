@@ -1,5 +1,38 @@
-version: '3'
+version: "3"
+
 services:
+  app:
+    image: ghcr.io/kaishuu0123/rebacklogs:latest
+    restart: always
+    command: dockerize -wait tcp://db:5432 bash -c "rm -f /opt/rebacklogs/tmp/pids/server.pid; bundle exec rails db:prepare; bundle exec rails s -p 3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_NAME=rebacklogs
+      - DB_PORT=5432
+      # - SECRET_KEY_BASE=secret_key_base_rebacklogs
+      # - GOOGLE_OAUTH_KEY=google_oauth_key
+      # - GOOGLE_OAUTH_SECRET=google_oauth_secret
+      # - GITHUB_OAUTH_KEY=github_oauth_key
+      # - GITHUB_OAUTH_SECRET=github_oauth_secret
+    networks:
+      - external_network
+      - internal_network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider --proxy=off localhost:3000/health || exit 1",
+        ]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    #      - es
+    volumes:
+      - app-storage:/rebacklogs/storage
+
   db:
     restart: always
     image: postgres:16.3
@@ -31,36 +64,6 @@ services:
 #      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
 #    volumes:
 #      - ./elasticsearch:/usr/share/elasticsearch/data
-
-  app:
-    build: .
-    image: kaishuu0123/rebacklogs
-    restart: always
-    command: dockerize -wait tcp://db:5432 bash -c "rm -f /opt/rebacklogs/tmp/pids/server.pid; bundle exec rails db:prepare; bundle exec rails s -p 3000"
-    environment:
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_NAME=rebacklogs
-      - DB_PORT=5432
-      # - SECRET_KEY_BASE=secret_key_base_rebacklogs
-      # - GOOGLE_OAUTH_KEY=google_oauth_key
-      # - GOOGLE_OAUTH_SECRET=google_oauth_secret
-      # - GITHUB_OAUTH_KEY=github_oauth_key
-      # - GITHUB_OAUTH_SECRET=github_oauth_secret
-      # - RAILS_RELATIVE_URL_ROOT=/rebacklogs
-    networks:
-      - external_network
-      - internal_network
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider --proxy=off localhost:3000/health || exit 1"]
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-      - redis
-#      - es
-    volumes:
-      - app-storage:/rebacklogs/storage
 
 networks:
   external_network:
