@@ -119,10 +119,11 @@ GEM
       devise (>= 4.9.0)
     drb (2.2.1)
     erubi (1.13.0)
-    faraday (2.10.0)
-      faraday-net_http (>= 2.0, < 3.2)
+    faraday (2.12.0)
+      faraday-net_http (>= 2.0, < 3.4)
+      json
       logger
-    faraday-net_http (3.1.0)
+    faraday-net_http (3.3.0)
       net-http
     ffi (1.17.0)
     globalid (1.2.1)
@@ -170,7 +171,7 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    logger (1.6.0)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -368,7 +369,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    uri (0.13.0)
+    uri (0.13.1)
     version_gem (1.1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
