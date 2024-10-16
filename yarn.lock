@@ -1133,9 +1133,9 @@
     node-fetch "^2.3.0"
 
 "@rails/actioncable@^6.0.0-alpha":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.0.0.tgz#8bff9c902be1531ef7a9e191562e9771efcfdfe1"
-  integrity sha512-DieouotYHpI6k2EGTCnh1eMvD3W8p3zqjWXEYj4z0khJ+A0qQ5tHxihjTEkio54MVwqHt1DcpUm2woh2n/alCA==
+  version "6.1.709"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.1.709.tgz#4c4817a8a128f7816430074f399aad3a0d4bef01"
+  integrity sha512-SkwXts+6yBaEHwN63AYF1r7lt5bJsqBziaJhlE91y+3UjPl0T/aIssWVitbzAHF4YrLWh43jrdsLoYUpymlW7Q==
 
 "@rails/activestorage@^6.0.0-alpha":
   version "6.0.0"
