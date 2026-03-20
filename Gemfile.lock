@@ -413,7 +413,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    uri (0.13.0)
+    uri (1.1.1)
     version_gem (1.1.4)
     vite_rails (3.0.20)
       railties (>= 5.1, < 9)
