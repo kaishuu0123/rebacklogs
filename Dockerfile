@@ -1,20 +1,18 @@
-# refs: https://github.com/tootsuite/mastodon
-# refs: https://qiita.com/baban/items/99877f9b3065c4cf3d50
+FROM node:22-slim AS node
 
-FROM node:22-alpine AS node
-
-FROM ruby:3.4-alpine AS builder
+FROM ruby:3.4-slim AS builder
 
 ENV BUNDLER_VERSION=2.5.7
 
-RUN apk --update --no-cache add bash bash-completion
-
-# Use bash for the shell
-SHELL ["bash", "-c"]
-
-# build deps package install
-# gcc, git etc ...
-RUN apk --update --no-cache add shadow sudo busybox-suid postgresql-dev tzdata alpine-sdk
+# build deps
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      libpq-dev \
+      tzdata \
+      git \
+      curl \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY Gemfile Gemfile.lock /opt/rebacklogs/
 
@@ -30,8 +28,7 @@ RUN gem install bundler --version ${BUNDLER_VERSION} && \
     bundle install --without development test --path vendor/bundle && \
     find vendor/bundle/ruby -path '*/gems/*/ext/*/Makefile' -exec dirname {} \; | xargs -n1 -P$(nproc) -I{} make -C {} clean
 
-RUN cd /opt/rebacklogs && \
-	bundle install -j$(nproc) --deployment --without development test
+RUN bundle install -j$(nproc) --deployment --without development test
 
 # yarn install
 RUN npm install -g yarn
@@ -40,58 +37,52 @@ RUN yarn install --pure-lockfile
 
 # assets precompile
 COPY . /opt/rebacklogs/
-# Run rebacklogs services in prod mode
 ENV RAILS_ENV="production"
 ENV NODE_ENV="production"
-# FOR DEBUG
-# RUN cd ~ && NODE_OPTIONS="--max-old-space-size=4096" NODE_ENV=production ./bin/webpack --progress --config config/webpack/production.js
-RUN cd /opt/rebacklogs && \
-  SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
+RUN SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
 
-FROM ruby:3.4-alpine
+FROM ruby:3.4-slim
 
-# install rails require minimum package
-RUN apk --update --no-cache add \
-    shadow sudo busybox-suid \
-    execline tzdata postgresql-dev openssl && \
-    echo "Etc/UTC" > /etc/localtime
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      libpq-dev \
+      tzdata \
+      openssl \
+      tini \
+      wget \
+    && rm -rf /var/lib/apt/lists/* && \
+    ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # for docker-compose
 ENV DOCKERIZE_VERSION=v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Create the rebacklogs user
 ARG UID=991
 ARG GID=991
-RUN apk update && \
-  apk --update --no-cache add bash bash-completion tini && \
-	addgroup --gid $GID rebacklogs && \
-	useradd -m -u $UID -g $GID -d /opt/rebacklogs rebacklogs && \
-	echo "rebacklogs:`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 | mkpasswd -s -m sha-256`" | chpasswd
+RUN groupadd --gid $GID rebacklogs && \
+    useradd -m -u $UID -g $GID -d /opt/rebacklogs rebacklogs
 
 EXPOSE 3000
 
 WORKDIR /opt/rebacklogs
 
-# Copy gem and assets:precompile from builder image
+# Copy gems and compiled assets from builder
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/vendor/bundle vendor/bundle
 COPY --chown=rebacklogs:rebacklogs --from=builder /usr/local/bundle /usr/local/bundle
 
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/assets/ /opt/rebacklogs/public/assets/
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/vite/ /opt/rebacklogs/public/vite/
 
-# Copy Re:Backlogs Source Code
+# Copy Re:Backlogs source code
 COPY --chown=rebacklogs:rebacklogs . /opt/rebacklogs
 
-# Tell rails to serve static files
 ENV RAILS_ENV="production"
 ENV RAILS_SERVE_STATIC_FILES="true"
 ENV BIND="0.0.0.0"
 
-# Set the run user
 USER rebacklogs
 
-# Set the work dir and the container entry point
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
