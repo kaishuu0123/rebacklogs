@@ -1,41 +1,55 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="card o-hidden border-0 shadow-lg my-5 col-lg-6">
-      <div class="card-body p-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="p-5">
-              <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign up to Re:Backlogs') %></h1>
-              </div>
-              <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'user'}) do |f| %>
-                <%= devise_error_messages! %>
+<div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4">
+  <div class="w-full max-w-sm space-y-6">
+    <div class="space-y-2 text-center">
+      <h1 class="text-2xl font-bold"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign up to Re:Backlogs') %></h1>
+    </div>
 
-                <div class="form-group">
-                  <%= f.text_field :username, placeholder: t('activerecord.attributes.user.username', default: 'Username'), autofocus: true, class: 'form-control form-control-user' %>
-                </div>
-                <div class="form-group">
-                  <%= f.email_field :email, placeholder: t('activerecord.attributes.user.email', default: 'Email'), autofocus: false, class: 'form-control form-control-user' %>
-                </div>
-                <div class="form-group">
-                  <% minimum_password_msg = @minimum_password_length ? "(#{@minimum_password_length} characters minimum)" : '' %>
-                  <% msg = t('devise.shared.minimum_password_length', count:  @minimum_password_length, default: "#{minimum_password_msg}")%>
-                  <% placeholder = "#{t('activerecord.attributes.user.password', default: 'Password')} #{msg}" %>
-                  <%= f.password_field :password, placeholder: placeholder, class: 'form-control form-control-user' %>
-                </div>
-                <div class="form-group">
-                  <%= f.password_field :password_confirmation, placeholder: t('activerecord.attributes.user.password_confirmation', default: 'Password Confirmation'), class: 'form-control form-control-user' %>
-                </div>
-                <%= f.submit t('.sign_up', default: 'Sign up'), class: "btn btn-primary btn-user btn-block" %>
+    <div class="rounded-xl border bg-card shadow-sm p-8 space-y-4">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <% if resource.errors.any? %>
+          <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <ul class="space-y-1">
+              <% resource.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
               <% end %>
-              <hr>
-              <div class="text-center">
-                <%= render "devise/shared/links" %>
-              </div>
-            </div>
+            </ul>
           </div>
+        <% end %>
+
+        <div class="space-y-2">
+          <%= f.label :username, t('activerecord.attributes.user.username', default: 'Username'), class: 'text-sm font-medium' %>
+          <%= f.text_field :username, autofocus: true, placeholder: 'username',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
-      </div>
+
+        <div class="space-y-2">
+          <%= f.label :email, t('activerecord.attributes.user.email', default: 'Email'), class: 'text-sm font-medium' %>
+          <%= f.email_field :email, placeholder: 'user@example.com',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <div class="space-y-2">
+          <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
+          <%= f.label :password, "#{t('activerecord.attributes.user.password', default: 'Password')}#{min_len}", class: 'text-sm font-medium' %>
+          <%= f.password_field :password, placeholder: '••••••••',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :password_confirmation, t('activerecord.attributes.user.password_confirmation', default: 'Confirm Password'), class: 'text-sm font-medium' %>
+          <%= f.password_field :password_confirmation, placeholder: '••••••••',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <%= f.submit t('.sign_up', default: 'Sign up'),
+              class: 'mt-2 h-10 w-full cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+      <% end %>
+
+      <%= render 'devise/shared/omniauth_links' %>
+    </div>
+
+    <div class="text-center text-sm text-muted-foreground space-y-1">
+      <%= render 'devise/shared/text_links' %>
     </div>
   </div>
 </div>

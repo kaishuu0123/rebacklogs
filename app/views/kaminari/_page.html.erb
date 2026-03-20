@@ -1,9 +1,11 @@
 <% if page.current? %>
-  <li class="page-item active">
-    <%= content_tag :a, page, data: { remote: remote }, rel: page.rel, class: 'page-link rounded-0' %>
+  <li>
+    <%= content_tag :a, page, data: { remote: remote }, rel: page.rel,
+          class: 'inline-flex items-center justify-center w-8 h-8 text-sm rounded-md bg-primary text-primary-foreground font-medium' %>
   </li>
 <% else %>
-  <li class="page-item">
-    <%= link_to page, url, remote: remote, rel: page.rel, class: 'page-link rounded-0' %>
+  <li>
+    <%= link_to page, url, remote: remote, rel: page.rel,
+          class: 'inline-flex items-center justify-center w-8 h-8 text-sm rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground' %>
   </li>
 <% end %>

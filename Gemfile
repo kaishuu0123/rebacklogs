@@ -15,6 +15,8 @@ gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 # Use webpack to manage app-like JavaScript modules in Rails (https://github.com/rails/webpacker)
 gem 'webpacker', '~> 5.0'
+gem 'vite_rails', '~> 3.0'
+gem 'turbo-mount'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # Create JSON structures via a Builder-style DSL (https://github.com/rails/jbuilder)
 gem 'jbuilder'
@@ -31,10 +33,6 @@ gem 'jbuilder'
 # gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
-  # Use sqlite3 as the database for Active Record
-  # This module allows Ruby programs to interface with the SQLite3 database engine (http://www.sqlite.org) (https://github.com/sparklemotion/sqlite3-ruby)
-  gem 'sqlite3', '~> 1.4'
-
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # Ruby fast debugger - base + CLI (https://github.com/deivid-rodriguez/byebug)
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

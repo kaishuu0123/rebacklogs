@@ -1,7 +1,7 @@
 # refs: https://github.com/tootsuite/mastodon
 # refs: https://qiita.com/baban/items/99877f9b3065c4cf3d50
 
-FROM node:16.20.2-alpine as node
+FROM node:22-alpine as node
 
 FROM ruby:3.3.1-alpine as builder
 

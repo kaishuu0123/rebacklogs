@@ -1,82 +1,71 @@
-<div class="container mt-4">
-  <div class="row d-flex align-items-center justify-content-between mb-2">
-    <div>
-      <h1 class="h3 text-gray-800"><%= t('.title', default: 'Projects') %></h1>
-    </div>
-    <%= link_to t('actions.create_project', default: 'Create Project'), new_project_path, class: 'btn btn-sm btn-primary shadow-sm'%>
+<div class="container max-w-7xl mx-auto px-4 mt-6">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'Projects') %></h1>
+    <%= link_to t('actions.create_project', default: 'Create Project'), new_project_path,
+          class: 'inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm' %>
   </div>
-  <div class="row">
-    <%= form_tag projects_path, method: :get, class: 'd-flex w-100 align-items-center justify-content-end' do %>
-      <div class="w-25 mr-2">
-        <%=
-          text_field_tag(
-            :keywords,
-            params[:keywords],
+
+  <div class="flex justify-end mb-4">
+    <%= form_tag projects_path, method: :get, class: 'flex items-center gap-2' do %>
+      <%= text_field_tag :keywords, params[:keywords],
             placeholder: t('.placeholder_for_search', default: 'Search Projects'),
-            class: 'form-control form-control-sm'
-          )
-        %>
-      </div>
-      <%= button_tag type: :submit, class: 'btn btn-sm btn-outline-primary' do %>
-        <i class="fa fa-search"></i> <%= t('.search', default: 'Search') %>
+            class: 'w-56 px-3 py-1.5 text-sm border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring' %>
+      <%= button_tag type: :submit,
+            class: 'inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border border-input bg-background hover:bg-accent' do %>
+        <i data-lucide="search" class="size-3.5"></i>
+        <%= t('.search', default: 'Search') %>
       <% end %>
     <% end %>
   </div>
 
   <% if @is_not_exits_own_project %>
-    <div class="row mt-3">
-      <div class="alert alert-info w-100">
-        <%= t(
-          '.is_not_exists_own_project',
-          default: "Can't find your own project. Create your project with the \"Create Project\" button"
-          )
-        %>
-      </div>
+    <div class="mb-4 px-4 py-3 rounded-md border border-blue-200 bg-blue-50 text-blue-800 text-sm">
+      <%= t('.is_not_exists_own_project', default: "Can't find your own project. Create your project with the \"Create Project\" button") %>
     </div>
   <% end %>
 
-  <div class="row">
-    <% if @projects.empty? && params[:keywords].blank? %>
-      <div class="mt-4 w-100 bg-gray-200 p-4 rounded">
-        <%= t('.project_does_not_exists', default: "Project doesn't exists. Let's create a project with the \"Create Project\" button.") %>
-      </div>
-    <% end %>
-    <% if @projects.empty? && params[:keywords].present? %>
-      <div class="mt-4 w-100 bg-gray-200 p-4 rounded">
-        <%= t('.project_does_not_exists_when_keywords', default: "Project doesn't exists.") %>
-        <%= link_to t('.back_to_projects_index', default: 'Back to project index'), projects_path %>
-      </div>
-    <% end %>
-    <ul class="list-group list-group-flush w-100">
-      <% @projects.each do |project| %>
-        <li class="list-group-item d-flex flex-row">
-          <div class="mr-3">
-            <img src="<%= project.project_image_url %>" width="64" class="rounded" />
-          </div>
-          <div class="d-flex flex-column">
-            <div class="mb-1">
-              <% if project.is_public %>
-                <span class="badge badge-pill badge-info"
-                  data-toggle="tooltip" data-placement="top" title="<%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>">
-                  <%= t('.is_public', default: 'Public') %> <i class="fas fa-question-circle"></i>
-                </span>
-              <% end %>
-              <%= link_to project.title, project_path(project) %>
-            </div>
-            <div class=""><%= project.body %></div>
-          </div>
-          <div class="ml-auto align-self-center">
-            <%= link_to edit_project_path(project), class: 'btn btn-sm btn-link' do %>
-              <i class="far fa-edit"></i> <%= t('.edit', default: 'Edit') %>
-            <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="row">
-    <div class="mx-auto">
-      <%= paginate @projects %>
+  <% if @projects.empty? && params[:keywords].blank? %>
+    <div class="mt-4 bg-muted p-4 rounded-md text-sm text-muted-foreground">
+      <%= t('.project_does_not_exists', default: "Project doesn't exists. Let's create a project with the \"Create Project\" button.") %>
     </div>
+  <% elsif @projects.empty? %>
+    <div class="mt-4 bg-muted p-4 rounded-md text-sm text-muted-foreground">
+      <%= t('.project_does_not_exists_when_keywords', default: "Project doesn't exists.") %>
+      <%= link_to t('.back_to_projects_index', default: 'Back to project index'), projects_path, class: 'underline hover:no-underline' %>
+    </div>
+  <% end %>
+
+  <ul class="w-full divide-y">
+    <% @projects.each do |project| %>
+      <li class="flex items-start gap-4 px-4 py-3 hover:bg-muted/50">
+        <div class="shrink-0">
+          <img src="<%= project.project_image_url %>" width="64" class="rounded" />
+        </div>
+        <div class="flex flex-col flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1">
+            <% if project.is_public %>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                title="<%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>">
+                <%= t('.is_public', default: 'Public') %>
+                <i data-lucide="help-circle" class="size-3"></i>
+              </span>
+            <% end %>
+            <%= link_to project.title, project_path(project), class: 'font-medium hover:underline' %>
+          </div>
+          <div class="text-sm text-muted-foreground"><%= project.body %></div>
+        </div>
+        <div class="shrink-0 self-center">
+          <%= link_to edit_project_path(project),
+                class: 'inline-flex items-center gap-1 px-2 py-1 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-muted' do %>
+            <i data-lucide="pencil" class="size-3.5"></i>
+            <%= t('.edit', default: 'Edit') %>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="flex justify-center mt-6">
+    <%= paginate @projects %>
   </div>
 </div>
