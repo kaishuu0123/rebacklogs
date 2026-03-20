@@ -1,0 +1,28 @@
+name: Mark and Close Stale Issues
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/stale@v9
+        with:
+          stale-issue-message: |
+            This issue has been automatically marked as stale because it has not had
+            recent activity for 30 days. It will be closed in 5 days if no further
+            activity occurs. Thank you for your contributions!
+          close-issue-message: |
+            This issue has been automatically closed due to inactivity.
+            Feel free to reopen it if the issue is still relevant.
+          days-before-issue-stale: 30
+          days-before-issue-close: 5
+          stale-issue-label: stale
+          exempt-issue-labels: pinned,security
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
