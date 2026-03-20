@@ -1,70 +1,50 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'application_settings/common/sidebar' %>
-  <div id="content-wrapper" class="d-flex flex-column">
-    <div class="container mt-2">
-      <div class="row my-2">
-        <h3 class="text-gray-800"><%= t('.title', default: 'Group Managements') %>: <%= @group.name %></h3>
+
+  <div class="flex-1 p-6 space-y-6">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'Group Managements') %>: <%= @group.name %></h1>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div class="rounded-xl border bg-card shadow-sm">
+        <div class="border-b px-4 py-3">
+          <h2 class="text-sm font-semibold"><%= t('.add_users_to_group', default: 'Add user(s) to the group') %></h2>
+        </div>
+        <div class="p-4">
+          <%= form_with model: @group, url: application_settings_group_managements_add_user_path(@group), local: true do |f| %>
+            <div class="space-y-3">
+              <select name="group[user_id]"
+                      class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <option value=""><%= t('.select_user', default: 'Select User...') %></option>
+                <% @addable_users.each do |user| %>
+                  <option value="<%= user.id %>"><%= user.username %></option>
+                <% end %>
+              </select>
+              <div class="flex justify-end">
+                <%= f.submit t('.add_user', default: 'Add User'),
+                      class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
 
-      <div class="row">
-        <div class="col-6 pl-0">
-          <div class="card">
-            <div class="card-header">
-              <h6 class="m-0 text-gray-800"><%= t('.add_users_to_group', default: 'Add user(s) to the group') %></h6>
-            </div>
-            <div class="card-body">
-              <%= simple_form_for @group, url: application_settings_group_managements_add_user_path(@group) do |f| %>
-                <div class="form-group">
-                  <select name="group[user_id]" class="selectpicker w-100" data-live-search="true" title="Select User ...">
-                    <% @addable_users.each do |user| %>
-                      <option
-                        value="<%= user.id %>"
-                        data-content='
-                          <div class="d-flex align-items-center">
-                            <img src=<%= user.user_image_url %> width="24" class="rounded mr-2" />
-                            <%= user.username %>
-                          </div>
-                        '>
-                        <%= user.username %>
-                      </option>
-                    <% end %>
-                  </select>
-                </div>
-
-                <div class="action d-flex justify-content-end">
-                  <%= f.submit t('.add_user', default: 'Add User'), class: 'btn btn-primary' %>
-                </div>
-              <% end %>
-            </div>
-          </div>
+      <div class="rounded-xl border bg-card shadow-sm">
+        <div class="border-b px-4 py-3">
+          <h2 class="text-sm font-semibold"><%= t('.users', default: 'Users') %></h2>
         </div>
-
-        <div class="col-6 pr-0">
-          <div class="card">
-            <div class="card-header">
-              <h6 class="m-0 text-gray-800"><%= t('.users', default: 'Users') %></h6>
-            </div>
-            <ul class="list-group list-group-flush w-100">
-              <% @group.users.each do |user| %>
-                <li class="list-group-item d-flex flex-row align-items-center">
-                  <div class="mr-3">
-                    <img src="<%= user.user_image_url %>" width="32" class="rounded" />
-                  </div>
-                  <div>
-                    <%= user.username %>
-                  </div>
-                  <div class="d-flex ml-auto align-self-center">
-                    <%= link_to application_settings_group_managements_remove_user_path(@group, user), method: :delete, class: "text-danger" do %>
-                      <i class="far fa-trash-alt"></i>
-                    <% end %>
-                  </div>
-                </li>
+        <ul class="divide-y">
+          <% @group.users.each do |user| %>
+            <li class="flex items-center gap-3 px-4 py-3">
+              <img src="<%= user.user_image_url %>" width="32" height="32" class="rounded shrink-0" />
+              <div class="flex-1 min-w-0 text-sm"><%= user.username %></div>
+              <%= link_to application_settings_group_managements_remove_user_path(@group, user),
+                    data: { turbo_method: :delete },
+                    class: 'text-destructive hover:text-destructive/80 text-sm' do %>
+                <i data-lucide="trash-2" class="size-4"></i>
               <% end %>
-            </ul>
-          </div>
-        </div>
+            </li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>

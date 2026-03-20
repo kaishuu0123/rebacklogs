@@ -1,54 +1,62 @@
-<div class="row">
-  <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-    <h1>Edit <%= resource_name.to_s.humanize %></h1>
-    <hr>
+<div class="mx-auto max-w-lg px-4 py-8 space-y-6">
+  <h1 class="text-2xl font-bold"><%= t('.title', default: 'Account Settings') %></h1>
+
+  <div class="rounded-xl border bg-card shadow-sm p-8 space-y-4">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-      <%= devise_error_messages! %>
-
-      <div class="form-group">
-        <%= f.label :username %><br />
-        <%= f.text_field :username, class: 'form-control'  %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, class: 'form-control'  %>
-      </div>
-
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %>
+      <% if resource.errors.any? %>
+        <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          <ul class="space-y-1">
+            <% resource.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
 
-      <div class="form-group">
-        <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-        <%= f.password_field :password, autocomplete: "off", class: 'form-control'  %>
-        <% if @minimum_password_length %>
-          <br />
-          <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+      <div class="space-y-2">
+        <%= f.label :username, class: 'text-sm font-medium' %>
+        <%= f.text_field :username,
+              class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+      </div>
+
+      <div class="space-y-2">
+        <%= f.label :email, class: 'text-sm font-medium' %>
+        <%= f.email_field :email,
+              class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p class="text-xs text-muted-foreground"><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></p>
         <% end %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'  %>
+      <div class="space-y-2">
+        <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
+        <%= f.label :password, "#{t('activerecord.attributes.user.password', default: 'Password')}#{min_len} — #{t('.leave_blank_if_you_don_t_want_to_change_it')}", class: 'text-sm font-medium' %>
+        <%= f.password_field :password, autocomplete: 'off', placeholder: '••••••••',
+              class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
 
-      <div class="form-group">
-        <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
-        <%= f.password_field :current_password, autocomplete: "off", class: 'form-control'  %>
+      <div class="space-y-2">
+        <%= f.label :password_confirmation, class: 'text-sm font-medium' %>
+        <%= f.password_field :password_confirmation, autocomplete: 'off', placeholder: '••••••••',
+              class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
 
-      <div class="form-group">
-        <%= f.submit t('.update'), class: 'btn btn-lg btn-block btn-primary' %>
+      <div class="space-y-2">
+        <%= f.label :current_password, "#{t('activerecord.attributes.user.current_password', default: 'Current password')} — #{t('.we_need_your_current_password_to_confirm_your_changes')}", class: 'text-sm font-medium' %>
+        <%= f.password_field :current_password, autocomplete: 'off', placeholder: '••••••••',
+              class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
+
+      <%= f.submit t('.update', default: 'Update'),
+            class: 'mt-2 h-10 w-full cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
     <% end %>
-    <hr>
+  </div>
 
-    <h2><%= t('.cancel_my_account') %></h2>
-
-    <p><%= t('.unhappy') %> <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
-
-    <%= link_to t('devise.shared.links.back'), :back %>
-    <hr>
+  <div class="rounded-xl border border-destructive/30 bg-card shadow-sm p-8 space-y-4">
+    <h2 class="text-lg font-semibold text-destructive"><%= t('.cancel_my_account') %></h2>
+    <p class="text-sm text-muted-foreground"><%= t('.unhappy') %></p>
+    <%= button_to t('.cancel_my_account'), registration_path(resource_name),
+          data: { confirm: t('.are_you_sure') }, method: :delete,
+          class: 'h-9 rounded-md border border-destructive px-4 text-sm font-medium text-destructive hover:bg-destructive/10 cursor-pointer' %>
   </div>
 </div>

@@ -1,44 +1,36 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'application_settings/common/sidebar' %>
-  <div id="content-wrapper" class="d-flex flex-column">
-    <div class="container mt-2">
-      <div class="row my-2">
-        <h3 class="text-gray-800"><%= t('.title', default: 'User Managements') %></h3>
-      </div>
-      <div class="row">
-        <div class="card w-100">
-          <div class="card-body">
-            <ul class="list-group list-group-flush w-100">
-              <% @users.each do |user| %>
-                <li class="list-group-item d-flex flex-row align-items-center">
-                  <div class="mr-3">
-                    <img src="<%= user.user_image_url %>" width="48" class="rounded" />
-                  </div>
-                  <div>
-                    <%= link_to user.username, edit_application_settings_user_management_path(user) %>
-                  </div>
-                  <div class="d-flex ml-auto align-self-center">
-                    <%= link_to edit_application_settings_user_management_path(user), class: 'text-primary mr-2' do %>
-                      <i class="far fa-edit"></i>
-                    <% end %>
-                    <%= link_to application_settings_user_management_path(user), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } do %>
-                      <i class="far fa-trash-alt"></i>
-                    <% end %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="mx-auto">
-          <%= paginate @users %>
-        </div>
-      </div>
 
+  <div class="flex-1 p-6 space-y-6">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'User Managements') %></h1>
+
+    <div class="rounded-xl border bg-card shadow-sm">
+      <ul class="divide-y">
+        <% @users.each do |user| %>
+          <li class="flex items-center gap-3 px-4 py-3">
+            <img src="<%= user.user_image_url %>" width="40" height="40" class="rounded shrink-0" />
+            <div class="flex-1 min-w-0">
+              <%= link_to user.username, edit_application_settings_user_management_path(user),
+                    class: 'text-sm font-medium hover:underline' %>
+            </div>
+            <div class="flex items-center gap-3">
+              <%= link_to edit_application_settings_user_management_path(user),
+                    class: 'text-muted-foreground hover:text-foreground' do %>
+                <i data-lucide="pencil" class="size-4"></i>
+              <% end %>
+              <%= link_to application_settings_user_management_path(user),
+                    class: 'text-destructive hover:text-destructive/80',
+                    data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } do %>
+                <i data-lucide="trash-2" class="size-4"></i>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="flex justify-center">
+      <%= paginate @users %>
     </div>
   </div>
 </div>

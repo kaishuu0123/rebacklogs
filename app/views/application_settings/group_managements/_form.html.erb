@@ -1,19 +1,24 @@
-<%= simple_form_for group, url: application_settings_group_managements_path do |f| %>
+<%= form_with model: group, url: application_settings_group_managements_path, local: true do |f| %>
   <% if group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('errors.messages.not_saved.other', count: group.errors.count, resource: 'Group') %></h2>
-
-      <ul>
+    <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+      <ul class="space-y-1">
         <% group.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
-  <%= f.input :name %>
 
-  <div class="action d-flex justify-content-end">
-    <%= f.submit nil, class: 'btn btn-primary mr-2' %>
-    <%= link_to t('actions.back', default: 'Back'), application_settings_group_managements_path, class: 'btn btn-secondary' %>
+  <div class="space-y-2">
+    <%= f.label :name, class: 'text-sm font-medium' %>
+    <%= f.text_field :name,
+          class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+  </div>
+
+  <div class="flex justify-end gap-2 pt-2">
+    <%= link_to t('actions.back', default: 'Back'), application_settings_group_managements_path,
+          class: 'h-9 rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent hover:text-accent-foreground inline-flex items-center' %>
+    <%= f.submit nil,
+          class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
   </div>
 <% end %>

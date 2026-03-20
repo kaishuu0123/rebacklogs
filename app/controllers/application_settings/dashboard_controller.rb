@@ -15,6 +15,6 @@ class ApplicationSettings::DashboardController < ApplicationController
   private
 
   def settings_params
-    params.require(:settings).permit(:site_title, :head_custom_script, :body_custom_script)
+    params.require(:settings).permit(:site_title, :head_custom_script, :body_custom_script, :theme_name)
   end
 end

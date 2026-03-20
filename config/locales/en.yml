@@ -31,6 +31,47 @@
 
 en:
   hello: "Hello world"
+  actions:
+    sign_in: Sign in
+    sign_out: Sign out
+    create_project: Create project
+    edit_project: Edit project
+    back: Back
+    upload: Upload
+    user_settings: User settings
+    remove: Remove
+    settings: Settings
+  application_settings:
+    common:
+      sidebar:
+        general_settings: General Settings
+        group_managements: Group Managements
+        user_managements: User Managements
+    dashboard:
+      index:
+        title: General Settings
+        site_settings: Site Settings
+        theme_settings: Theme
+        theme_description: Choose a color theme for the entire application.
+    group_managements:
+      index:
+        title: Group Managements
+        create_group: Create Group
+      new:
+        create: Create Group
+      show:
+        title: Group Managements
+        add_users_to_group: Add user(s) to the group
+        select_user: Select User...
+        add_user: Add
+        users: Users
+    user_managements:
+      index:
+        title: User Managements
+      edit:
+        title: User Managements
+        current_image: Current Image
+        role: Role
   role:
     description:
       admin: Authority that allows all operations
@@ -39,3 +80,5 @@ en:
     attributes:
       project:
         is_public: Public Project?
+      group:
+        name: Group name
