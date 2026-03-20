@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      actions: write
     steps:
       - uses: actions/stale@v9
         with:
@@ -21,7 +22,7 @@ jobs:
             This issue has been automatically closed due to inactivity.
             Feel free to reopen it if the issue is still relevant.
           days-before-issue-stale: 30
-          days-before-issue-close: 5
+          days-before-issue-close: 0
           stale-issue-label: stale
           exempt-issue-labels: pinned,security
           days-before-pr-stale: -1
