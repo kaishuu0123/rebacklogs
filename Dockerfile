@@ -3,7 +3,7 @@
 
 FROM node:22-alpine AS node
 
-FROM ruby:3.3.1-alpine AS builder
+FROM ruby:3.4-alpine AS builder
 
 ENV BUNDLER_VERSION=2.5.7
 
@@ -48,7 +48,7 @@ ENV NODE_ENV="production"
 RUN cd /opt/rebacklogs && \
   SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
 
-FROM ruby:3.3.1-alpine
+FROM ruby:3.4-alpine
 
 # install rails require minimum package
 RUN apk --update --no-cache add \

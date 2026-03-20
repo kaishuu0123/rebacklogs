@@ -22,7 +22,9 @@
           end
           i18n_key = controller_name == 'sessions' ? '.sign_in_with_provider' : '.sign_up_with_provider'
         %>
-        <%= link_to omniauth_authorize_path(resource_name, provider),
+        <%= button_to omniauth_authorize_path(resource_name, provider),
+              method: :post,
+              form_class: 'w-full',
               class: 'flex h-10 w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent hover:text-accent-foreground' do %>
           <%= t(i18n_key, provider: provider_label, default: "Continue with #{provider_label}") %>
         <% end %>
