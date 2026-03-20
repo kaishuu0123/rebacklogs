@@ -1,21 +1,25 @@
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gray-200 sidebar" id="accordionSidebar">
-  <!-- Nav Item -->
-  <%= nav_link application_settings_path do %>
-    <i class="fas fa-cog fa-fw mr-1"></i> <%= t('.general_settings', default: 'General Settings') %>
-  <% end %>
-
-  <!-- Nav Item -->
-  <%= nav_link application_settings_group_managements_path do %>
-    <i class="fas fa-users fa-fw mr-1"></i> <%= t('.group_managements', default: 'Group Managements') %>
-  <% end%>
-
-  <!-- Nav Item -->
-  <%= nav_link application_settings_user_managements_path do %>
-    <i class="fas fa-user fa-fw mr-1"></i> <%= t('.user_managements', default: 'User Managements') %>
-  <% end%>
-
-  <!-- Divider -->
-  <hr class="sidebar-divider">
-</ul>
-<!-- End of Sidebar -->
+<nav class="w-56 shrink-0 border-r bg-sidebar p-4">
+  <ul class="space-y-1">
+    <li>
+      <%= link_to application_settings_path,
+            class: "flex items-center gap-2 rounded-md px-3 py-2 text-sm #{current_page?(application_settings_path) ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}" do %>
+        <i data-lucide="settings" class="size-4 shrink-0"></i>
+        <%= t('.general_settings', default: 'General Settings') %>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to application_settings_group_managements_path,
+            class: "flex items-center gap-2 rounded-md px-3 py-2 text-sm #{current_page?(application_settings_group_managements_path) ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}" do %>
+        <i data-lucide="users" class="size-4 shrink-0"></i>
+        <%= t('.group_managements', default: 'Group Managements') %>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to application_settings_user_managements_path,
+            class: "flex items-center gap-2 rounded-md px-3 py-2 text-sm #{current_page?(application_settings_user_managements_path) ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'}" do %>
+        <i data-lucide="user" class="size-4 shrink-0"></i>
+        <%= t('.user_managements', default: 'User Managements') %>
+      <% end %>
+    </li>
+  </ul>
+</nav>

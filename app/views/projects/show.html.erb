@@ -1,21 +1,16 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-<%= stylesheet_pack_tag 'backlogs', media: 'all' %>
-<%= javascript_packs_with_chunks_tag 'backlogs' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'commons/sidebar', { project: @project } %>
-  <div id="content-wrapper" class="d-flex flex-column">
-    <!-- Main Content -->
-    <div id="content"
-      data-project-id="<%= @project.id %>"
-      data-project-title="<%= @project.title %>"
-      data-is-public="<%= @project.is_public %>">
-      <router-view />
-    </div>
-    <% if @project.is_public %>
-      <div class="alert alert-warning mb-0 fixed-bottom">
-        <%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>
-      </div>
-    <% end %>
+  <div class="flex-1 min-w-0">
+    <%= turbo_mount "Backlogs", props: {
+      projectId: @project.id.to_s,
+      projectTitle: @project.title,
+      isPublic: @project.is_public
+    } %>
   </div>
 </div>
+
+<% if @project.is_public %>
+  <div class="fixed bottom-0 left-0 right-0 bg-yellow-50 border-t border-yellow-200 px-4 py-2 text-sm text-yellow-800">
+    <%= t('.public_project_message', default: 'This is a public project. Non-member users are only allowed to comment on tickets.') %>
+  </div>
+<% end %>

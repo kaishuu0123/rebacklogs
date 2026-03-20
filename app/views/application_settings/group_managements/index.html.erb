@@ -1,67 +1,59 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'application_settings/common/sidebar' %>
-  <div id="content-wrapper" class="d-flex flex-column">
-    <div class="container mt-2">
-      <div class="row my-2">
-        <h3 class="text-gray-800"><%= t('.title', default: 'Group Managements') %></h3>
-      </div>
-      <div class="row">
-        <div class="card w-100 mb-4">
-          <div class="card-body">
-            <%= simple_form_for @group, url: application_settings_group_managements_path do |f| %>
-              <% if @group.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= t('errors.messages.not_saved.other', count: @group.errors.count, resource: 'Group') %></h2>
 
-                  <ul>
-                    <% @group.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              <% end %>
-              <%= f.input :name %>
+  <div class="flex-1 p-6 space-y-6">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'Group Managements') %></h1>
 
-              <div class="action d-flex justify-content-end">
-                <%= f.submit t('.create_group', default: 'Create Group'), class: 'btn btn-primary' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-
-        <div class="card w-100">
-          <div class="card-body">
-            <ul class="list-group list-group-flush w-100">
-              <% @groups.each do |group| %>
-                <li class="list-group-item d-flex flex-row align-items-center">
-                  <div class="mr-3">
-                    <img src="<%= group.group_image_url %>" width="48" class="rounded" />
-                  </div>
-                  <div>
-                    <%= link_to group.name, application_settings_group_management_path(group) %>
-                  </div>
-                  <div class="d-flex ml-auto align-self-center">
-                    <div class="mr-2">
-                      <i class="fas fa-user-friends"></i>
-                      <span><%= group.users.count %></span>
-                    </div>
-                    <%= link_to application_settings_group_management_path(group), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } do %>
-                      <i class="far fa-trash-alt"></i>
-                    <% end %>
-                  </div>
-                </li>
+    <div class="rounded-xl border bg-card shadow-sm p-6 space-y-4">
+      <h2 class="text-base font-semibold"><%= t('.create_group', default: 'Create Group') %></h2>
+      <%= form_with model: @group, url: application_settings_group_managements_path, local: true do |f| %>
+        <% if @group.errors.any? %>
+          <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <ul class="space-y-1">
+              <% @group.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
               <% end %>
             </ul>
           </div>
+        <% end %>
+
+        <div class="flex gap-2">
+          <%= f.text_field :name,
+                placeholder: t('activerecord.attributes.group.name', default: 'Group name'),
+                class: 'h-9 flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+          <%= f.submit t('.create_group', default: 'Create Group'),
+                class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
         </div>
-      </div>
-      <div class="row mt-4">
-        <div class="mx-auto">
-          <%= paginate @groups %>
-        </div>
-      </div>
+      <% end %>
+    </div>
+
+    <div class="rounded-xl border bg-card shadow-sm">
+      <ul class="divide-y">
+        <% @groups.each do |group| %>
+          <li class="flex items-center gap-3 px-4 py-3">
+            <img src="<%= group.group_image_url %>" width="40" height="40" class="rounded shrink-0" />
+            <div class="flex-1 min-w-0">
+              <%= link_to group.name, application_settings_group_management_path(group),
+                    class: 'text-sm font-medium hover:underline' %>
+            </div>
+            <div class="flex items-center gap-3 text-muted-foreground text-sm">
+              <span class="flex items-center gap-1">
+                <i data-lucide="users" class="size-4"></i>
+                <%= group.users.count %>
+              </span>
+              <%= link_to application_settings_group_management_path(group),
+                    class: 'text-destructive hover:text-destructive/80',
+                    data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } do %>
+                <i data-lucide="trash-2" class="size-4"></i>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="flex justify-center">
+      <%= paginate @groups %>
     </div>
   </div>
 </div>

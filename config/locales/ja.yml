@@ -73,13 +73,19 @@ ja:
     dashboard:
       index:
         title: 一般設定
+        site_settings: サイト設定
+        theme_settings: テーマ
+        theme_description: アプリケーション全体のカラーテーマを選択します。
     group_managements:
       index:
         title: グループ管理
         create_group: グループを作成
+      new:
+        create: グループを作成
       show:
         title: グループ管理
-        add_user: ユーザを追加
+        add_user: 追加
+        select_user: ユーザを選択...
         users: ユーザ一覧
         add_users_to_group: ユーザをグループに追加
     user_managements:
@@ -91,7 +97,9 @@ ja:
         role: 権限
   installer:
     index:
-      admin_password: 管理者パスワード (管理者のユーザ名は「admin」です)
+      username: 管理者ユーザ名
+      email: 管理者メールアドレス
+      admin_password: 管理者パスワード
       admin_password_confirmation: 管理者パスワード(確認用)
       locale: 言語設定
       english: 英語

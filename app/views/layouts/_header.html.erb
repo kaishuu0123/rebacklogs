@@ -1,19 +1,18 @@
-<header>
-  <div class="navbar navbar-expand navbar-dark bg-dark shadow-sm flex-column flex-md-row">
-    <div class="d-flex">
-      <a href="/" class="navbar-brand d-flex align-items-center">
-        <i class="fas fa-ghost fa-lg mr-3"></i><strong>Re:Backlogs</strong>
-      </a>
-    </div>
-    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-      <% if current_user&.has_role?(:admin) %>
-        <li class="nav-item mr-2">
-          <%= link_to application_settings_path, class: "nav-item nav-link" do %>
-            <i class="fas fa-cog"></i> <%= t('actions.settings', default: "Settings") %>
-          <% end %>
-        </li>
-      <% end %>
-      <%= render 'layouts/user_menu'%>
-    </ul>
-  </div>
-</header>
+<%
+  current_user_props = if current_user.present?
+    {
+      username: current_user.username,
+      imageUrl: current_user.user_image_url,
+      isAdmin: current_user.has_role?(:admin),
+      settingsPath: application_settings_path,
+      profilePath: profiles_path,
+      signOutPath: destroy_user_session_path
+    }
+  end
+%>
+<%= turbo_mount "Header", props: {
+  currentUser: current_user_props,
+  signInPath: new_user_session_path,
+  rootPath: root_path,
+  demoMode: ENV['DEMO_MODE'] == 'true'
+} %>

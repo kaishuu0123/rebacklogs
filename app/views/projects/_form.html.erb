@@ -1,9 +1,7 @@
-<%= simple_form_for project do |f| %>
+<%= form_with model: project, local: true do |f| %>
   <% if project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= t('errors.messages.not_saved.other', count: project.errors.count, resource: 'Project') %></h2>
-
-      <ul>
+    <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+      <ul class="space-y-1">
         <% project.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,15 +9,37 @@
     </div>
   <% end %>
 
-  <%= f.input :title, placeholder: t('.placeholder.title', default: 'My awesome project') %>
-  <%= f.input :body, as: :text, input_html: { rows: 5 }, placeholder: t('.placeholder.description', default: 'Description format') %>
-  <%= f.input :ticket_prefix,
-    placeholder: t('.placeholder.ticket_prefix', default: 'e.g.) AWE'),
-    hint: t('message.ticket_prefix_description', default: 'Ticket Prefix is an arbitrary string that is added to the beginning of the ticket number.') %>
-  <%= f.input :is_public %>
+  <div class="space-y-2">
+    <%= f.label :title, class: 'text-sm font-medium' %>
+    <%= f.text_field :title,
+          placeholder: t('.placeholder.title', default: 'My awesome project'),
+          class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+  </div>
 
-  <div class="action d-flex justify-content-end">
-    <%= f.submit nil, class: 'btn btn-primary mr-2' %>
-    <%= link_to t('actions.back', default: 'Back'), projects_path, class: 'btn btn-secondary' %>
+  <div class="space-y-2">
+    <%= f.label :body, class: 'text-sm font-medium' %>
+    <%= f.text_area :body, rows: 5,
+          placeholder: t('.placeholder.description', default: 'Description format'),
+          class: 'w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :ticket_prefix, class: 'text-sm font-medium' %>
+    <%= f.text_field :ticket_prefix,
+          placeholder: t('.placeholder.ticket_prefix', default: 'e.g.) AWE'),
+          class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+    <p class="text-xs text-muted-foreground"><%= t('message.ticket_prefix_description', default: 'Ticket Prefix is an arbitrary string that is added to the beginning of the ticket number.') %></p>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= f.check_box :is_public, class: 'h-4 w-4 rounded border-input' %>
+    <%= f.label :is_public, class: 'text-sm font-medium' %>
+  </div>
+
+  <div class="flex justify-end gap-2 pt-2">
+    <%= link_to t('actions.back', default: 'Back'), projects_path,
+          class: 'h-9 rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent hover:text-accent-foreground inline-flex items-center' %>
+    <%= f.submit nil,
+          class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
   </div>
 <% end %>

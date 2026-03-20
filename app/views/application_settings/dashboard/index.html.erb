@@ -1,27 +1,54 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'application_settings/common/sidebar' %>
 
-  <div id="content-wrapper" class="d-flex flex-column">
-    <div class="container mt-2">
-      <div class="row my-2">
-        <h3 class="text-gray-800"><%= t('.title', default: 'General Settings') %></h3>
-      </div>
-      <div class="row">
-        <div class="card w-100 mb-4">
-          <div class="card-body">
-            <%= simple_form_for :settings, url: application_settings_path do |f| %>
-              <%= f.input :site_title, as: :string, input_html: { value: Setting.site_title } %>
-              <%= f.input :head_custom_script, as: :text, input_html: { value: Setting.head_custom_script, rows: 5  } %>
-              <%= f.input :body_custom_script, as: :text, input_html: { value: Setting.body_custom_script, rows: 5  } %>
-              <div class="d-flex justify-content-end">
-                <%= f.submit nil, class: 'btn btn-primary' %>
-              </div>
-            <% end %>
+  <div class="flex-1 p-6 space-y-6">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'General Settings') %></h1>
+
+    <%= form_with url: application_settings_path, local: true do |f| %>
+      <div class="space-y-6">
+
+        <%# Site settings card %>
+        <div class="rounded-xl border bg-card shadow-sm p-6">
+          <h2 class="text-base font-semibold mb-4"><%= t('.site_settings', default: 'Site Settings') %></h2>
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium"><%= t('simple_form.labels.settings.site_title', default: 'Site title') %></label>
+              <%= text_field_tag 'settings[site_title]', Setting.site_title,
+                    class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium"><%= t('simple_form.labels.settings.head_custom_script', default: 'Head custom script') %></label>
+              <%= text_area_tag 'settings[head_custom_script]', Setting.head_custom_script, rows: 5,
+                    class: 'w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-mono' %>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium"><%= t('simple_form.labels.settings.body_custom_script', default: 'Body custom script') %></label>
+              <%= text_area_tag 'settings[body_custom_script]', Setting.body_custom_script, rows: 5,
+                    class: 'w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring font-mono' %>
+            </div>
           </div>
         </div>
+
+        <%# Theme settings card %>
+        <div class="rounded-xl border bg-card shadow-sm p-6">
+          <h2 class="text-base font-semibold mb-1"><%= t('.theme_settings', default: 'Theme') %></h2>
+          <p class="text-sm text-muted-foreground mb-4"><%= t('.theme_description', default: 'Choose a color theme for the entire application.') %></p>
+
+          <%# ThemePicker mounts inside this form — its hidden input is submitted with the form %>
+          <%= turbo_mount "ThemePicker", props: {
+            currentTheme: Setting.theme_name.to_s,
+            inputName: "settings[theme_name]"
+          } %>
+        </div>
+
+        <div class="flex justify-end">
+          <%= f.submit nil,
+                class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+        </div>
+
       </div>
-    </div>
+    <% end %>
   </div>
 </div>

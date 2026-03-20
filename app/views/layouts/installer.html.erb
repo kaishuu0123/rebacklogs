@@ -6,8 +6,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <%= javascript_packs_with_chunks_tag 'application' %>
+    <%= vite_client_tag %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_typescript_tag 'application' %>
   </head>
 
   <body>

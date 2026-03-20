@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "LS",
+      "Glob",
+      "Grep",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(node:*)",
+      "Bash(yarn lint:*)"
+    ]
+  }
+}

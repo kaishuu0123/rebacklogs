@@ -1,27 +1,40 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="card o-hidden border-0 shadow-lg my-5 col-5">
-      <div class="card-body p-0">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="p-5">
-              <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign up to Re:Backlogs') %></h1>
-              </div>
-              <%= simple_form_for(@user, url: finish_signup_path(@user), html: {class: 'user'}) do |f| %>
-                <div class="form-group">
-                  <%= f.input :username, placeholder: t('activerecord.attributes.user.username', default: 'Username'), autofocus: true, class: 'form-control form-control-user', input_html: { value: '' } %>
-                </div>
-                <div class="form-group">
-                  <%= f.input :email, placeholder: t('activerecord.attributes.user.email', default: 'Email'), autofocus: false, class: 'form-control form-control-user', input_html: { value: '' } %>
-                </div>
-                <%= f.submit t('.sign_up', default: 'Sign up'), class: "btn btn-primary btn-user btn-block" %>
-                <%= hidden_field_tag :provider, @provider %>
+<div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4">
+  <div class="w-full max-w-sm space-y-6">
+    <div class="space-y-2 text-center">
+      <h1 class="text-2xl font-bold"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign up to Re:Backlogs') %></h1>
+    </div>
+
+    <div class="rounded-xl border bg-card shadow-sm p-8 space-y-4">
+      <%= form_with model: @user, url: finish_signup_path(@user), local: true do |f| %>
+        <% if @user.errors.any? %>
+          <div class="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <ul class="space-y-1">
+              <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
               <% end %>
-            </div>
+            </ul>
           </div>
+        <% end %>
+
+        <div class="space-y-2">
+          <%= f.label :username, t('activerecord.attributes.user.username', default: 'Username'), class: 'text-sm font-medium' %>
+          <%= f.text_field :username, autofocus: true, value: '',
+                placeholder: t('activerecord.attributes.user.username', default: 'Username'),
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
-      </div>
+
+        <div class="space-y-2">
+          <%= f.label :email, t('activerecord.attributes.user.email', default: 'Email'), class: 'text-sm font-medium' %>
+          <%= f.email_field :email, value: '',
+                placeholder: t('activerecord.attributes.user.email', default: 'Email'),
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <%= hidden_field_tag :provider, @provider %>
+
+        <%= f.submit t('.sign_up', default: 'Sign up'),
+              class: 'mt-2 h-10 w-full cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+      <% end %>
     </div>
   </div>
 </div>

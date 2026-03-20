@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <% custom_title = [] %>
     <% custom_title << @project.title if @project.present? %>
     <% custom_title << Setting.site_title if Setting.site_title.present? %>
 
     <%= raw(Setting.head_custom_script) if Setting.head_custom_script.present? %>
-
-    <%# <meta name="viewport" content="width=device-width,initial-scale=1.0"> %>
 
     <% if custom_title.present? %>
     <title><%= custom_title.push('Re:Backlogs').join(' | ') %></title>
@@ -18,21 +16,24 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <%= javascript_packs_with_chunks_tag 'application' %>
     <%= vite_client_tag %>
+    <%= vite_react_refresh_tag %>
     <%= vite_typescript_tag 'application' %>
 
   </head>
 
   <body>
+    <%# Theme CSS variables — in body so Turbo fully replaces it on every navigation %>
+    <%= theme_style_tag %>
+
     <%= render 'layouts/header' %>
 
-    <% flash.each do |type, msg| %>
-      <% type = 'success' if type == 'notice' %>
-      <% type = 'error' if type == 'alert' %>
-      <div class="flash" toastr-type="<%= type %>" style="display: none;"><%= msg %></div>
-    <% end %>
+    <%= turbo_mount "FlashToaster", props: {
+      messages: flash.filter_map { |type, msg|
+        next if controller_name == 'sessions' && type.to_s == 'alert'
+        { type: type.to_s, message: msg.to_s }
+      }
+    } %>
 
     <%= yield %>
 

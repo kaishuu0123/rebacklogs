@@ -1,78 +1,67 @@
-<div id="wrapper">
-  <div id="content-wrapper">
-    <div class="container-fluid">
-      <div class="row my-2">
-        <div class="col-8 mx-auto">
-          <h3 class="text-gray-800 border-bottom"><%= t('.user_settings', default: 'User Settings') %></h3>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="card col-8 mx-auto">
-          <div class="card-body">
-            <div class="container-fluid">
-              <div class="row">
-                <form class="w-100">
-                  <div class="form-group">
-                    <label><%= t('activerecord.attributes.user.username', default: 'Username') %></label>
-                    <span class="form-control" readonly><%= current_user.username %></span>
-                  </div>
-                  <div class="form-group">
-                    <label><%= t('activerecord.attributes.user.email', default: 'Email') %></label>
-                    <span class="form-control" readonly><%= current_user.email %></span>
-                  </div>
-                </form>
-              </div>
-              <div class="row">
-                <div class="col-3 pl-0">
-                  <p class="mb-1"><%= t('.current_image', default: 'Current Image') %></p>
-                  <div class="mb-2">
-                    <img src="<%= current_user.user_image_url %>" width="90" class="rounded" />
-                  </div>
-                </div>
-                <div class="col-6">
-                  <%= simple_form_for current_user, url: { controller: 'profiles', action: 'update' }, method: :patch, html: { id: 'edit_image' } do |f| %>
-                    <%= f.input :image, wrapper: :custom_file, placeholder: t('.choose_a_file', default: 'Choose a file ...') %>
-                    <div class="d-flex">
-                      <%= f.button :submit, t('actions.upload', default: 'Upload'), class: 'btn btn-sm btn-primary mr-3' %>
-                      <% if current_user.image.present? %>
-                        <div>
-                          <%= link_to t('actions.remove', default: 'Remove'), profiles_image_path(), method: :delete, class: 'btn btn-sm btn-danger mr-3' %>
-                        </div>
-                      <% end %>
-                      <%#
-                        link_to profiles_use_gravatar_path,
-                        class: "btn btn-sm btn-success",
-                        data: { toggle: "tooltip", html: "true", title: "#{gravatar_image_tag(current_user.email, size: 180, secure: true)}" },
-                        method: :patch do %>
-                        <%# t('.user_gravatar', default: 'Use Gravatar Icon') %>
-                      <%# end %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="card col-8 mx-auto">
-          <div class="card-body">
-            <div class="container-fluid">
-              <div class="row">
-                <h2 class="h3"><%= t('.change_password', default: 'Change Password') %></h2>
-              </div>
-              <div class="row">
-                <%= simple_form_for current_user, url: { controller: 'profiles', action: 'update_password' }, method: :patch, html: { id: 'edit_password', class: 'w-100' } do |f| %>
-                  <%= f.input :current_password %>
-                  <%= f.input :password %>
-                  <%= f.input :password_confirmation %>
-                  <%= f.button :submit, class: 'btn btn-sm btn-primary' %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container mx-auto max-w-2xl px-4 py-8 space-y-6">
+  <h1 class="text-2xl font-bold"><%= t('.user_settings', default: 'User Settings') %></h1>
+
+  <div class="rounded-xl border bg-card shadow-sm p-6 space-y-4">
+    <div class="space-y-2">
+      <label class="text-sm font-medium"><%= t('activerecord.attributes.user.username', default: 'Username') %></label>
+      <div class="h-10 w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground flex items-center">
+        <%= current_user.username %>
       </div>
     </div>
+    <div class="space-y-2">
+      <label class="text-sm font-medium"><%= t('activerecord.attributes.user.email', default: 'Email') %></label>
+      <div class="h-10 w-full rounded-md border border-input bg-muted px-3 py-2 text-sm text-muted-foreground flex items-center">
+        <%= current_user.email %>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 pt-2">
+      <div class="shrink-0">
+        <p class="text-sm font-medium mb-2"><%= t('.current_image', default: 'Current Image') %></p>
+        <img src="<%= current_user.user_image_url %>" width="72" height="72" class="rounded" />
+      </div>
+      <div class="flex-1">
+        <%= form_for current_user, url: { controller: 'profiles', action: 'update' }, method: :patch, html: { id: 'edit_image' } do |f| %>
+          <div class="space-y-2">
+            <%= f.label :image, class: 'text-sm font-medium' %>
+            <%= f.file_field :image,
+                  class: 'w-full text-sm text-muted-foreground file:mr-3 file:h-9 file:cursor-pointer file:rounded-md file:border file:border-input file:bg-background file:px-3 file:text-sm file:font-medium' %>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <%= f.submit t('actions.upload', default: 'Upload'),
+                  class: 'h-8 cursor-pointer rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90' %>
+            <% if current_user.image.present? %>
+              <%= link_to t('actions.remove', default: 'Remove'), profiles_image_path(), data: { turbo_method: :delete },
+                    class: 'h-8 rounded-md border border-destructive px-3 text-xs font-medium text-destructive hover:bg-destructive/10 inline-flex items-center' %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border bg-card shadow-sm p-6 space-y-4">
+    <h2 class="text-lg font-semibold"><%= t('.change_password', default: 'Change Password') %></h2>
+    <%= form_for current_user, url: { controller: 'profiles', action: 'update_password' }, method: :patch, html: { id: 'edit_password' } do |f| %>
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <%= f.label :current_password, class: 'text-sm font-medium' %>
+          <%= f.password_field :current_password, placeholder: '••••••••',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+        <div class="space-y-2">
+          <%= f.label :password, class: 'text-sm font-medium' %>
+          <%= f.password_field :password, placeholder: '••••••••',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+        <div class="space-y-2">
+          <%= f.label :password_confirmation, class: 'text-sm font-medium' %>
+          <%= f.password_field :password_confirmation, placeholder: '••••••••',
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+        <%= f.submit t('actions.update', default: 'Update'),
+              class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+      </div>
+    <% end %>
   </div>
 </div>

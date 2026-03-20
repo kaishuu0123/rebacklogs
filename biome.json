@@ -9,8 +9,25 @@
 		"ignoreUnknown": true,
 		"includes": [
 			"app/javascript/entrypoints/**",
-			"app/javascript/components/react/**"
+			"app/javascript/components/react/**",
+			"app/javascript/components/ui/**",
+			"app/javascript/lib/**",
+			"app/javascript/hooks/**"
 		]
+	},
+	"css": {
+		"parser": {
+			"cssModules": false,
+			"tailwindDirectives": true
+		},
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "space",
+			"indentWidth": 2
+		},
+		"linter": {
+			"enabled": false
+		}
 	},
 	"formatter": {
 		"enabled": true,
