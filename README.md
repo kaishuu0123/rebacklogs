@@ -129,7 +129,12 @@ There are several.
 * I want to create a not SPA service using webpacker
     * Use an existing session mechanism that does not use JWT, and prepare an environment for developing modern front ends.
 
-## LICENSE
+## License
 
-* MIT
-* see LICENSE file
+This software is based on the MIT License with an additional restriction:
+you may not use this software to provide commercial services to third parties
+(e.g. SaaS, hosted services) where the primary value derives from this software.
+
+Personal use and internal business use are explicitly permitted.
+
+See [LICENSE](./LICENSE) for details.
