@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# ruby '~> 3.3'
+ruby '>= 3.3', '< 4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Full-stack web application framework. (https://rubyonrails.org)
-gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
+gem 'rails', '~> 8.0.0'
 # Use Puma as the app server
 # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
 gem 'puma', '>= 5.0'
@@ -38,14 +38,7 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   # A debugging tool for your Ruby on Rails applications. (https://github.com/rails/web-console)
-  gem 'web-console', '>= 3.3.0'
-  # Listen to file modifications (https://github.com/guard/listen)
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  # Rails application preloader (https://github.com/rails/spring)
-  gem 'spring'
-  # Makes spring watch files using the listen gem. (https://github.com/jonleighton/spring-watcher-listen)
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console'
   # An IRB alternative and runtime developer console (http://pryrepl.org)
   gem 'pry'
 
@@ -98,9 +91,9 @@ gem 'sequenced'
 # An acts_as_sortable replacement built for Rails 3 & 4 (https://github.com/mixonic/ranked-model)
 gem 'ranked-model', '~> 0.4'
 # Track changes to your models. (https://github.com/paper-trail-gem/paper_trail)
-gem 'paper_trail', '~> 15.0'
+gem 'paper_trail', '~> 17.0'
 # Common locale data and translations for Rails i18n. (http://github.com/svenfuchs/rails-i18n)
-gem 'rails-i18n', '~> 7.0.9' # For 6.0.0 or higher
+gem 'rails-i18n', '~> 8.0'
 # Forms made easy! (https://github.com/plataformatec/simple_form)
 gem 'simple_form'
 
@@ -112,9 +105,10 @@ gem 'cancancan'
 # Settings plugin for Rails that makes managing a table of global keys. (https://github.com/huacnlee/rails-settings-cached)
 gem 'rails-settings-cached', '~> 2.0'
 
-gem 'omniauth', '~> 1.9'
-gem 'omniauth-github', '~> 1.3'
-gem 'omniauth-google-oauth2', '~> 0.8'
+gem 'omniauth', '~> 2.1'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-github', '~> 2.0'
+gem 'omniauth-google-oauth2', '~> 1.2'
 
 gem 'config'
 

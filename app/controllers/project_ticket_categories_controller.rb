@@ -2,7 +2,7 @@ class ProjectTicketCategoriesController < ApplicationController
   authorize_resource
 
   before_action :set_project_ticket_category, only: [
-    :show, :edit, :update, :destroy
+    :show, :update, :destroy
   ]
 
   def index

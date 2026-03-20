@@ -57,6 +57,6 @@
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
     "vite": "^8.0.0",
-    "vite-plugin-ruby": "^5.1.1"
+    "vite-plugin-ruby": "^5.2.0"
   }
 }

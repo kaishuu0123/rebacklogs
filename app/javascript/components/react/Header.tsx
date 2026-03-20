@@ -132,6 +132,26 @@ function DemoThemePicker() {
   );
 }
 
+function signOut(signOutPath: string) {
+  const csrfToken =
+    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
+      ?.content ?? '';
+  const form = document.createElement('form');
+  form.method = 'post';
+  form.action = signOutPath;
+  const methodInput = document.createElement('input');
+  methodInput.type = 'hidden';
+  methodInput.name = '_method';
+  methodInput.value = 'delete';
+  const csrfInput = document.createElement('input');
+  csrfInput.type = 'hidden';
+  csrfInput.name = 'authenticity_token';
+  csrfInput.value = csrfToken;
+  form.append(methodInput, csrfInput);
+  document.body.appendChild(form);
+  form.submit();
+}
+
 export default function Header({
   currentUser,
   signInPath,
@@ -187,14 +207,9 @@ export default function Header({
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <a
-                      href={currentUser.signOutPath}
-                      data-turbo-method="delete"
-                    >
-                      <LogOutIcon size={14} />
-                      {t('action.signOut')}
-                    </a>
+                  <DropdownMenuItem onSelect={() => signOut(currentUser.signOutPath)}>
+                    <LogOutIcon size={14} />
+                    {t('action.signOut')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
