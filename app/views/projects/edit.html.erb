@@ -1,12 +1,11 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="card mx-auto w-50">
-      <div class="card-body">
-        <div class="text-center">
-          <h1 class="mx-auto h4 text-gray-900"><%= t('actions.edit_project', default: 'Edit Project') %></h1>
-        </div>
-        <%= render 'form', project: @project %>
-      </div>
+<div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4">
+  <div class="w-full max-w-lg space-y-6">
+    <div class="space-y-2 text-center">
+      <h1 class="text-2xl font-bold"><%= t('actions.edit_project', default: 'Edit Project') %></h1>
+    </div>
+
+    <div class="rounded-xl border bg-card shadow-sm p-8 space-y-4">
+      <%= render 'form', project: @project %>
     </div>
   </div>
 </div>

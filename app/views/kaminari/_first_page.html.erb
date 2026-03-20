@@ -1,3 +1,4 @@
-<li class="page-item">
-  <%= link_to_unless current_page.first?, '', url, remote: remote, class: 'page-link rounded-0 fa fa-angle-double-left' %>
+<li>
+  <%= link_to_unless current_page.first?, raw('&#171;'), url, remote: remote,
+        class: 'inline-flex items-center justify-center w-8 h-8 text-sm rounded-md border border-input bg-background hover:bg-accent' %>
 </li>

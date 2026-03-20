@@ -9,6 +9,7 @@ services:
       - DB_HOST=db
       - DB_USER=postgres
       - DB_NAME=rebacklogs
+      - DB_PASS=postgres
       - DB_PORT=5432
       # - SECRET_KEY_BASE=secret_key_base_rebacklogs
       # - GOOGLE_OAUTH_KEY=google_oauth_key
@@ -36,6 +37,10 @@ services:
   db:
     restart: always
     image: postgres:16.3
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
       - internal_network
     healthcheck:

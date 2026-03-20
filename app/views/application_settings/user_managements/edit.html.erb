@@ -1,54 +1,65 @@
-<%= javascript_packs_with_chunks_tag 'remove_header_margin' %>
-
-<div id="wrapper">
+<div class="flex min-h-[calc(100vh-3.5rem)]">
   <%= render 'application_settings/common/sidebar' %>
-  <div id="content-wrapper" class="d-flex flex-column">
-    <div class="container mt-2">
-      <div class="row my-2">
-        <h3 class="text-gray-800"><%= t('.title', default: 'User Managements') %>: <%= @user.username %></h3>
-      </div>
-      <div class="row">
-        <div class="card w-100">
-          <div class="card-body">
-            <%= simple_form_for @user, url: application_settings_user_management_path, method: :patch do |f| %>
-              <%= f.input :username %>
-              <%= f.input :email %>
-              <div class="row">
-                <div class="col-3">
-                  <p class="mb-1"><%= t('.current_image', default: 'Current Image') %></p>
-                  <div class="mb-2">
-                    <img src="<%= @user.user_image_url %>" width="90" class="rounded">
-                  </div>
-                </div>
-                <div class="col-6">
-                  <%= f.input :image, wrapper: :custom_file %>
-                  <% if @user.image.present? %>
-                    <div>
-                      <%= link_to t('actions.remove', default: 'Remove'), application_settings_user_managements_destroy_image_path(@user), method: :delete, class: 'btn btn-sm btn-danger' %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-              <%= f.submit nil, class: 'btn btn-sm btn-primary' %>
-            <% end %>
-            <hr />
-            <%= simple_form_for @user, url: application_settings_user_managements_update_role_path(@user) do |f| %>
-              <div class="form-group mb-3">
-                <label><h2 class="h5 text-gray-800"><%= t('.role', default: 'Role') %></h2></label>
-                <% Role::ALL_ROLES.each do |role| %>
-                  <div class="custom-control custom-radio mb-2">
-                    <input type="radio" id="<%= role %>" name="user[role]" class="custom-control-input" value="<%= role %>" <%= @user.has_role?(role.to_sym) ? 'checked' : '' %>>
-                    <label class="custom-control-label" for="<%= role %>"><%= role %></label>
-                    <small id="emailHelp" class="form-text text-muted"><%= t("role.description.#{role}") %></small>
-                  </div>
-                <% end %>
-              </div>
 
-              <%= f.submit nil, class: 'btn btn-sm btn-primary' %>
+  <div class="flex-1 p-6 space-y-6">
+    <h1 class="text-2xl font-bold"><%= t('.title', default: 'User Managements') %>: <%= @user.username %></h1>
+
+    <div class="rounded-xl border bg-card shadow-sm p-6 space-y-4">
+      <%= form_with model: @user, url: application_settings_user_management_path, method: :patch, local: true do |f| %>
+        <div class="space-y-2">
+          <%= f.label :username, class: 'text-sm font-medium' %>
+          <%= f.text_field :username,
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :email, class: 'text-sm font-medium' %>
+          <%= f.email_field :email,
+                class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
+        </div>
+
+        <div class="flex items-start gap-4">
+          <div class="shrink-0">
+            <p class="text-sm font-medium mb-2"><%= t('.current_image', default: 'Current Image') %></p>
+            <img src="<%= @user.user_image_url %>" width="72" height="72" class="rounded" />
+          </div>
+          <div class="flex-1 space-y-2">
+            <%= f.label :image, class: 'text-sm font-medium' %>
+            <%= f.file_field :image,
+                  class: 'w-full text-sm text-muted-foreground file:mr-3 file:h-9 file:cursor-pointer file:rounded-md file:border file:border-input file:bg-background file:px-3 file:text-sm file:font-medium' %>
+            <% if @user.image.present? %>
+              <%= link_to t('actions.remove', default: 'Remove'),
+                    application_settings_user_managements_destroy_image_path(@user),
+                    data: { turbo_method: :delete },
+                    class: 'text-sm text-destructive hover:underline' %>
             <% end %>
           </div>
         </div>
-      </div>
+
+        <%= f.submit nil,
+              class: 'h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+      <% end %>
+    </div>
+
+    <div class="rounded-xl border bg-card shadow-sm p-6 space-y-4">
+      <h2 class="text-base font-semibold"><%= t('.role', default: 'Role') %></h2>
+      <%= form_with model: @user, url: application_settings_user_managements_update_role_path(@user), local: true do |f| %>
+        <div class="space-y-3">
+          <% Role::ALL_ROLES.each do |role| %>
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="radio" name="user[role]" value="<%= role %>"
+                     class="mt-0.5 h-4 w-4"
+                     <%= @user.has_role?(role.to_sym) ? 'checked' : '' %>>
+              <div>
+                <div class="text-sm font-medium"><%= role %></div>
+                <div class="text-xs text-muted-foreground"><%= t("role.description.#{role}") %></div>
+              </div>
+            </label>
+          <% end %>
+        </div>
+        <%= f.submit nil,
+              class: 'mt-2 h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
+      <% end %>
     </div>
   </div>
 </div>

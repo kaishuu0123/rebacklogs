@@ -27,4 +27,6 @@ class Setting < RailsSettings::Base
 
   field :head_custom_script, type: :string, default: ''
   field :body_custom_script, type: :string, default: ''
+
+  field :theme_name, type: :string, default: ''
 end

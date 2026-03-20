@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   app:
@@ -7,7 +7,8 @@ services:
       dockerfile: .devcontainer/Dockerfile
 
     volumes:
-      - ../..:/workspaces:cached
+      - ..:/workspaces/rebacklogs:cached
+      - rebacklogs-claude-config:/home/vscode/.claude
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
@@ -46,3 +47,4 @@ services:
 
 volumes:
   postgres-data:
+  rebacklogs-claude-config:

@@ -1,0 +1,32 @@
+<%- if devise_mapping.omniauthable? && (controller_name == 'sessions' || controller_name == 'registrations') %>
+  <%- if resource_class.omniauth_providers.any? %>
+    <div class="relative my-2">
+      <div class="absolute inset-0 flex items-center">
+        <span class="w-full border-t border-border"></span>
+      </div>
+      <div class="relative flex justify-center text-xs">
+        <span class="bg-card px-2 text-muted-foreground">or</span>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%
+          case provider
+          when :github
+            provider_label = 'GitHub'
+          when :google_oauth2
+            provider_label = 'Google'
+          else
+            provider_label = OmniAuth::Utils.camelize(provider.to_s)
+          end
+          i18n_key = controller_name == 'sessions' ? '.sign_in_with_provider' : '.sign_up_with_provider'
+        %>
+        <%= link_to omniauth_authorize_path(resource_name, provider),
+              class: 'flex h-10 w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent hover:text-accent-foreground' do %>
+          <%= t(i18n_key, provider: provider_label, default: "Continue with #{provider_label}") %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

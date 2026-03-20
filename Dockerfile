@@ -1,11 +1,11 @@
 # refs: https://github.com/tootsuite/mastodon
 # refs: https://qiita.com/baban/items/99877f9b3065c4cf3d50
 
-FROM node:16.20.2-alpine as node
+FROM node:22-alpine AS node
 
-FROM ruby:3.3.1-alpine as builder
+FROM ruby:3.3.1-alpine AS builder
 
-ENV BUNDLER_VERSION 2.5.7
+ENV BUNDLER_VERSION=2.5.7
 
 RUN apk --update --no-cache add bash bash-completion
 
@@ -57,7 +57,7 @@ RUN apk --update --no-cache add \
     echo "Etc/UTC" > /etc/localtime
 
 # for docker-compose
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION=v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -80,7 +80,7 @@ COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/vendor/bundle 
 COPY --chown=rebacklogs:rebacklogs --from=builder /usr/local/bundle /usr/local/bundle
 
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/assets/ /opt/rebacklogs/public/assets/
-COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/packs/ /opt/rebacklogs/public/packs/
+COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/vite/ /opt/rebacklogs/public/vite/
 
 # Copy Re:Backlogs Source Code
 COPY --chown=rebacklogs:rebacklogs . /opt/rebacklogs

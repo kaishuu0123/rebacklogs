@@ -20,13 +20,13 @@ It aims to be simple and easy to use Backlogs.
     - ["Re:" Meaning](#%22re%22-meaning)
   - [Install](#install)
     - [Use docker-compose.yml](#use-docker-composeyml)
-  - [Contribute](#contribute)
   - [Development instructions](#development-instructions)
     - [Requirements](#requirements)
     - [Setup](#setup)
     - [Run Re:Backlogs](#run-rebacklogs)
   - [Development motivation](#development-motivation)
-  - [LICENSE](#license)
+  - [Contribute](#contribute)
+  - [License](#license)
 
 ## Screenshot
 
@@ -83,15 +83,6 @@ git clone https://github.com/kaishuu0123/rebacklogs
 docker-compose up -d
 ```
 
-## Contribute
-
-kaishuu0123 is Japanese, but just started learning English.
-
-You can write issues and PRs in English or Japanese.
-
-If you want to add a large feature, etc., it will be smooth if you create issue first and then discussion.
-Even if a big PR is suddenly thrown, it may be rejected at the concept stage.
-
 ## Development instructions
 ### Requirements
 
@@ -112,10 +103,10 @@ bundle exec rails db:create db:migrate
 ### Run Re:Backlogs
 
 ```
-# another window
-bin/webpack-dev-server
+# terminal 1: Vite dev server (React pages)
+bin/vite dev
 
-# main window
+# terminal 2: Rails server
 bin/rails s
 ```
 
@@ -126,10 +117,24 @@ There are several.
 * Aim to provide comprehensive OSS including document sites
 * I want to make my portfolio
     * To reflect the know-how accumulated so far in Re:Backlogs
-* I want to create a not SPA service using webpacker
+* Build a not-SPA service using vite_rails + turbo-mount + React
     * Use an existing session mechanism that does not use JWT, and prepare an environment for developing modern front ends.
 
-## LICENSE
+## Contribute
 
-* MIT
-* see LICENSE file
+kaishuu0123 is Japanese, but just started learning English.
+
+You can write issues and PRs in English or Japanese.
+
+If you want to add a large feature, etc., it will be smooth if you create issue first and then discussion.
+Even if a big PR is suddenly thrown, it may be rejected at the concept stage.
+
+## License
+
+This software is based on the MIT License with an additional restriction:
+you may not use this software to provide commercial services to third parties
+(e.g. SaaS, hosted services) where the primary value derives from this software.
+
+Personal use and internal business use are explicitly permitted.
+
+See [LICENSE](./LICENSE) for details.

@@ -12,12 +12,12 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
        * [Re: に込めた意味](#re-に込めた意味)
     * [インストール](#インストール)
        * [docker-compose.yml を使う例](#docker-composeyml-を使う例)
-    * [Contribute (Issue 起票について)](#contribute-issue-起票について)
     * [開発環境構築手順](#開発環境構築手順)
        * [必須ソフト](#必須ソフト)
        * [セットアップ](#セットアップ)
        * [Re:Backlogs を起動する](#rebacklogs-を起動する)
     * [開発モチベーション](#開発モチベーション)
+    * [Contribute (Issue 起票について)](#contribute-issue-起票について)
     * [ライセンス](#ライセンス)
 
 ## スクリーンショット
@@ -76,14 +76,6 @@ git clone https://github.com/kaishuu0123/rebacklogs
 docker-compose up -d
 ```
 
-## Contribute (Issue 起票について)
-
-英語でも日本語でも受け付けます。
-(英語だと意思疎通がうまく行かない可能性もあります)
-
-大幅な機能追加などをしたい場合には、まず Issue を立ててから相談してもらえるとスムーズです。
-いきなり大きな PR を投げられても、コンセプト段階で却下する可能性もあります。
-
 ## 開発環境構築手順
 ### 必須ソフト
 
@@ -104,10 +96,10 @@ bundle exec rails db:create db:migrate
 ### Re:Backlogs を起動する
 
 ```
-# 他のウインドウでコマンドを実行
-bin/webpack-dev-server
+# ターミナル 1: Vite 開発サーバー（React ページ）
+bin/vite dev
 
-# メインウインドウでコマンドを実行
+# ターミナル 2: Rails サーバー
 bin/rails s
 ```
 
@@ -118,10 +110,22 @@ bin/rails s
 * ドキュメントサイトも含めた包括的な OSS の提供を目指したい
 * 自分のポートフォリオとしたい
     * 今まで蓄積したノウハウを Re:Backlogs に反映したい
-* webpacker を利用した not SPA なサービスを作りたい
+* vite_rails + turbo-mount + React を利用した not SPA なサービスを作りたい
     * JWT を利用しない、既存の session の仕組みを使って、今風なフロントエンドを開発できる環境を整えること
+
+## Contribute (Issue 起票について)
+
+英語でも日本語でも受け付けます。
+(英語だと意思疎通がうまく行かない可能性もあります)
+
+大幅な機能追加などをしたい場合には、まず Issue を立ててから相談してもらえるとスムーズです。
+いきなり大きな PR を投げられても、コンセプト段階で却下する可能性もあります。
 
 ## ライセンス
 
-* MIT
-* LICENSE を確認してください
+MIT ライセンスをベースに、追加制限があります：
+第三者に対してこのソフトウェアの機能を主たる価値とする商業的なサービス（SaaS・ホスティングサービス等）を提供することは禁止しています。
+
+個人利用および組織内の業務利用は明示的に許可しています。
+
+詳細は [LICENSE](./LICENSE) を参照してください。

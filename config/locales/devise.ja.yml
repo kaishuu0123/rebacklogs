@@ -43,7 +43,7 @@ ja:
       locked: アカウントは凍結されています。
       not_found_in_database: "%{authentication_keys}またはパスワードが違います。"
       timeout: セッションがタイムアウトしました。もう一度ログインしてください。
-      unauthenticated: アカウント登録もしくはログインしてください。
+      unauthenticated: ログインしてください。
       unconfirmed: メールアドレスの本人確認が必要です。
     mailer:
       confirmation_instructions:
@@ -115,6 +115,7 @@ ja:
       already_signed_out: 既にログアウト済みです。
       new:
         sign_in: ログイン
+        invalid_credentials: ユーザ名またはパスワードが正しくありません。
       signed_in: ログインしました。
       signed_out: ログアウトしました。
     shared:
