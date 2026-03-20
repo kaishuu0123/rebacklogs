@@ -46,8 +46,6 @@ group :development do
   gem 'spring'
   # Makes spring watch files using the listen gem. (https://github.com/jonleighton/spring-watcher-listen)
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # Automatic Ruby code style checking tool. (https://github.com/rubocop-hq/rubocop)
-  gem 'rubocop'
   # An IRB alternative and runtime developer console (http://pryrepl.org)
   gem 'pry'
 
@@ -66,14 +64,21 @@ group :production do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  # Capybara aims to simplify the process of integration testing Rack applications, such as Rails, Sinatra or Merb (https://github.com/teamcapybara/capybara)
   gem 'capybara', '>= 2.15'
-  # The next generation developer focused tool for automated testing of webapps (https://github.com/SeleniumHQ/selenium)
   gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  # Easy download and use of browser drivers. (https://github.com/titusfortner/webdrivers)
   gem 'webdrivers'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 7.0'
+  gem 'rspec-request_describer'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'shoulda-matchers', '~> 6.0'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -93,7 +98,7 @@ gem 'sequenced'
 # An acts_as_sortable replacement built for Rails 3 & 4 (https://github.com/mixonic/ranked-model)
 gem 'ranked-model', '~> 0.4'
 # Track changes to your models. (https://github.com/paper-trail-gem/paper_trail)
-gem 'paper_trail', '~> 10.3.0'
+gem 'paper_trail', '~> 15.0'
 # Common locale data and translations for Rails i18n. (http://github.com/svenfuchs/rails-i18n)
 gem 'rails-i18n', '~> 7.0.9' # For 6.0.0 or higher
 # Forms made easy! (https://github.com/plataformatec/simple_form)
