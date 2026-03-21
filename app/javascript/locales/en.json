@@ -154,6 +154,18 @@
     "publicProject": "This is a public project. Non-member users are only allowed to comment on tickets.",
     "addGroup": "Enter a few characters for the group name you want to add to the project. If you want to add a user, enter the username."
   },
+  "sync": {
+    "unavailable": "sync unavailable",
+    "unavailableTooltip": "Real-time sync is unavailable. Please reload the page.",
+    "reconnecting": "reconnecting...",
+    "reconnectingTooltip": "Connection lost. Reconnecting...",
+    "justNow": "just now",
+    "secondsAgo": "{{count}} seconds ago",
+    "minuteAgo": "1 minute ago",
+    "minutesAgo": "{{count}} minutes ago",
+    "hourAgo": "1 hour ago",
+    "hoursAgo": "{{count}} hours ago"
+  },
   "tab": {
     "comment": "Comment",
     "history": "History"

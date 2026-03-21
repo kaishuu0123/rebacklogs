@@ -11,6 +11,8 @@ class ProjectChannel < ApplicationCable::Channel
 
   def can_read_project?(project)
     return true if project.is_public
-    current_user.present? && (project.groups.pluck(:id) & current_user.groups.pluck(:id)).any?
+    return false unless current_user.present?
+    return true if current_user.has_role?(:admin)
+    (project.groups.pluck(:id) & current_user.groups.pluck(:id)).any?
   end
 end
