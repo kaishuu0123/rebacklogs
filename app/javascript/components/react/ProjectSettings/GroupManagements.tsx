@@ -3,7 +3,6 @@ import { Check, ChevronsUpDown, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import api from '~/lib/api';
 import { Button } from '~/components/ui/button';
 import {
   Command,
@@ -18,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '~/components/ui/popover';
+import api from '~/lib/api';
 import { cn } from '~/lib/utils';
 
 interface Group {
@@ -82,9 +82,7 @@ export default function GroupManagements({ projectId }: Props) {
           className="space-y-3"
         >
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              {t('action.selectGroup')}
-            </label>
+            <p className="text-sm font-medium">{t('action.selectGroup')}</p>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -119,7 +117,9 @@ export default function GroupManagements({ projectId }: Props) {
                           <Check
                             className={cn(
                               'mr-2 h-4 w-4',
-                              selectedGroup?.id === g.id ? 'opacity-100' : 'opacity-0',
+                              selectedGroup?.id === g.id
+                                ? 'opacity-100'
+                                : 'opacity-0',
                             )}
                           />
                           {g.name}

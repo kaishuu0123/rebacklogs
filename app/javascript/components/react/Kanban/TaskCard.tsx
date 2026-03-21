@@ -1,8 +1,8 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { CircleUser, GripVertical, Pencil } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import type { Task, User } from "../shared/types";
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { CircleUser, GripVertical, Pencil } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import type { Task, User } from '../shared/types';
 
 interface Props {
   task: Task;
@@ -40,7 +40,9 @@ export default function TaskCard({
         className="mb-2 rounded border-2 border-dashed border-primary/30 bg-primary/5 overflow-hidden"
       >
         <div className="px-2.5 py-2 space-y-1.5 invisible">
-          <div className="font-mono text-sm">{task.ticket_number_with_ticket_prefix}</div>
+          <div className="font-mono text-sm">
+            {task.ticket_number_with_ticket_prefix}
+          </div>
           <div className="text-sm leading-snug break-words">{task.title}</div>
           <div className="text-sm">-</div>
         </div>
@@ -105,7 +107,7 @@ export default function TaskCard({
           ) : (
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground/50">
               <CircleUser size={16} className="opacity-40" />
-              {t("title.unassigned")}
+              {t('title.unassigned')}
             </span>
           )}
         </div>

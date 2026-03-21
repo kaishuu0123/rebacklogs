@@ -1,9 +1,9 @@
-import { useDroppable } from "@dnd-kit/core";
+import { useDroppable } from '@dnd-kit/core';
 import {
   SortableContext,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+} from '@dnd-kit/sortable';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Ban,
   CalendarCheck,
@@ -13,21 +13,20 @@ import {
   LayoutGrid,
   MoreHorizontal,
   Pencil,
-} from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import api from "~/lib/api";
-import { DateRangePicker } from "~/components/ui/date-range-picker";
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import { DateRangePicker } from '~/components/ui/date-range-picker';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import type { Sprint } from "../shared/types";
-import StoryListItem from "./StoryListItem";
+} from '~/components/ui/dropdown-menu';
+import api from '~/lib/api';
+import type { Sprint } from '../shared/types';
+import StoryListItem from './StoryListItem';
 
 interface Props {
   sprint: Sprint;
@@ -74,8 +73,8 @@ export default function SprintCard({
     mutationFn: (data: object) =>
       api.put(`/projects/${projectId}/sprints/${sprint.id}`, data),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["sprints", projectId] }),
-    onError: () => toast.error(t("message.failedToUpdateSprint")),
+      queryClient.invalidateQueries({ queryKey: ['sprints', projectId] }),
+    onError: () => toast.error(t('message.failedToUpdateSprint')),
   });
 
   const closeMutation = useMutation({
@@ -84,8 +83,8 @@ export default function SprintCard({
         closed: true,
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["sprints", projectId] }),
-    onError: () => toast.error(t("message.failedToCloseSprint")),
+      queryClient.invalidateQueries({ queryKey: ['sprints', projectId] }),
+    onError: () => toast.error(t('message.failedToCloseSprint')),
   });
 
   const openMutation = useMutation({
@@ -94,8 +93,8 @@ export default function SprintCard({
         closed: false,
       }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["sprints", projectId] }),
-    onError: () => toast.error(t("message.failedToOpenSprint")),
+      queryClient.invalidateQueries({ queryKey: ['sprints', projectId] }),
+    onError: () => toast.error(t('message.failedToOpenSprint')),
   });
 
   const editDone = (save: boolean) => {
@@ -138,19 +137,19 @@ export default function SprintCard({
 
   const progressColor =
     progressPct === 100
-      ? "bg-green-500"
+      ? 'bg-green-500'
       : progressPct >= 50
-        ? "bg-blue-500"
-        : "bg-amber-400";
+        ? 'bg-blue-500'
+        : 'bg-amber-400';
 
   const formatDate = (d: string | null) => {
-    if (!d) return "";
-    return new Date(d).toLocaleDateString("en-ZA");
+    if (!d) return '';
+    return new Date(d).toLocaleDateString('en-ZA');
   };
 
   return (
     <div
-      className={`rounded-md border bg-card shadow-sm text-sm ${sprint.closed ? "opacity-70" : ""}`}
+      className={`rounded-md border bg-card shadow-sm text-sm ${sprint.closed ? 'opacity-70' : ''}`}
     >
       {isEdit ? (
         <div className="border-b px-3 py-2">
@@ -179,14 +178,14 @@ export default function SprintCard({
                 type="submit"
                 className="inline-flex items-center gap-1 h-7 cursor-pointer rounded bg-primary px-2 text-xs font-medium text-primary-foreground"
               >
-                <Check size={14} /> {t("action.save")}
+                <Check size={14} /> {t('action.save')}
               </button>
               <button
                 type="button"
                 onClick={() => editDone(false)}
                 className="inline-flex items-center gap-1 h-7 cursor-pointer rounded border border-input bg-background px-2 text-xs"
               >
-                <Ban size={14} /> {t("action.cancel")}
+                <Ban size={14} /> {t('action.cancel')}
               </button>
             </div>
           </form>
@@ -203,7 +202,7 @@ export default function SprintCard({
               </span>
             ) : (
               <span className="text-xs text-muted-foreground shrink-0">
-                {t("message.noPeriodSpecified")}
+                {t('message.noPeriodSpecified')}
               </span>
             )}
           </div>
@@ -214,57 +213,58 @@ export default function SprintCard({
             >
               <LayoutGrid size={16} />
             </a>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:bg-accent hover:text-foreground"
-              >
-                <MoreHorizontal size={16} />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <a
-                  href={`/projects/${projectId}/sprints/${sprint.id}/kanban`}
-                  className="inline-flex items-center gap-2"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded text-muted-foreground hover:bg-accent hover:text-foreground"
                 >
-                  <LayoutGrid size={14} />
-                  {t("action.viewKanban")}
-                </a>
-              </DropdownMenuItem>
-              {!sprint.closed && (
-                <>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setIsEdit(true);
-                      setTimeout(() => titleRef.current?.focus(), 50);
-                    }}
+                  <MoreHorizontal size={16} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <a
+                    href={`/projects/${projectId}/sprints/${sprint.id}/kanban`}
+                    className="inline-flex items-center gap-2"
                   >
-                    <Pencil size={14} />
-                    {t("action.editSprint")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => closeMutation.mutate()}>
-                    <CalendarCheck size={14} />
-                    {t("action.closeSprint")}
-                  </DropdownMenuItem>
-                </>
-              )}
-              {sprint.closed && (
-                <>
+                    <LayoutGrid size={14} />
+                    {t('action.viewKanban')}
+                  </a>
+                </DropdownMenuItem>
+                {!sprint.closed && (
+                  <>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setIsEdit(true);
+                        setTimeout(() => titleRef.current?.focus(), 50);
+                      }}
+                    >
+                      <Pencil size={14} />
+                      {t('action.editSprint')}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => closeMutation.mutate()}>
+                      <CalendarCheck size={14} />
+                      {t('action.closeSprint')}
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {sprint.closed && (
                   <DropdownMenuItem onClick={() => openMutation.mutate()}>
                     <DoorOpen size={14} />
-                    {t("action.openSprint")}
+                    {t('action.openSprint')}
                   </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       )}
 
-      <ul ref={setNodeRef} className={`divide-y${filteredStories.length === 0 ? ' min-h-[48px]' : ''}`}>
+      <ul
+        ref={setNodeRef}
+        className={`divide-y${filteredStories.length === 0 ? ' min-h-[48px]' : ''}`}
+      >
         <SortableContext
           items={sprint.stories.map((s) => s.id)}
           strategy={verticalListSortingStrategy}
@@ -281,7 +281,7 @@ export default function SprintCard({
         </SortableContext>
         {sprint.stories.length === 0 && (
           <li className="flex flex-col items-center justify-center gap-1 px-3 py-6 text-xs text-muted-foreground border-2 border-dashed border-muted m-2 rounded-md">
-            <span>{t("message.storyDoesNotExistsInSprint")}</span>
+            <span>{t('message.storyDoesNotExistsInSprint')}</span>
           </li>
         )}
       </ul>
@@ -290,15 +290,15 @@ export default function SprintCard({
         <div className="border-t bg-muted/20 px-3 py-2 text-xs">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-muted-foreground">
-              {t("title.progress")}{" "}
+              {t('title.progress')}{' '}
               <span className="font-medium text-foreground">
                 {doneCount} / {totalCount} ({Math.round(progressPct)}%)
               </span>
             </span>
             <span className="text-muted-foreground">
-              {t("title.totalStoryPoints")}{" "}
+              {t('title.totalStoryPoints')}{' '}
               <span className="font-medium text-foreground">
-                {totalPoints.toFixed(1)} {t("title.points")}
+                {totalPoints.toFixed(1)} {t('title.points')}
               </span>
             </span>
           </div>

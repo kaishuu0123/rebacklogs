@@ -5,14 +5,14 @@ import { Ban, Check, GripVertical, Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import api from '~/lib/api';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
-import { categoryBadgeStyle, idealTextColor } from '../shared/colorUtils';
+import api from '~/lib/api';
+import { idealTextColor } from '../shared/colorUtils';
 import type { Story } from '../shared/types';
 
 interface Props {
@@ -32,7 +32,11 @@ export default function StoryListItem({
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState(story.title);
-  const [point, setPoint] = useState(story.point !== null && story.point !== undefined ? String(story.point) : '');
+  const [point, setPoint] = useState(
+    story.point !== null && story.point !== undefined
+      ? String(story.point)
+      : '',
+  );
   const titleRef = useRef<HTMLInputElement>(null);
   const pointRef = useRef<HTMLInputElement>(null);
 
@@ -53,7 +57,11 @@ export default function StoryListItem({
 
   useEffect(() => {
     setTitle(story.title);
-    setPoint(story.point !== null && story.point !== undefined ? String(story.point) : '');
+    setPoint(
+      story.point !== null && story.point !== undefined
+        ? String(story.point)
+        : '',
+    );
   }, [story]);
 
   const updateMutation = useMutation({
@@ -71,10 +79,17 @@ export default function StoryListItem({
   const editDone = (save: boolean) => {
     setIsEdit(false);
     if (save) {
-      updateMutation.mutate({ title, point: point === '' ? null : Number.parseFloat(point) });
+      updateMutation.mutate({
+        title,
+        point: point === '' ? null : Number.parseFloat(point),
+      });
     } else {
       setTitle(story.title);
-      setPoint(story.point !== null && story.point !== undefined ? String(story.point) : '');
+      setPoint(
+        story.point !== null && story.point !== undefined
+          ? String(story.point)
+          : '',
+      );
     }
   };
 
@@ -163,7 +178,9 @@ export default function StoryListItem({
             {story.ticket_number_with_ticket_prefix}
           </a>
           <span className="flex-1 truncate font-medium group/title flex items-center gap-1 min-w-0">
-            <span className="truncate">{story.is_done ? <s>{story.title}</s> : story.title}</span>
+            <span className="truncate">
+              {story.is_done ? <s>{story.title}</s> : story.title}
+            </span>
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -192,7 +209,9 @@ export default function StoryListItem({
               setTimeout(() => pointRef.current?.focus(), 50);
             }}
           >
-            {story.point !== null && story.point !== undefined ? Number(story.point).toFixed(1) : '-'}
+            {story.point !== null && story.point !== undefined
+              ? Number(story.point).toFixed(1)
+              : '-'}
           </button>
         </div>
       )}

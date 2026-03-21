@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
 interface DateRangePickerProps {
   from: string | null; // YYYY-MM-DD
-  to: string | null;   // YYYY-MM-DD
+  to: string | null; // YYYY-MM-DD
   onChange: (from: string | null, to: string | null) => void;
   placeholder?: string;
   className?: string;

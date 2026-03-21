@@ -83,8 +83,6 @@ export default function GeneralSettings({ projectId }: Props) {
 
   return (
     <div className="space-y-6">
-
-
       <div className="rounded-xl border bg-card shadow-sm p-6">
         <form
           onSubmit={(e) => {

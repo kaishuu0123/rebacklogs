@@ -56,19 +56,13 @@ group :production do
   gem 'pg', '~> 1.1'
 end
 
-group :test do
-  gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
-end
-
 group :development, :test do
-  gem 'rspec-rails', '~> 7.0'
+  gem 'rspec-rails', '~> 8.0'
   gem 'rspec-request_describer'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'shoulda-matchers', '~> 6.0'
+  gem 'shoulda-matchers', '~> 7.0'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

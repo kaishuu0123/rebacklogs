@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Pencil, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
@@ -120,8 +120,6 @@ export default function TicketCategories({ projectId }: Props) {
 
   return (
     <div className="space-y-6">
-
-
       <div className="rounded-xl border bg-card shadow-sm">
         <div className="flex items-center justify-between border-b px-4 py-3">
           <h3 className="text-sm font-semibold">

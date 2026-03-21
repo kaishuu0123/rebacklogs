@@ -7,13 +7,13 @@ import { ChevronRight, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster } from 'sonner';
-import api from '~/lib/api';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
+import api from '~/lib/api';
 import { categoryBadgeStyle } from '../shared/colorUtils';
 import TicketModal from '../shared/TicketModal';
 import type { BacklogsData, Sprint, Story } from '../shared/types';

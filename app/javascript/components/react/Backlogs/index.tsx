@@ -82,8 +82,8 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
         localSprintId: null,
       })),
     ]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sprints, storiesInBacklogs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sprints, storiesInBacklogs, activeId]);
 
   // Derive ordered stories per sprint/backlog from local state
   const localSprintsStories = (sprintId: number) =>
@@ -177,7 +177,9 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
         <div className="flex min-w-0 items-center gap-1.5 text-sm">
           <span className="shrink-0 text-muted-foreground">{projectTitle}</span>
           <span className="text-muted-foreground/40">/</span>
-          <h1 className="truncate font-semibold">{t('title.masterBacklogs')}</h1>
+          <h1 className="truncate font-semibold">
+            {t('title.masterBacklogs')}
+          </h1>
           {isPublic && (
             <span className="ml-1 shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 text-xs text-blue-800">
               {t('title.is_public')}
@@ -211,108 +213,113 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
         </div>
       </div>
       <div className="space-y-4 px-4">
-
-      <DndContext
-        sensors={sensors}
-        onDragStart={(e) => {
-          setActiveId(Number(e.active.id));
-          setDragWidth(e.active.rect.current.initial?.width ?? null);
-        }}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-      >
-        {layout === 'HORIZONTAL' ? (
-          <div className="flex gap-6 overflow-x-auto pb-4">
-            <div className="min-w-[380px]">
-              <BacklogsCard
-                stories={localBacklogStories}
-                projectId={projectId}
-                searchKeyword={searchKeyword}
-                onOpenStoryModal={openStoryModal}
-                onNewStory={() => openNewStory(null)}
-                activeId={activeId}
-              />
-            </div>
-            {sprints.map((sprint) => (
-              <div key={sprint.id} className="min-w-[380px]">
-                <SprintCard
-                  sprint={{ ...sprint, stories: localSprintsStories(sprint.id) }}
+        <DndContext
+          sensors={sensors}
+          onDragStart={(e) => {
+            setActiveId(Number(e.active.id));
+            setDragWidth(e.active.rect.current.initial?.width ?? null);
+          }}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          {layout === 'HORIZONTAL' ? (
+            <div className="flex gap-6 overflow-x-auto pb-4">
+              <div className="min-w-[380px]">
+                <BacklogsCard
+                  stories={localBacklogStories}
                   projectId={projectId}
                   searchKeyword={searchKeyword}
                   onOpenStoryModal={openStoryModal}
+                  onNewStory={() => openNewStory(null)}
                   activeId={activeId}
                 />
               </div>
-            ))}
-            {sprints.length === 0 && (
-              <div className="inline-flex items-center gap-1 min-w-[380px] justify-center rounded-md border border-dashed bg-muted/20 p-6 text-muted-foreground">
-                <Info size={16} />{' '}
-                {t('message.sprintDoesNotExists')}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4">
-              {sprints.length > 0 ? (
-                sprints.map((sprint) => (
+              {sprints.map((sprint) => (
+                <div key={sprint.id} className="min-w-[380px]">
                   <SprintCard
-                    key={sprint.id}
-                    sprint={{ ...sprint, stories: localSprintsStories(sprint.id) }}
+                    sprint={{
+                      ...sprint,
+                      stories: localSprintsStories(sprint.id),
+                    }}
                     projectId={projectId}
                     searchKeyword={searchKeyword}
                     onOpenStoryModal={openStoryModal}
                     activeId={activeId}
                   />
-                ))
-              ) : (
-                <div className="inline-flex items-center gap-1 rounded-md border border-dashed bg-muted/20 p-6 text-xs text-muted-foreground">
-                  <Info size={16} />{' '}
-                  {t('message.sprintDoesNotExists')}
+                </div>
+              ))}
+              {sprints.length === 0 && (
+                <div className="inline-flex items-center gap-1 min-w-[380px] justify-center rounded-md border border-dashed bg-muted/20 p-6 text-muted-foreground">
+                  <Info size={16} /> {t('message.sprintDoesNotExists')}
                 </div>
               )}
             </div>
-            <div>
-              <BacklogsCard
-                stories={localBacklogStories}
-                projectId={projectId}
-                searchKeyword={searchKeyword}
-                onOpenStoryModal={openStoryModal}
-                onNewStory={() => openNewStory(null)}
-                activeId={activeId}
-              />
-            </div>
-          </div>
-        )}
-
-        <DragOverlay dropAnimation={null}>
-          {activeStory && (
-            <div
-              style={{ width: dragWidth ?? undefined }}
-              className="flex items-center gap-2 rounded-md border-2 border-primary bg-white px-2 py-1.5 shadow-lg opacity-90 cursor-grabbing overflow-hidden"
-            >
-              <span className="shrink-0 rounded border border-gray-300 bg-gray-100 px-1 py-0.5 font-mono text-xs">
-                {activeStory.ticket_number_with_ticket_prefix}
-              </span>
-              <span className="font-medium text-gray-900 truncate">{activeStory.title}</span>
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
+                {sprints.length > 0 ? (
+                  sprints.map((sprint) => (
+                    <SprintCard
+                      key={sprint.id}
+                      sprint={{
+                        ...sprint,
+                        stories: localSprintsStories(sprint.id),
+                      }}
+                      projectId={projectId}
+                      searchKeyword={searchKeyword}
+                      onOpenStoryModal={openStoryModal}
+                      activeId={activeId}
+                    />
+                  ))
+                ) : (
+                  <div className="inline-flex items-center gap-1 rounded-md border border-dashed bg-muted/20 p-6 text-xs text-muted-foreground">
+                    <Info size={16} /> {t('message.sprintDoesNotExists')}
+                  </div>
+                )}
+              </div>
+              <div>
+                <BacklogsCard
+                  stories={localBacklogStories}
+                  projectId={projectId}
+                  searchKeyword={searchKeyword}
+                  onOpenStoryModal={openStoryModal}
+                  onNewStory={() => openNewStory(null)}
+                  activeId={activeId}
+                />
+              </div>
             </div>
           )}
-        </DragOverlay>
-      </DndContext>
 
-      <TicketModal
-        open={storyModalOpen}
-        onClose={() => {
-          setStoryModalOpen(false);
-          setSelectedStoryId(null);
-        }}
-        projectId={projectId}
-        ticketType="stories"
-        ticketId={selectedStoryId}
-        onSuccess={() =>
-          qc.invalidateQueries({ queryKey: ['sprints', projectId] })
-        }
-      />
+          <DragOverlay dropAnimation={null}>
+            {activeStory && (
+              <div
+                style={{ width: dragWidth ?? undefined }}
+                className="flex items-center gap-2 rounded-md border-2 border-primary bg-white px-2 py-1.5 shadow-lg opacity-90 cursor-grabbing overflow-hidden"
+              >
+                <span className="shrink-0 rounded border border-gray-300 bg-gray-100 px-1 py-0.5 font-mono text-xs">
+                  {activeStory.ticket_number_with_ticket_prefix}
+                </span>
+                <span className="font-medium text-gray-900 truncate">
+                  {activeStory.title}
+                </span>
+              </div>
+            )}
+          </DragOverlay>
+        </DndContext>
+
+        <TicketModal
+          open={storyModalOpen}
+          onClose={() => {
+            setStoryModalOpen(false);
+            setSelectedStoryId(null);
+          }}
+          projectId={projectId}
+          ticketType="stories"
+          ticketId={selectedStoryId}
+          onSuccess={() =>
+            qc.invalidateQueries({ queryKey: ['sprints', projectId] })
+          }
+        />
       </div>
     </div>
   );

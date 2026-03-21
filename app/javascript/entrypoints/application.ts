@@ -40,7 +40,6 @@ const turboMount = new TurboMount();
 const reg = (name: string, c: ComponentType<any>) =>
   registerComponent(turboMount, name, c);
 
-
 reg('FlashToaster', FlashToaster);
 reg('Header', Header);
 reg('ProjectSidebar', ProjectSidebar);
