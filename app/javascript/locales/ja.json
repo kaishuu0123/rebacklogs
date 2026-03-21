@@ -145,7 +145,7 @@
     "chooseAFile": "ファイルを選択 ...",
     "updateProjectSettingsSuccess": "プロジェクト設定を更新しました",
     "closedSprintDoesNotExists": "クローズされた Sprint はありません",
-    "sprintDoesNotExists": "Sprint がありません。Backlogs にある「Sprint を作成」ボタンで Sprint を作成してみましょう。",
+    "sprintDoesNotExists": "Sprint がありません。右側のプロダクトバックログにある「Sprint を追加」ボタンで Sprint を作成してみましょう。",
     "storyDoesNotExists": "Story がありません。「Story を追加」ボタンで Story を作成してみましょう。",
     "storyDoesNotExistsInSprint": "Story がありません。Backlogs に追加した Story を D&D で Sprint に追加してみましょう",
     "dropHere": "ここにドロップ",

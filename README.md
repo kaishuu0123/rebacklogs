@@ -109,8 +109,8 @@ compatible and must be migrated manually before restarting.
 **Steps (production / docker-compose):**
 
 ```sh
-# 1. Dump all data from the running container
-docker compose exec db pg_dumpall -U postgres > backup.sql
+# 1. Dump the database from the running container
+docker compose exec db pg_dump -U postgres rebacklogs > backup.sql
 
 # 2. Stop the app, then remove the old DB container and volume
 docker compose stop app
@@ -120,7 +120,7 @@ docker volume rm rebacklogs_postgres-data   # adjust name if needed
 # 3. Start the new DB container and restore
 docker compose up -d db
 # wait a few seconds for postgres to be ready
-docker compose exec -T db psql -U postgres < backup.sql
+docker compose exec -T db psql -U postgres -d rebacklogs < backup.sql
 
 # 4. Restart the app
 docker compose up -d app
@@ -136,6 +136,8 @@ instance is working correctly.
 > the steps above.
 
 ## Development instructions
+
+See [docs/bin.md](docs/bin.md) for a list of project-specific scripts in `bin/`.
 
 The recommended setup is **[VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)**.
 

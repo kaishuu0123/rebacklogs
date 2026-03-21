@@ -29,4 +29,5 @@
 ## 新機能
 
 - **プロジェクト作成時のボードタイプ選択** — 「Kanban」か「Swimlane」かをプロジェクト作成時に選択可能にする
-- **リアルタイム通知** — Solid Cable + ActionCable + TanStack Query の invalidateQueries で実装（詳細: `docs/realtime_notifications.md`）
+- ~~**リアルタイム通知（基本）**~~ ✅ 完了（Solid Cable + ActionCable + TanStack Query、SyncIndicator 表示、2026-03-21）
+- **ハイライトフラッシュ** — 更新を受け取ったカード・行を一瞬光らせる。詳細計画 → `docs/highlight_flash_plan.md`

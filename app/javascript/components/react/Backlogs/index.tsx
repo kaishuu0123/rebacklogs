@@ -18,7 +18,9 @@ import { Info } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster, toast } from 'sonner';
+import { useProjectChannel } from '~/hooks/useProjectChannel';
 import api from '~/lib/api';
+import SyncIndicator from '../shared/SyncIndicator';
 import TicketModal from '../shared/TicketModal';
 import type { BacklogsData, Story } from '../shared/types';
 import BacklogsCard from './BacklogsCard';
@@ -46,6 +48,7 @@ type LocalStory = Story & { localSprintId: number | null };
 
 function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
   const { t } = useTranslation();
+  const { lastReceivedAt } = useProjectChannel(projectId);
   const qc = useQueryClient();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [layout, setLayout] = useState<Layout>('DEFAULT');
@@ -193,7 +196,8 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
             </span>
           )}
         </div>
-        <div className="ml-auto flex shrink-0 items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-3">
+          <SyncIndicator lastReceivedAt={lastReceivedAt} />
           <input
             type="text"
             value={searchKeyword}

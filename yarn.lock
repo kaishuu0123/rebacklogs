@@ -964,6 +964,11 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/rect/-/rect-1.1.1.tgz#78244efe12930c56fd255d7923865857c41ac8cb"
   integrity sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==
 
+"@rails/actioncable@^8.1.200":
+  version "8.1.200"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.1.200.tgz#acecf74ab4846144eefdbc16618786df0cebedf9"
+  integrity sha512-on0DSb7AFUkq1ocxivDNQhhGW/RQpY91zvRVyyaEWP4gOOZWy33P/UyxjQk74IENWNrTqs8+zOGHwTjiiFruRw==
+
 "@rails/activestorage@8.0.400":
   version "8.0.400"
   resolved "https://registry.yarnpkg.com/@rails/activestorage/-/activestorage-8.0.400.tgz#e7055c20a44b0e163b5dd755ec67fe2a66a23e6b"
@@ -1250,6 +1255,11 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-2.1.0.tgz#052aa67a48eccc4309d7f0191b7e41434b90bb78"
   integrity sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==
+
+"@types/rails__actioncable@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@types/rails__actioncable/-/rails__actioncable-8.0.3.tgz#5f94793e6c56b73ac4a1259a39d68c60784bfea4"
+  integrity sha512-y46MOTYorVQVwlHUyaZYbrh3nIkXsRYNuPna32lb3RngLVBlndNbIPvAUywFfhivftNhYg+vW5sZKWYCVIX2lA==
 
 "@types/react-dom@^19.2.3":
   version "19.2.3"

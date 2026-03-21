@@ -1,0 +1,4 @@
+Release
+<% pull_requests.each do |pr| -%>
+* <%= pr.title %> #<%= pr.number %>
+<% end -%>

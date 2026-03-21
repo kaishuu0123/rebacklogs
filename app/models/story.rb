@@ -39,6 +39,8 @@
 #
 
 class Story < Ticket
+  include Broadcastable
+
   belongs_to :sprint, optional: true
   belongs_to :project_ticket_category, optional: true
 

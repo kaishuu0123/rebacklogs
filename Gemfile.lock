@@ -394,6 +394,11 @@ GEM
     snaky_hash (2.0.3)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
+    solid_cable (3.0.12)
+      actioncable (>= 7.2)
+      activejob (>= 7.2)
+      activerecord (>= 7.2)
+      railties (>= 7.2)
     stringio (3.2.0)
     thor (1.5.0)
     timeout (0.6.1)
@@ -471,6 +476,7 @@ DEPENDENCIES
   sequenced
   shoulda-matchers (~> 7.0)
   simple_form
+  solid_cable
   turbo-mount
   tzinfo-data
   vite_rails (~> 3.0)

@@ -1,9 +1,11 @@
 name: CI
 
 on:
-  pull_request:
+  # Run on all branch pushes except stable (stable is the production branch,
+  # merged via Release PR — no need to run CI again on merge).
+  # This covers: feature branches, main, and acts as the PR check trigger.
   push:
-    branches: [main]
+    branches-ignore: [stable]
 
 jobs:
   lint:

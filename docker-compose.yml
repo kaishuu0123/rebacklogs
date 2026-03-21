@@ -27,7 +27,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
-      - redis
     #      - es
     volumes:
       - app-storage:/opt/rebacklogs/storage
@@ -46,15 +45,6 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql
 
-  redis:
-    restart: always
-    image: redis:5.0-alpine
-    networks:
-      - internal_network
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-    volumes:
-      - redis-data:/data
 
 #  es:
 #    restart: always
@@ -76,4 +66,3 @@ networks:
 volumes:
   postgres-data:
   app-storage:
-  redis-data:
