@@ -100,8 +100,8 @@ docker compose up -d
 **手順（本番環境 / docker-compose）:**
 
 ```sh
-# 1. 起動中のコンテナからデータを全量ダンプ
-docker compose exec db pg_dumpall -U postgres > backup.sql
+# 1. 起動中のコンテナからデータベースをダンプ
+docker compose exec db pg_dump -U postgres rebacklogs > backup.sql
 
 # 2. アプリを停止し、古い DB コンテナとボリュームを削除
 docker compose stop app
@@ -111,7 +111,7 @@ docker volume rm rebacklogs_postgres-data   # volume 名は環境に合わせて
 # 3. 新しい DB コンテナを起動してリストア
 docker compose up -d db
 # 数秒待って postgres が起動してから
-docker compose exec -T db psql -U postgres < backup.sql
+docker compose exec -T db psql -U postgres -d rebacklogs < backup.sql
 
 # 4. アプリを再起動
 docker compose up -d app
