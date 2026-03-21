@@ -5,8 +5,8 @@ puts "=== Screenshot seed: start ==="
 
 # --- Installer ---
 unless Setting.installed
-  MasterTicketStatus.create_default_en if MasterTicketStatus.none?
-  MasterTicketCategory.create_default_en if MasterTicketCategory.none?
+  MasterTicketStatus.create_default_en
+  MasterTicketCategory.create_default_en
   Setting.installed = true
   puts "  Setting.installed = true"
 end
@@ -56,60 +56,80 @@ if project.new_record?
   project.body  = "Open Source project management tool."
   project.save!
   project.groups << group
+
+  MasterTicketStatus.all.each do |master|
+    ProjectTicketStatus.create!(
+      project:    project,
+      title:      master.title,
+      sort_order: master.sort_order,
+      is_done:    master.is_done
+    )
+  end
+
+  MasterTicketCategory.all.each do |master|
+    ProjectTicketCategory.create!(
+      project:    project,
+      title:      master.title,
+      sort_order: master.sort_order,
+      color:      master.color
+    )
+  end
+
   puts "  Created project: REEN"
 else
   puts "  Project already exists: REEN"
   project.groups << group unless project.groups.include?(group)
 end
 
-# --- Statuses ---
-
-status_defs = ["New", "In Progress", "Resolved", "Feedback", "Done", "Rejected"]
-statuses = status_defs.map.with_index(1) do |title, i|
-  ProjectTicketStatus.find_or_create_by!(project: project, title: title) do |s|
-    s.sort_order = i
-  end
-end
-status_map = statuses.index_by(&:title)
+status_map = ProjectTicketStatus.where(project: project).index_by(&:title)
 
 # --- Sprints ---
 
 sprint1 = Sprint.find_or_create_by!(project: project, title: "Sprint-1")
 sprint2 = Sprint.find_or_create_by!(project: project, title: "Sprint-2")
 
+cat_map = ProjectTicketCategory.where(project: project).index_by(&:title)
+cat_feature     = cat_map["Feature"]      # 青
+cat_improvement = cat_map["Improvement"]  # 緑
+cat_support     = cat_map["Support"]      # 黄
+
 # --- Stories ---
 
-def find_or_create_story(project:, sprint:, title:, status:)
-  Story.find_or_create_by!(project: project, title: title) do |s|
-    s.sprint = sprint
-    s.project_ticket_status = status
-    s.sort_order = Story.where(project: project).count
+def find_or_create_story(project:, sprint:, title:, status:, category: nil)
+  story = Story.find_or_initialize_by(project: project, title: title)
+  if story.new_record?
+    story.sprint = sprint
+    story.project_ticket_status = status
+    story.sort_order = Story.where(project: project).count
   end
+  story.project_ticket_category = category
+  story.save!
+  story
 end
 
 new_status         = status_map["New"]
 in_progress_status = status_map["In Progress"]
 
 # Sprint-1
-story1 = find_or_create_story(project: project, sprint: sprint1, title: "Can Create Public Project in Create Project Page", status: new_status)
-story2 = find_or_create_story(project: project, sprint: sprint1, title: "Deploy to Demo site",                                status: new_status)
+story1 = find_or_create_story(project: project, sprint: sprint1, title: "Can Create Public Project in Create Project Page", status: new_status, category: cat_feature)
+story2 = find_or_create_story(project: project, sprint: sprint1, title: "Deploy to Demo site",                                status: new_status, category: cat_support)
 
 # Sprint-2
-story3 = find_or_create_story(project: project, sprint: sprint2, title: "Add Link to Docs pages from Re:Backlogs", status: new_status)
-story4 = find_or_create_story(project: project, sprint: sprint2, title: "Can Add Tags to Ticket",                  status: new_status)
+story3 = find_or_create_story(project: project, sprint: sprint2, title: "Add Link to Docs pages from Re:Backlogs", status: new_status, category: cat_support)
+story4 = find_or_create_story(project: project, sprint: sprint2, title: "Can Add Tags to Ticket",                  status: new_status, category: cat_feature)
 
 # Backlogs (sprint なし)
 [
-  "Can View Ticket History",
-  "Can File upload for Tickets",
-  "Can direct access to ticket URL",
-  "Can copy Ticket Title to clipboard",
-  "Can OAuth Login & Registration",
-  "[NEED SPEC] Can Ticket multiselect",
-  "[NEED SPEC] Bulk Operation for Ticket",
-  "Can support pagination for Project index",
-].each do |title|
-  find_or_create_story(project: project, sprint: nil, title: title, status: new_status)
+  ["Can View Ticket History",               cat_feature],
+  ["Can File upload for Tickets",           cat_feature],
+  ["Can direct access to ticket URL",       cat_improvement],
+  ["Can copy Ticket Title to clipboard",    cat_improvement],
+  ["Can OAuth Login & Registration",        cat_feature],
+  ["[NEED SPEC] Can Ticket multiselect",    cat_feature],
+  ["[NEED SPEC] Bulk Operation for Ticket", cat_feature],
+  ["Can support pagination for Project index", cat_improvement],
+].each do |title, category|
+  find_or_create_story(project: project, sprint: nil, title: title, status: new_status, category: category)
 end
 
 # --- Tasks ---
