@@ -26,7 +26,7 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 
 | Backlogs | Kanban |
 |---|---|
-| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/kanban.png) |
+| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/kanban.png) |
 
 ## テーマ
 
@@ -35,7 +35,7 @@ Re:Backlogs はプリセットテーマに対応しています。Application Se
 
 | Clean Slate | Solar Dusk |
 |---|---|
-| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_solar_dusk.png) |
+| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/theme_solar_dusk.png) |
 
 ## デモ
 

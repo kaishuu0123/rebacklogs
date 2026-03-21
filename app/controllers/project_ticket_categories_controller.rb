@@ -14,6 +14,7 @@ class ProjectTicketCategoriesController < ApplicationController
 
   def create
     @project_ticket_category = ProjectTicketCategory.new(project_ticket_category_params)
+    authorize! :manage, @project_ticket_category
 
     respond_to do |format|
       if @project_ticket_category.save
@@ -25,6 +26,8 @@ class ProjectTicketCategoriesController < ApplicationController
   end
 
   def update
+    authorize! :manage, @project_ticket_category
+
     respond_to do |format|
       if @project_ticket_category.update(project_ticket_category_params)
         format.json { render :show, status: :created, location: [@project_ticket_category.project, @project_ticket_category] }

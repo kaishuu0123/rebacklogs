@@ -26,21 +26,22 @@ RUN ln -s /usr/local/bin/node /usr/local/bin/nodejs && \
     ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 RUN gem install bundler --version ${BUNDLER_VERSION} && \
-    bundle install --without development test --path vendor/bundle && \
+    bundle config set path 'vendor/bundle' && \
+    bundle config set without 'development test' && \
+    bundle install -j$(nproc) && \
     find vendor/bundle/ruby -path '*/gems/*/ext/*/Makefile' -exec dirname {} \; | xargs -n1 -P$(nproc) -I{} make -C {} clean
-
-RUN bundle install -j$(nproc) --deployment --without development test
 
 # yarn install
 RUN npm install -g yarn
 COPY package.json yarn.lock /opt/rebacklogs/
 RUN yarn install --pure-lockfile
 
-# assets precompile
+# assets build
 COPY . /opt/rebacklogs/
 ENV RAILS_ENV="production"
 ENV NODE_ENV="production"
-RUN SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
+RUN yarn vite build && \
+    SECRET_KEY_BASE=precompile_placeholder bin/rails assets:precompile
 
 FROM ruby:3.4-slim
 
@@ -74,7 +75,6 @@ WORKDIR /opt/rebacklogs
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/vendor/bundle vendor/bundle
 COPY --chown=rebacklogs:rebacklogs --from=builder /usr/local/bundle /usr/local/bundle
 
-COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/assets/ /opt/rebacklogs/public/assets/
 COPY --chown=rebacklogs:rebacklogs --from=builder /opt/rebacklogs/public/vite/ /opt/rebacklogs/public/vite/
 
 # Copy Re:Backlogs source code

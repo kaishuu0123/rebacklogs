@@ -9,7 +9,7 @@
 Re:Backlogs is an Open Source project management tool.
 It aims to be simple and easy to use Backlogs.
 
-[Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/master/README.ja.md)
+[Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/main/README.ja.md)
 
 - [Re:Backlogs](#rebacklogs)
   - [Screenshot](#screenshot)
@@ -34,7 +34,7 @@ It aims to be simple and easy to use Backlogs.
 
 | Backlogs | Kanban |
 |---|---|
-| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/kanban.png) |
+| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/kanban.png) |
 
 ## Theming
 
@@ -43,7 +43,7 @@ When running with `DEMO_MODE=true`, a theme picker is also available directly in
 
 | Clean Slate | Solar Dusk |
 |---|---|
-| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_solar_dusk.png) |
+| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/main/screenshots/theme_solar_dusk.png) |
 
 ## Demo
 

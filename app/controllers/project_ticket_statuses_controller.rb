@@ -14,6 +14,7 @@ class ProjectTicketStatusesController < ApplicationController
 
   def create
     @project_ticket_status = ProjectTicketStatus.new(project_ticket_status_params)
+    authorize! :manage, @project_ticket_status
 
     respond_to do |format|
       if @project_ticket_status.save
@@ -25,6 +26,8 @@ class ProjectTicketStatusesController < ApplicationController
   end
 
   def update
+    authorize! :manage, @project_ticket_status
+
     respond_to do |format|
       if @project_ticket_status.update(project_ticket_status_params)
         format.json { render :show, status: :created, location: [@project_ticket_status.project, @project_ticket_status] }
