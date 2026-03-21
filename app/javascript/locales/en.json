@@ -145,7 +145,7 @@
     "chooseAFile": "Choose a file ...",
     "updateProjectSettingsSuccess": "Project Settings was successfully updated.",
     "closedSprintDoesNotExists": "Closed Sprint doesn't exists",
-    "sprintDoesNotExists": "Sprint doesn't exists. Let's create an Sprint with the \"Create Sprint\" button in Backlogs.",
+    "sprintDoesNotExists": "No sprints found. Use the \"Add Sprint\" button in the Product Backlog on the right to create one.",
     "storyDoesNotExists": "Story doesn't exists. Let's create a story with the \"Add Story\" button.",
     "storyDoesNotExistsInSprint": "Story doesn't exists. Let's add the added story to Sprint by D&D from Backlogs.",
     "dropHere": "Drop here",
