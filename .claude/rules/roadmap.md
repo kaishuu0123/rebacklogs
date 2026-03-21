@@ -2,6 +2,8 @@
 
 実装予定の機能・改善タスク一覧。実装着手時は `.claude/specs/` に仕様書を作成してから進める。
 
+既存機能の仕様書 → `.claude/specs/`（backlogs / kanban / auth / project / application_settings / ticket / realtime_notifications）
+
 ## メンテナンス・品質改善
 
 - ~~**RSpec カバレッジ拡充**~~ ✅ 完了（69 → 117 examples、Tasks/Comments/Statuses/Categories/Profiles/Groups/ApplicationSettings を追加、セキュリティバグ3件修正、2026-03-21）
