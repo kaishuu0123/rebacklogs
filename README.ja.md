@@ -76,6 +76,36 @@ git clone https://github.com/kaishuu0123/rebacklogs
 docker-compose up -d
 ```
 
+## アップグレード
+
+### PostgreSQL メジャーバージョンアップ
+
+`docker-compose.yml` の `postgres` イメージが**メジャーバージョン**をまたいで更新された場合（例: 16 → 18）、既存のデータボリュームには互換性がないため、再起動前に手動でデータ移行が必要です。
+
+**手順（本番環境 / docker-compose）:**
+
+```sh
+# 1. 起動中のコンテナからデータを全量ダンプ
+docker compose exec db pg_dumpall -U postgres > backup.sql
+
+# 2. アプリを停止し、古い DB コンテナとボリュームを削除
+docker compose stop app
+docker compose stop db && docker compose rm -f db
+docker volume rm rebacklogs_postgres-data   # volume 名は環境に合わせて確認
+
+# 3. 新しい DB コンテナを起動してリストア
+docker compose up -d db
+# 数秒待って postgres が起動してから
+docker compose exec -T db psql -U postgres < backup.sql
+
+# 4. アプリを再起動
+docker compose up -d app
+```
+
+アップグレード後の動作確認が取れるまで `backup.sql` は安全な場所に保管しておいてください。
+
+> **誤って新しいバージョンを起動してしまった場合:** PostgreSQL はバージョン不一致のデータディレクトリを検出すると起動を拒否し、データには一切手を加えません。`docker-compose.yml` を元のバージョンに戻せばデータにアクセスできる状態に戻ります。その後、上記の手順でマイグレーションを実施してください。
+
 ## 開発環境構築手順
 ### 必須ソフト
 
