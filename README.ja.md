@@ -91,6 +91,37 @@ docker compose up -d
 
 起動後、ブラウザで http://localhost:3000 を開いてください。
 
+### nginx リバースプロキシ（WebSocket 対応）
+
+nginx をリバースプロキシとして使う場合、リアルタイム同期機能（ActionCable）が動作するよう `/cable` 専用のロケーションを追加してください。
+
+```nginx
+server {
+    # ... SSL 設定など ...
+
+    location /cable {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+```
+
+この設定がないと WebSocket への接続アップグレードが失敗し、リアルタイム同期が動作しません。
+
 ## アップグレード
 
 ### PostgreSQL メジャーバージョンアップ
