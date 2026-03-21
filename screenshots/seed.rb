@@ -5,6 +5,8 @@ puts "=== Screenshot seed: start ==="
 
 # --- Installer ---
 unless Setting.installed
+  MasterTicketStatus.create_default_en if MasterTicketStatus.none?
+  MasterTicketCategory.create_default_en if MasterTicketCategory.none?
   Setting.installed = true
   puts "  Setting.installed = true"
 end

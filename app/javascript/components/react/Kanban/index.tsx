@@ -30,8 +30,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
+import { useProjectChannel } from '~/hooks/useProjectChannel';
 import api from '~/lib/api';
 import { categoryBadgeStyle } from '../shared/colorUtils';
+import SyncIndicator from '../shared/SyncIndicator';
 import TicketModal from '../shared/TicketModal';
 import type { Story, Task, TicketStatus, User } from '../shared/types';
 import TaskCard from './TaskCard';
@@ -64,6 +66,7 @@ function KanbanInner({
 }: Props) {
   const { t } = useTranslation();
   const qc = useQueryClient();
+  const { lastReceivedAt } = useProjectChannel(projectId);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [taskModalOpen, setTaskModalOpen] = useState(false);
   const [taskModalAsEdit, setTaskModalAsEdit] = useState(false);
@@ -313,7 +316,8 @@ function KanbanInner({
             </span>
           )}
         </div>
-        <div className="ml-auto shrink-0">
+        <div className="ml-auto flex shrink-0 items-center gap-3">
+          <SyncIndicator lastReceivedAt={lastReceivedAt} />
           <input
             type="text"
             value={searchKeyword}

@@ -39,6 +39,8 @@
 #
 
 class Task < Ticket
+  include Broadcastable
+
   belongs_to :story, foreign_key: :ticket_id, touch: true
   belongs_to :project_ticket_status
   alias_attribute :story_id, :ticket_id

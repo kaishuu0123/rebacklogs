@@ -21,6 +21,8 @@
 #
 
 class Sprint < ApplicationRecord
+  include Broadcastable
+
   belongs_to :project
   has_many :stories, -> { order(sort_order: :asc) }
 
