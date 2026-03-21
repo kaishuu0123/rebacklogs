@@ -1,4 +1,4 @@
-import { RefreshCw } from 'lucide-react';
+import { AlertTriangle, RefreshCw, WifiOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {
   Tooltip,
@@ -6,9 +6,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '~/components/ui/tooltip';
+import type { ConnectionStatus } from '~/hooks/useProjectChannel';
 
 interface Props {
   lastReceivedAt: Date | null;
+  connectionStatus: ConnectionStatus;
 }
 
 function relativeTime(date: Date): string {
@@ -22,7 +24,7 @@ function relativeTime(date: Date): string {
   return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
 }
 
-export default function SyncIndicator({ lastReceivedAt }: Props) {
+export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Props) {
   const [fresh, setFresh] = useState(false);
   const [label, setLabel] = useState('');
 
@@ -42,6 +44,42 @@ export default function SyncIndicator({ lastReceivedAt }: Props) {
       clearInterval(ticker);
     };
   }, [lastReceivedAt]);
+
+  if (connectionStatus === 'rejected') {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="flex cursor-default items-center gap-1 text-xs text-destructive">
+              <AlertTriangle size={11} />
+              sync unavailable
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>リアルタイム同期が無効です。ページを再読み込みしてください。</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  if (connectionStatus === 'disconnected') {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="flex cursor-default items-center gap-1 text-xs text-muted-foreground/50">
+              <WifiOff size={11} />
+              reconnecting...
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>接続が切断されました。再接続中...</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   if (!lastReceivedAt) return null;
 

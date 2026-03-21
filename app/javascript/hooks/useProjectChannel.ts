@@ -15,17 +15,24 @@ type ProjectEvent =
     }
   | { event: 'ticket_updated'; project_id: number };
 
+export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'rejected';
+
 export function useProjectChannel(projectId: string) {
   const qc = useQueryClient();
   const subscriptionRef = useRef<ReturnType<
     typeof consumer.subscriptions.create
   > | null>(null);
   const [lastReceivedAt, setLastReceivedAt] = useState<Date | null>(null);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connecting');
 
   useEffect(() => {
+    setConnectionStatus('connecting');
     subscriptionRef.current = consumer.subscriptions.create(
       { channel: 'ProjectChannel', project_id: projectId },
       {
+        connected() { setConnectionStatus('connected'); },
+        disconnected() { setConnectionStatus('disconnected'); },
+        rejected() { setConnectionStatus('rejected'); },
         received(data: ProjectEvent) {
           setLastReceivedAt(new Date());
           switch (data.event) {
@@ -56,5 +63,5 @@ export function useProjectChannel(projectId: string) {
     };
   }, [projectId, qc]);
 
-  return { lastReceivedAt };
+  return { lastReceivedAt, connectionStatus };
 }
