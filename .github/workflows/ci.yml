@@ -10,7 +10,7 @@ jobs:
     name: Lint (Biome)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -41,7 +41,7 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/rebacklogs_test
       SECRET_KEY_BASE: ci_secret_key_base_placeholder
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
