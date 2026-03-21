@@ -7,34 +7,34 @@ import {
   useDroppable,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
-  SortableContext,
   arrayMove,
+  SortableContext,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+} from '@dnd-kit/sortable';
 import {
   QueryClient,
   QueryClientProvider,
   useMutation,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query";
-import { CircleUser, GripVertical, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Toaster, toast } from "sonner";
-import api from "~/lib/api";
+} from '@tanstack/react-query';
+import { CircleUser, GripVertical, Plus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Toaster, toast } from 'sonner';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { categoryBadgeStyle } from "../shared/colorUtils";
-import TicketModal from "../shared/TicketModal";
-import type { Story, Task, TicketStatus, User } from "../shared/types";
-import TaskCard from "./TaskCard";
+} from '~/components/ui/tooltip';
+import api from '~/lib/api';
+import { categoryBadgeStyle } from '../shared/colorUtils';
+import TicketModal from '../shared/TicketModal';
+import type { Story, Task, TicketStatus, User } from '../shared/types';
+import TaskCard from './TaskCard';
 
 const queryClient = new QueryClient();
 
@@ -64,7 +64,7 @@ function KanbanInner({
 }: Props) {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [taskModalOpen, setTaskModalOpen] = useState(false);
   const [taskModalAsEdit, setTaskModalAsEdit] = useState(false);
   const [storyModalOpen, setStoryModalOpen] = useState(false);
@@ -79,7 +79,7 @@ function KanbanInner({
   );
 
   const { data: stories = [] } = useQuery<Story[]>({
-    queryKey: ["kanban", projectId, sprintId],
+    queryKey: ['kanban', projectId, sprintId],
     queryFn: () =>
       api
         .get<Story[]>(`/projects/${projectId}/sprints/${sprintId}/kanban/api`)
@@ -87,7 +87,7 @@ function KanbanInner({
   });
 
   const { data: statuses = [] } = useQuery<TicketStatus[]>({
-    queryKey: ["ticketStatuses", projectId],
+    queryKey: ['ticketStatuses', projectId],
     queryFn: () =>
       api
         .get<TicketStatus[]>(`/projects/${projectId}/project_ticket_statuses`)
@@ -95,7 +95,7 @@ function KanbanInner({
   });
 
   const { data: assignees = [] } = useQuery<User[]>({
-    queryKey: ["assignees", projectId],
+    queryKey: ['assignees', projectId],
     queryFn: () =>
       api.get<User[]>(`/projects/${projectId}/users`).then((r) => r.data),
   });
@@ -113,8 +113,8 @@ function KanbanInner({
         row_order_position: data.newIndex,
       }),
     onSuccess: () =>
-      qc.invalidateQueries({ queryKey: ["kanban", projectId, sprintId] }),
-    onError: () => toast.error(t("message.failedToMoveTask")),
+      qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] }),
+    onError: () => toast.error(t('message.failedToMoveTask')),
   });
 
   useEffect(() => {
@@ -166,10 +166,10 @@ function KanbanInner({
       let targetStatusId: number | null;
       let insertIndex: number;
 
-      if (overId.startsWith("droppable-")) {
-        const parts = overId.replace("droppable-", "").split("-");
+      if (overId.startsWith('droppable-')) {
+        const parts = overId.replace('droppable-', '').split('-');
         targetStoryId = Number(parts[0]);
-        targetStatusId = parts[1] === "null" ? null : Number(parts[1]);
+        targetStatusId = parts[1] === 'null' ? null : Number(parts[1]);
         const targetStory = prev.find((s) => s.id === targetStoryId);
         insertIndex = (targetStory?.tasks ?? []).filter(
           (t) =>
@@ -309,7 +309,7 @@ function KanbanInner({
           <h1 className="truncate font-semibold">{sprintTitle}</h1>
           {isPublic && (
             <span className="ml-1 shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 text-xs text-blue-800">
-              {t("title.is_public")}
+              {t('title.is_public')}
             </span>
           )}
         </div>
@@ -318,7 +318,7 @@ function KanbanInner({
             type="text"
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            placeholder={t("title.search")}
+            placeholder={t('title.search')}
             className="h-8 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           />
         </div>
@@ -335,7 +335,7 @@ function KanbanInner({
           <div className="overflow-hidden rounded-md border">
             <table
               className="w-full border-collapse text-sm"
-              style={{ tableLayout: "fixed" }}
+              style={{ tableLayout: 'fixed' }}
             >
               <thead>
                 <tr className="bg-muted/30">
@@ -389,14 +389,21 @@ function KanbanInner({
               <div className="px-2.5 py-2 space-y-1.5">
                 {/* Row 1: handle + ticket number */}
                 <div className="flex items-center gap-1">
-                  <GripVertical size={12} className="text-muted-foreground/30" />
+                  <GripVertical
+                    size={12}
+                    className="text-muted-foreground/30"
+                  />
                   <span className="font-mono text-sm text-muted-foreground">
                     {activeTask.ticket_number_with_ticket_prefix}
                   </span>
                 </div>
                 {/* Row 2: title */}
                 <div className="text-sm leading-snug break-words">
-                  {activeTask.is_done ? <s>{activeTask.title}</s> : activeTask.title}
+                  {activeTask.is_done ? (
+                    <s>{activeTask.title}</s>
+                  ) : (
+                    activeTask.title
+                  )}
                 </div>
                 {/* Row 3: assignee */}
                 <div className="flex justify-end">
@@ -416,7 +423,7 @@ function KanbanInner({
                   ) : (
                     <span className="flex items-center gap-1.5 text-sm text-muted-foreground/50">
                       <CircleUser size={16} className="opacity-40" />
-                      {t("title.unassigned")}
+                      {t('title.unassigned')}
                     </span>
                   )}
                 </div>
@@ -439,7 +446,7 @@ function KanbanInner({
         storyId={newTaskStoryId}
         initialEdit={taskModalAsEdit}
         onSuccess={() =>
-          qc.invalidateQueries({ queryKey: ["kanban", projectId, sprintId] })
+          qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] })
         }
       />
 
@@ -453,7 +460,7 @@ function KanbanInner({
         ticketType="stories"
         ticketId={selectedStoryId}
         onSuccess={() =>
-          qc.invalidateQueries({ queryKey: ["kanban", projectId, sprintId] })
+          qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] })
         }
       />
     </div>
@@ -493,7 +500,7 @@ function StoryRows({
           style={
             catColor
               ? { borderLeft: `3px solid ${catColor}` }
-              : { borderLeft: "3px solid transparent" }
+              : { borderLeft: '3px solid transparent' }
           }
         >
           <div className="flex items-center gap-2">
@@ -508,7 +515,7 @@ function StoryRows({
                     <Plus size={12} />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent>{t("action.addTask")}</TooltipContent>
+                <TooltipContent>{t('action.addTask')}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
             <button
@@ -590,7 +597,7 @@ function DroppableCell({
     <td
       ref={setNodeRef}
       className={`border-r px-1.5 py-2 align-top last:border-r-0 ${
-        isOver ? "bg-primary/5" : "bg-background"
+        isOver ? 'bg-primary/5' : 'bg-background'
       }`}
     >
       <div className="min-h-[100px]">
@@ -603,7 +610,7 @@ function DroppableCell({
               key={task.id}
               task={task}
               projectId={projectId}
-              assignees={[]}
+              assignees={assignees}
               onOpenModal={(_, taskId) => onOpenTaskModal(taskId)}
               onOpenModalAsEdit={(_, taskId) => onOpenTaskModalAsEdit(taskId)}
             />

@@ -162,7 +162,10 @@ export default function Header({
   return (
     <header className="border-b">
       <nav className="flex items-center justify-between px-4 h-14">
-        <a href={rootPath} className="flex items-center gap-2 font-bold tracking-tight">
+        <a
+          href={rootPath}
+          className="flex items-center gap-2 font-bold tracking-tight"
+        >
           <LayoutListIcon size={18} />
           Re:Backlogs
         </a>
@@ -207,7 +210,9 @@ export default function Header({
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onSelect={() => signOut(currentUser.signOutPath)}>
+                  <DropdownMenuItem
+                    onSelect={() => signOut(currentUser.signOutPath)}
+                  >
                     <LogOutIcon size={14} />
                     {t('action.signOut')}
                   </DropdownMenuItem>

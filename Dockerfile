@@ -2,7 +2,7 @@ FROM node:22-slim AS node
 
 FROM ruby:3.4-slim AS builder
 
-ENV BUNDLER_VERSION=2.5.7
+ENV BUNDLER_VERSION=4.0.8
 
 # build deps
 RUN apt-get update -qq && \

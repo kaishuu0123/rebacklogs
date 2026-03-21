@@ -83,6 +83,43 @@ git clone https://github.com/kaishuu0123/rebacklogs
 docker-compose up -d
 ```
 
+## Upgrading
+
+### PostgreSQL major version upgrade
+
+When the `postgres` image version in `docker-compose.yml` jumps to a new
+**major** version (e.g. 16 → 18), the existing data volume is **not**
+compatible and must be migrated manually before restarting.
+
+**Steps (production / docker-compose):**
+
+```sh
+# 1. Dump all data from the running container
+docker compose exec db pg_dumpall -U postgres > backup.sql
+
+# 2. Stop the app, then remove the old DB container and volume
+docker compose stop app
+docker compose stop db && docker compose rm -f db
+docker volume rm rebacklogs_postgres-data   # adjust name if needed
+
+# 3. Start the new DB container and restore
+docker compose up -d db
+# wait a few seconds for postgres to be ready
+docker compose exec -T db psql -U postgres < backup.sql
+
+# 4. Restart the app
+docker compose up -d app
+```
+
+Keep `backup.sql` somewhere safe until you have verified the upgraded
+instance is working correctly.
+
+> **Note:** If you accidentally started the new PostgreSQL version without
+> migrating, don't panic — PostgreSQL refuses to start with an incompatible
+> data directory and leaves it untouched. Simply revert `docker-compose.yml`
+> to the previous version and your data will be accessible again. Then follow
+> the steps above.
+
 ## Development instructions
 ### Requirements
 

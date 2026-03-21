@@ -1,5 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowDown, ArrowRight, Check, ChevronsUpDown, Clock, Ellipsis, MessageCircle, Paperclip, Pencil, Trash2, X } from 'lucide-react';
+import {
+  ArrowDown,
+  ArrowRight,
+  Check,
+  ChevronsUpDown,
+  Clock,
+  Ellipsis,
+  MessageCircle,
+  Paperclip,
+  Pencil,
+  Trash2,
+  X,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -23,9 +35,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '~/components/ui/popover';
 import api from '~/lib/api';
-import { categoryBadgeStyle, idealTextColor } from './colorUtils';
+import { categoryBadgeStyle } from './colorUtils';
 import MarkdownContent from './MarkdownContent';
 import type {
   Comment,
@@ -90,7 +106,7 @@ export default function TicketModal({
         setNewStatusId('');
       }
     }
-  }, [open, isNew]);
+  }, [open, isNew, initialEdit]);
 
   const { data: ticket } = useQuery<Ticket>({
     queryKey: [ticketType, ticketId, projectId],
@@ -281,7 +297,10 @@ export default function TicketModal({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent hideCloseButton className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        hideCloseButton
+        className="max-w-4xl max-h-[90vh] overflow-y-auto"
+      >
         <DialogTitle className="sr-only">
           {isNew
             ? ticketType === 'stories'
@@ -390,9 +409,7 @@ export default function TicketModal({
                   rows={6}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
-                <p className="text-muted-foreground">
-                  Markdown available
-                </p>
+                <p className="text-muted-foreground">Markdown available</p>
                 {isNew && (
                   <div className="flex justify-end gap-2">
                     <button
@@ -489,10 +506,7 @@ export default function TicketModal({
                   {t('title.relatedTasks')}
                 </p>
                 {storyTicket.tasks.map((task) => (
-                  <div
-                    key={task.id}
-                    className="flex items-center gap-2"
-                  >
+                  <div key={task.id} className="flex items-center gap-2">
                     <span className="rounded border border-input bg-muted px-1 py-0.5 font-mono">
                       {task.ticket_number_with_ticket_prefix}
                     </span>
@@ -573,7 +587,8 @@ export default function TicketModal({
                 value={
                   isNew
                     ? newCategoryId
-                    : (storyTicket?.project_ticket_category_id?.toString() ?? '')
+                    : (storyTicket?.project_ticket_category_id?.toString() ??
+                      '')
                 }
                 options={[
                   { value: '', label: '-' },
@@ -658,9 +673,18 @@ export default function TicketModal({
                 <p className="font-medium">{t('title.tag')}:</p>
                 <div className="flex flex-wrap gap-1">
                   {tags.map((name) => (
-                    <span key={name} className="flex items-center gap-0.5 rounded border border-input bg-muted px-1.5 py-0.5 text-xs">
+                    <span
+                      key={name}
+                      className="flex items-center gap-0.5 rounded border border-input bg-muted px-1.5 py-0.5 text-xs"
+                    >
                       {name}
-                      <button type="button" onClick={() => handleRemoveTag(name)} className="text-muted-foreground hover:text-foreground">×</button>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTag(name)}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        ×
+                      </button>
                     </span>
                   ))}
                 </div>
@@ -670,7 +694,9 @@ export default function TicketModal({
                   availableTags={availableTags}
                   tags={tags}
                   onAdd={(name) => {
-                    if (!tags.some((t) => t.toLowerCase() === name.toLowerCase())) {
+                    if (
+                      !tags.some((t) => t.toLowerCase() === name.toLowerCase())
+                    ) {
                       const nextTags = [...tags, name];
                       setTags(nextTags);
                       saveTags(nextTags);
@@ -829,7 +855,9 @@ function SidebarCombobox({
           <Command>
             <CommandInput placeholder={t('title.search')} className="h-8" />
             <CommandList>
-              <CommandEmpty className="py-3">{t('message.notFound')}</CommandEmpty>
+              <CommandEmpty className="py-3">
+                {t('message.notFound')}
+              </CommandEmpty>
               <CommandGroup>
                 {options.map((o) => (
                   <CommandItem
@@ -889,7 +917,9 @@ function PointInput({
   const updatePoint = () => {
     const value = point === '' ? null : Number(point);
     api
-      .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, { point: value })
+      .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, {
+        point: value,
+      })
       .then(onSuccess)
       .catch(() => toast.error(t('message.failedToUpdatePoint')));
   };
