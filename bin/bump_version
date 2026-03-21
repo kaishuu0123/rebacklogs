@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="${1:-}"
+
+if [[ -z "$VERSION" ]]; then
+  echo "Usage: bin/bump_version <version>"
+  echo "Example: bin/bump_version 4.2.0"
+  exit 1
+fi
+
+if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "Error: version must be in semver format (e.g. 4.2.0)"
+  exit 1
+fi
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# config/initializers/version.rb
+sed -i "s/REBACKLOGS_VERSION = \".*\"/REBACKLOGS_VERSION = \"${VERSION}\"/" \
+  "$ROOT/config/initializers/version.rb"
+
+# package.json (first "version" line only)
+sed -i "0,/\"version\": \".*\"/s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" \
+  "$ROOT/package.json"
+
+echo "Bumped to ${VERSION}"
+echo "  config/initializers/version.rb"
+echo "  package.json"

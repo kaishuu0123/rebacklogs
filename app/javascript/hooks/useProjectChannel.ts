@@ -7,12 +7,19 @@ const consumer = createConsumer();
 type ProjectEvent =
   | { event: 'sprint_updated'; project_id: number }
   | { event: 'task_updated'; project_id: number; sprint_id: number | null }
-  | { event: 'comment_updated'; project_id: number; ticket_id: number; ticket_type: string }
+  | {
+      event: 'comment_updated';
+      project_id: number;
+      ticket_id: number;
+      ticket_type: string;
+    }
   | { event: 'ticket_updated'; project_id: number };
 
 export function useProjectChannel(projectId: string) {
   const qc = useQueryClient();
-  const subscriptionRef = useRef<ReturnType<typeof consumer.subscriptions.create> | null>(null);
+  const subscriptionRef = useRef<ReturnType<
+    typeof consumer.subscriptions.create
+  > | null>(null);
   const [lastReceivedAt, setLastReceivedAt] = useState<Date | null>(null);
 
   useEffect(() => {

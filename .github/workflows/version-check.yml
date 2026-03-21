@@ -1,0 +1,43 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches: [stable]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check version consistency
+        run: |
+          RB_VERSION=$(grep -oP '(?<=REBACKLOGS_VERSION = ")[^"]+' config/initializers/version.rb)
+          PKG_VERSION=$(node -p "require('./package.json').version")
+
+          echo "version.rb : $RB_VERSION"
+          echo "package.json: $PKG_VERSION"
+
+          if [ "$RB_VERSION" != "$PKG_VERSION" ]; then
+            echo ""
+            echo "Error: version mismatch. Run bin/bump_version <version> to sync."
+            exit 1
+          fi
+
+          echo "OK: versions match ($RB_VERSION)"
+
+      - name: Check version bumped from stable
+        run: |
+          STABLE_VERSION=$(git show origin/${{ github.base_ref }}:config/initializers/version.rb | grep -oP '(?<=REBACKLOGS_VERSION = ")[^"]+')
+          PR_VERSION=$(grep -oP '(?<=REBACKLOGS_VERSION = ")[^"]+' config/initializers/version.rb)
+
+          echo "stable version: $STABLE_VERSION"
+          echo "PR version    : $PR_VERSION"
+
+          if [ "$STABLE_VERSION" = "$PR_VERSION" ]; then
+            echo "::warning::Version ($PR_VERSION) is the same as stable. Did you forget to bump the version? Run bin/bump_version <version>."
+          else
+            echo "OK: version bumped ($STABLE_VERSION -> $PR_VERSION)"
+          fi
