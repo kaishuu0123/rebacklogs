@@ -154,6 +154,18 @@
     "publicProject": "これは公開プロジェクトです。メンバーではないユーザはチケットへのコメントのみ許可されています。",
     "addGroup": "プロジェクトに追加したいグループ名を数文字入力してください。ユーザを追加したい場合にはユーザ名を入力してください。"
   },
+  "sync": {
+    "unavailable": "同期不可",
+    "unavailableTooltip": "リアルタイム同期が無効です。ページを再読み込みしてください。",
+    "reconnecting": "再接続中...",
+    "reconnectingTooltip": "接続が切断されました。再接続中...",
+    "justNow": "たった今",
+    "secondsAgo": "{{count}} 秒前",
+    "minuteAgo": "1 分前",
+    "minutesAgo": "{{count}} 分前",
+    "hourAgo": "1 時間前",
+    "hoursAgo": "{{count}} 時間前"
+  },
   "tab": {
     "comment": "コメント",
     "history": "更新履歴"

@@ -48,7 +48,7 @@ type LocalStory = Story & { localSprintId: number | null };
 
 function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
   const { t } = useTranslation();
-  const { lastReceivedAt } = useProjectChannel(projectId);
+  const { lastReceivedAt, connectionStatus } = useProjectChannel(projectId);
   const qc = useQueryClient();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [layout, setLayout] = useState<Layout>('DEFAULT');
@@ -197,7 +197,10 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
           )}
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-3">
-          <SyncIndicator lastReceivedAt={lastReceivedAt} />
+          <SyncIndicator
+            lastReceivedAt={lastReceivedAt}
+            connectionStatus={connectionStatus}
+          />
           <input
             type="text"
             value={searchKeyword}

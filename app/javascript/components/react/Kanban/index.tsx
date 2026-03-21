@@ -66,7 +66,7 @@ function KanbanInner({
 }: Props) {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const { lastReceivedAt } = useProjectChannel(projectId);
+  const { lastReceivedAt, connectionStatus } = useProjectChannel(projectId);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [taskModalOpen, setTaskModalOpen] = useState(false);
   const [taskModalAsEdit, setTaskModalAsEdit] = useState(false);
@@ -317,7 +317,10 @@ function KanbanInner({
           )}
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-3">
-          <SyncIndicator lastReceivedAt={lastReceivedAt} />
+          <SyncIndicator
+            lastReceivedAt={lastReceivedAt}
+            connectionStatus={connectionStatus}
+          />
           <input
             type="text"
             value={searchKeyword}
