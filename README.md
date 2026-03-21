@@ -21,8 +21,9 @@ It aims to be simple and easy to use Backlogs.
     - ["Re:" Meaning](#%22re%22-meaning)
   - [Install](#install)
     - [Use docker-compose.yml](#use-docker-composeyml)
+  - [Upgrading](#upgrading)
+    - [PostgreSQL major version upgrade](#postgresql-major-version-upgrade)
   - [Development instructions](#development-instructions)
-    - [Requirements](#requirements)
     - [Setup](#setup)
     - [Run Re:Backlogs](#run-rebacklogs)
   - [Development motivation](#development-motivation)
@@ -37,7 +38,8 @@ It aims to be simple and easy to use Backlogs.
 
 ## Theming
 
-Re:Backlogs supports custom themes. You can change the color scheme from the theme picker in the header.
+Re:Backlogs supports preset themes. You can choose a color scheme from the application settings.
+When running with `DEMO_MODE=true`, a theme picker is also available directly in the header.
 
 | Clean Slate | Solar Dusk |
 |---|---|
@@ -45,8 +47,9 @@ Re:Backlogs supports custom themes. You can change the color scheme from the the
 
 ## Demo
 
-* https://rebacklogs.saino.me/
-  * this is a demo site, there is a possibility that data may disappear suddenly. Please use for testing
+Try Re:Backlogs without any setup: **https://rebacklogs.saino.me/**
+
+> This is a demo site. Data may be reset without notice — for testing purposes only.
 
 ## About this project
 ### Similar Project or Software
@@ -59,40 +62,41 @@ The basic philosophy is based on redmine_backlogs.
 There are several terms related to Backlogs.
 
 * Backlogs
-    * A place to store stories
-    * Story will be added without being bound by existing Sprint.
+    * A place to accumulate stories
+    * Stories can be added freely, independent of any existing Sprint.
 * Sprints
-    * Basic unit that digests a story within a set period. Generally, it is separated by 2 weeks.
-    * Add Story to Sprint from Backlogs and plan
+    * The basic unit for completing stories within a fixed period. Typically two weeks long.
+    * Move stories from Backlogs into a Sprint to plan your work.
 * Story
-    * Represents the specific granularity to accomplish something
-    * When using for software development, it is basic to write in the form of “can do”
-    * For example, if you add a login function to a web application and implement a function that allows you to add comments, create the following story
-        * Log in to the application
-        * You can add comments as a logged-in user
+    * Represents a specific unit of work toward achieving a goal.
+    * In software development, stories are typically written in the form of “can do” (e.g. user capabilities).
+    * For example, when adding a login feature and a comment feature to a web application, you might create:
+        * Users can log in to the application
+        * Logged-in users can add comments
 * Task
-    * 1 Create multiple items in Story.
-    * Here are the specific tasks to complete the story
+    * Create multiple items within a Story.
+    * Represents the concrete steps needed to complete a Story.
     * For example, the following tasks can be considered to complete the above-mentioned story of “Login to application”.
         * Implementation
         * Code Review & Feedback
         * Testing
 
-### "Re:" Meaning
+### “Re:” Meaning
 
-The original meaning of Re: means “reply” in email,
-It also includes the meaning of again, which is part of the prefix re-.
-I hope that the project management using Backlogs will spread again.
+“Re:” originally means “reply” in email. It also carries the meaning of “again” from the prefix re-.
+I hope to see Backlogs-style project management become widely used once again.
 
 ## Install
 
 ### Use docker-compose.yml
 
-```command
+```bash
 git clone https://github.com/kaishuu0123/rebacklogs
 
-docker-compose up -d
+docker compose up -d
 ```
+
+Once started, open http://localhost:3000 in your browser.
 
 ## Upgrading
 
@@ -132,17 +136,15 @@ instance is working correctly.
 > the steps above.
 
 ## Development instructions
-### Requirements
 
-* Ruby
-* bundler
-* Node.js
-* yarn
+The recommended setup is **[VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)**.
 
 ### Setup
 
-```command
-bundle install --path=vendor/bundle
+After the devcontainer is up:
+
+```bash
+bundle install
 yarn install
 
 bundle exec rails db:create db:migrate
@@ -150,13 +152,15 @@ bundle exec rails db:create db:migrate
 
 ### Run Re:Backlogs
 
-```
+```bash
 # terminal 1: Vite dev server (React pages)
 bin/vite dev
 
 # terminal 2: Rails server
 bin/rails s
 ```
+
+Open http://localhost:3000 in your browser.
 
 ## Development motivation
 There are several.
@@ -170,12 +174,11 @@ There are several.
 
 ## Contribute
 
-kaishuu0123 is Japanese, but just started learning English.
+Issues and PRs are welcome in either English or Japanese.
+(Note: Japanese may lead to smoother communication.)
 
-You can write issues and PRs in English or Japanese.
-
-If you want to add a large feature, etc., it will be smooth if you create issue first and then discussion.
-Even if a big PR is suddenly thrown, it may be rejected at the concept stage.
+If you want to add a large feature, please open an issue first to discuss it.
+Large PRs submitted without prior discussion may be rejected at the concept stage.
 
 ## License
 
