@@ -98,6 +98,37 @@ docker compose up -d
 
 Once started, open http://localhost:3000 in your browser.
 
+### nginx reverse proxy (WebSocket support)
+
+When placing nginx in front of Re:Backlogs, add a dedicated `/cable` location to enable WebSocket upgrades for real-time notifications:
+
+```nginx
+server {
+    # ... your SSL settings ...
+
+    location /cable {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+```
+
+Without this, ActionCable will fail to upgrade the connection and real-time sync will not work.
+
 ## Upgrading
 
 ### PostgreSQL major version upgrade
