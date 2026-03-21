@@ -197,7 +197,10 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
           )}
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-3">
-          <SyncIndicator lastReceivedAt={lastReceivedAt} connectionStatus={connectionStatus} />
+          <SyncIndicator
+            lastReceivedAt={lastReceivedAt}
+            connectionStatus={connectionStatus}
+          />
           <input
             type="text"
             value={searchKeyword}
