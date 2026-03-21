@@ -13,6 +13,7 @@ It aims to be simple and easy to use Backlogs.
 
 - [Re:Backlogs](#rebacklogs)
   - [Screenshot](#screenshot)
+  - [Theming](#theming)
   - [Demo](#demo)
   - [About this project](#about-this-project)
     - [Similar Project or Software](#similar-project-or-software)
@@ -30,7 +31,17 @@ It aims to be simple and easy to use Backlogs.
 
 ## Screenshot
 
-<img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/backlogs.png" width="400"> <img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/kanban.png" width="400">
+| Backlogs | Kanban |
+|---|---|
+| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/kanban.png) |
+
+## Theming
+
+Re:Backlogs supports custom themes. You can change the color scheme from the theme picker in the header.
+
+| Clean Slate | Solar Dusk |
+|---|---|
+| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_solar_dusk.png) |
 
 ## Demo
 

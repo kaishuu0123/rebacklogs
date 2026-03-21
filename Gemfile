@@ -9,9 +9,6 @@ gem 'rails', '~> 8.0.0'
 # Use Puma as the app server
 # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server for Ruby/Rack applications (http://puma.io)
 gem 'puma', '>= 5.0'
-# Use SCSS for stylesheets
-# Sass adapter for the Rails asset pipeline. (https://github.com/rails/sass-rails)
-gem 'sass-rails', '~> 5'
 gem 'vite_rails', '~> 3.0'
 gem 'turbo-mount'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -44,8 +41,8 @@ group :development do
 
   # Add comments to your Gemfile with each dependency's description. (https://github.com/ivantsepp/annotate_gem)
   gem 'annotate_gem', require: false
-  # Annotates Rails Models, routes, fixtures, and others based on the database schema. (http://github.com/ctran/annotate_models)
-  gem 'annotate', require: false
+  # Annotates Rails Models, routes, fixtures, and others based on the database schema.
+  gem 'annotaterb', require: false
 
   # Preview email in the default browser instead of sending it.
   gem 'letter_opener_web'

@@ -2,22 +2,40 @@
 #
 # Table name: tickets
 #
-#  id                         :integer          not null, primary key
-#  project_id                 :integer
-#  sprint_id                  :integer
-#  ticket_id                  :integer
-#  project_ticket_category_id :integer
-#  project_ticket_status_id   :integer
-#  assignee_id                :integer
-#  type                       :string
+#  id                         :bigint           not null, primary key
+#  body                       :text
+#  is_done                    :boolean          default(FALSE)
+#  point                      :float
+#  sort_order                 :integer
 #  ticket_number              :integer
 #  title                      :string
-#  body                       :text
-#  point                      :float
-#  is_done                    :boolean          default(FALSE)
-#  sort_order                 :integer
+#  type                       :string
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  assignee_id                :bigint
+#  project_id                 :bigint
+#  project_ticket_category_id :bigint
+#  project_ticket_status_id   :bigint
+#  sprint_id                  :bigint
+#  ticket_id                  :bigint
+#
+# Indexes
+#
+#  index_tickets_on_assignee_id                 (assignee_id)
+#  index_tickets_on_project_id                  (project_id)
+#  index_tickets_on_project_ticket_category_id  (project_ticket_category_id)
+#  index_tickets_on_project_ticket_status_id    (project_ticket_status_id)
+#  index_tickets_on_sprint_id                   (sprint_id)
+#  index_tickets_on_ticket_id                   (ticket_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assignee_id => users.id)
+#  fk_rails_...  (project_id => projects.id)
+#  fk_rails_...  (project_ticket_category_id => project_ticket_categories.id)
+#  fk_rails_...  (project_ticket_status_id => project_ticket_statuses.id)
+#  fk_rails_...  (sprint_id => sprints.id)
+#  fk_rails_...  (ticket_id => tickets.id)
 #
 
 class Task < Ticket
