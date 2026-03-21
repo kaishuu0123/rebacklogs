@@ -1,5 +1,6 @@
 import { AlertTriangle, RefreshCw, WifiOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Tooltip,
   TooltipContent,
@@ -13,20 +14,21 @@ interface Props {
   connectionStatus: ConnectionStatus;
 }
 
-function relativeTime(date: Date): string {
-  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (seconds < 10) return 'just now';
-  if (seconds < 60) return `${seconds} seconds ago`;
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60)
-    return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
-  const hours = Math.floor(minutes / 60);
-  return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
-}
-
 export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Props) {
+  const { t } = useTranslation();
   const [fresh, setFresh] = useState(false);
   const [label, setLabel] = useState('');
+
+  function relativeTime(date: Date): string {
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (seconds < 10) return t('sync.justNow');
+    if (seconds < 60) return t('sync.secondsAgo', { count: seconds });
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60)
+      return minutes === 1 ? t('sync.minuteAgo') : t('sync.minutesAgo', { count: minutes });
+    const hours = Math.floor(minutes / 60);
+    return hours === 1 ? t('sync.hourAgo') : t('sync.hoursAgo', { count: hours });
+  }
 
   useEffect(() => {
     if (!lastReceivedAt) return;
@@ -52,11 +54,11 @@ export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Prop
           <TooltipTrigger asChild>
             <span className="flex cursor-default items-center gap-1 text-xs text-destructive">
               <AlertTriangle size={11} />
-              sync unavailable
+              {t('sync.unavailable')}
             </span>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>リアルタイム同期が無効です。ページを再読み込みしてください。</p>
+            <p>{t('sync.unavailableTooltip')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -70,11 +72,11 @@ export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Prop
           <TooltipTrigger asChild>
             <span className="flex cursor-default items-center gap-1 text-xs text-muted-foreground/50">
               <WifiOff size={11} />
-              reconnecting...
+              {t('sync.reconnecting')}
             </span>
           </TooltipTrigger>
           <TooltipContent side="bottom">
-            <p>接続が切断されました。再接続中...</p>
+            <p>{t('sync.reconnectingTooltip')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
