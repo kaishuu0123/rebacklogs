@@ -2,10 +2,10 @@
 #
 # Table name: master_ticket_categories
 #
-#  id         :integer          not null, primary key
-#  title      :string
-#  sort_order :integer
+#  id         :bigint           not null, primary key
 #  color      :string
+#  sort_order :integer
+#  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

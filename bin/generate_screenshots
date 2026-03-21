@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+# DEMO_MODE=true で起動されたサーバーが必要
+APP_URL="${APP_URL:-http://localhost:3000}"
+
+echo "=== [1/2] Seeding screenshot data ==="
+bundle exec rails screenshots:seed
+
+echo ""
+echo "=== [2/2] Taking screenshots (server: $APP_URL) ==="
+APP_URL="$APP_URL" node screenshots/take_screenshots.mjs
+
+echo ""
+echo "=== Done! ==="
+echo "  screenshots/backlogs.png"
+echo "  screenshots/kanban.png"
+echo "  screenshots/theme_clean_slate.png"
+echo "  screenshots/theme_solar_dusk.png"

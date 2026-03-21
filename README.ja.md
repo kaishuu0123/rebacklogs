@@ -5,6 +5,7 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 
 * [Re:Backlogs](#rebacklogs)
     * [スクリーンショット](#スクリーンショット)
+    * [テーマ](#テーマ)
     * [デモ](#デモ)
     * [このプロジェクトについて](#このプロジェクトについて)
        * [似たようなプロジェクトやソフトウェア](#似たようなプロジェクトやソフトウェア)
@@ -12,8 +13,9 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
        * [Re: に込めた意味](#re-に込めた意味)
     * [インストール](#インストール)
        * [docker-compose.yml を使う例](#docker-composeyml-を使う例)
+    * [アップグレード](#アップグレード)
+       * [PostgreSQL メジャーバージョンアップ](#postgresql-メジャーバージョンアップ)
     * [開発環境構築手順](#開発環境構築手順)
-       * [必須ソフト](#必須ソフト)
        * [セットアップ](#セットアップ)
        * [Re:Backlogs を起動する](#rebacklogs-を起動する)
     * [開発モチベーション](#開発モチベーション)
@@ -22,13 +24,24 @@ Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 
 ## スクリーンショット
 
-<img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/backlogs.png" width="400"> <img src="https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/images_for_README/kanban.png" width="400">
+| Backlogs | Kanban |
+|---|---|
+| ![Backlogs](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/backlogs.png) | ![Kanban](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/kanban.png) |
+
+## テーマ
+
+Re:Backlogs はプリセットテーマに対応しています。Application Settings からテーマを選択できます。
+`DEMO_MODE=true` で起動している場合は、ヘッダーのテーマピッカーからも切り替えられます。
+
+| Clean Slate | Solar Dusk |
+|---|---|
+| ![Clean Slate](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_clean_slate.png) | ![Solar Dusk](https://raw.githubusercontent.com/kaishuu0123/rebacklogs/master/screenshots/theme_solar_dusk.png) |
 
 ## デモ
 
-* https://rebacklogs.saino.me/
-  * これはデモサイトです。
-  * データが突然消える可能性があります。 お試し版としてご利用ください。
+セットアップ不要ですぐ試せます: **https://rebacklogs.saino.me/**
+
+> デモサイトのため、予告なくデータがリセットされることがあります。お試し用としてご利用ください。
 
 ## このプロジェクトについて
 ### 似たようなプロジェクトやソフトウェア
@@ -70,11 +83,13 @@ Re: の本来の意味は Email における「返信」を意味しますが、
 
 ### docker-compose.yml を使う例
 
-```command
+```bash
 git clone https://github.com/kaishuu0123/rebacklogs
 
-docker-compose up -d
+docker compose up -d
 ```
+
+起動後、ブラウザで http://localhost:3000 を開いてください。
 
 ## アップグレード
 
@@ -107,17 +122,15 @@ docker compose up -d app
 > **誤って新しいバージョンを起動してしまった場合:** PostgreSQL はバージョン不一致のデータディレクトリを検出すると起動を拒否し、データには一切手を加えません。`docker-compose.yml` を元のバージョンに戻せばデータにアクセスできる状態に戻ります。その後、上記の手順でマイグレーションを実施してください。
 
 ## 開発環境構築手順
-### 必須ソフト
 
-* Ruby
-* bundler
-* Node.js
-* yarn
+**[VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)** での開発を推奨します。
 
 ### セットアップ
 
-```command
-bundle install --path=vendor/bundle
+devcontainer が起動したら：
+
+```bash
+bundle install
 yarn install
 
 bundle exec rails db:create db:migrate
@@ -125,13 +138,15 @@ bundle exec rails db:create db:migrate
 
 ### Re:Backlogs を起動する
 
-```
+```bash
 # ターミナル 1: Vite 開発サーバー（React ページ）
 bin/vite dev
 
 # ターミナル 2: Rails サーバー
 bin/rails s
 ```
+
+起動後、ブラウザで http://localhost:3000 を開いてください。
 
 ## 開発モチベーション
 いくつかあります。

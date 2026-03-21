@@ -1,5 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+# == Schema Information
+#
+# Table name: master_ticket_categories
+#
+#  id         :bigint           not null, primary key
+#  color      :string
+#  sort_order :integer
+#  title      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 one:
   title: MyString
   sort_order: 1
