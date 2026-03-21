@@ -102,6 +102,7 @@ gem 'omniauth-github', '~> 2.0'
 gem 'omniauth-google-oauth2', '~> 1.2'
 
 gem 'config'
+gem 'rails_semantic_logger'
 
 gem 'gravatar_image_tag'
 gem 'kaminari', '~> 1.2'
