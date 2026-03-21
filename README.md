@@ -137,6 +137,8 @@ instance is working correctly.
 
 ## Development instructions
 
+See [docs/bin.md](docs/bin.md) for a list of project-specific scripts in `bin/`.
+
 The recommended setup is **[VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)**.
 
 ### Setup

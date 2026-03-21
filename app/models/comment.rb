@@ -21,6 +21,8 @@
 #
 
 class Comment < ApplicationRecord
+  include Broadcastable
+
   belongs_to :ticket
   belongs_to :user
 end

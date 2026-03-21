@@ -1,4 +1,5 @@
 class TicketsController < ApplicationController
+  wrap_parameters false
   authorize_resource
 
   before_action :set_paper_trail_whodunnit

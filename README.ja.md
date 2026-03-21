@@ -123,6 +123,8 @@ docker compose up -d app
 
 ## 開発環境構築手順
 
+`bin/` 配下のプロジェクト独自スクリプトの説明は [docs/bin.md](docs/bin.md) を参照してください。
+
 **[VSCode](https://code.visualstudio.com/) + [devcontainer](https://code.visualstudio.com/docs/devcontainers/tutorial)** での開発を推奨します。
 
 ### セットアップ
