@@ -42,10 +42,18 @@ jobs:
       SECRET_KEY_BASE: ci_secret_key_base_placeholder
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'yarn'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.4'
           bundler-cache: true
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build Vite assets
+        run: yarn vite build --mode=test
       - name: Setup DB
         run: bundle exec rails db:migrate
       - name: Run RSpec
