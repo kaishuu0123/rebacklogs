@@ -12,6 +12,7 @@ OSS プロジェクト管理ツール。Backlogs (redmine_backlogs) ライクな
 |---------|------|
 | Backend | Ruby 3.4 / Rails 8.0 |
 | Frontend | React 18 + TypeScript / shadcn/ui (Tailwind CSS v4) |
+| 状態管理 | TanStack Query（サーバー状態）+ `useState` / `useRef`（ローカル状態）|
 | Build | Vite (vite_rails) + turbo-mount |
 | DB | PostgreSQL 18（dev/prod 統一） |
 | Auth | Devise + OmniAuth (GitHub / Google) + CanCanCan + Rolify |

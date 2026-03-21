@@ -4,8 +4,8 @@
 
 ## メンテナンス・品質改善
 
-- **RSpec カバレッジ拡充** — 現状 69 examples で最小限。新機能追加に合わせてカバレッジを増やす
-- **Vite チャンクサイズ警告の対応** — ビルド時に 1MB 超チャンクが出ている。dynamic import や code splitting で分割
+- ~~**RSpec カバレッジ拡充**~~ ✅ 完了（69 → 117 examples、Tasks/Comments/Statuses/Categories/Profiles/Groups/ApplicationSettings を追加、セキュリティバグ3件修正、2026-03-21）
+- ~~**Vite チャンクサイズ警告の対応**~~ ✅ 完了（manualChunks で 11 チャンクに分割、警告解消、2026-03-21）
 
 ## 認証拡張
 

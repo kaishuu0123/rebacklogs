@@ -15,7 +15,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { Info } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster, toast } from 'sonner';
 import api from '~/lib/api';
@@ -54,6 +54,7 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
   const [activeId, setActiveId] = useState<number | null>(null);
   const [dragWidth, setDragWidth] = useState<number | null>(null);
   const [localStories, setLocalStories] = useState<LocalStory[]>([]);
+  const isMutating = useRef(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -70,9 +71,9 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
   const sprints = data?.sprints ?? [];
   const storiesInBacklogs = data?.storiesInBacklogs ?? [];
 
-  // Sync local state from server (skip during active drag)
+  // Sync local state from server (skip during active drag or pending mutation)
   useEffect(() => {
-    if (activeId) return;
+    if (activeId || isMutating.current) return;
     setLocalStories([
       ...sprints.flatMap((s) =>
         s.stories.map((story) => ({ ...story, localSprintId: s.id })),
@@ -145,11 +146,15 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active } = event;
     const storyId = Number(active.id);
+    isMutating.current = true;
     setActiveId(null);
     setDragWidth(null);
 
     const story = localStories.find((s) => s.id === storyId);
-    if (!story) return;
+    if (!story) {
+      isMutating.current = false;
+      return;
+    }
 
     const targetSprintId = story.localSprintId;
     const storiesInTarget = localStories.filter(
@@ -165,6 +170,8 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
       qc.invalidateQueries({ queryKey: ['sprints', projectId] });
     } catch {
       toast.error(t('message.failedToMoveStory'));
+    } finally {
+      isMutating.current = false;
     }
   };
 

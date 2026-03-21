@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
     authorize! :update, @comment
 
     if @comment.update(comment_params)
-      render :show, status: :ok, location: [@comment.project, @comment]
+      head :ok
     else
       render json: @comment.errors, status: :unprocessable_entity
     end

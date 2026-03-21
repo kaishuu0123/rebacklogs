@@ -26,10 +26,10 @@ RUN ln -s /usr/local/bin/node /usr/local/bin/nodejs && \
     ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 RUN gem install bundler --version ${BUNDLER_VERSION} && \
-    bundle install --without development test --path vendor/bundle && \
+    bundle config set path 'vendor/bundle' && \
+    bundle config set without 'development test' && \
+    bundle install -j$(nproc) && \
     find vendor/bundle/ruby -path '*/gems/*/ext/*/Makefile' -exec dirname {} \; | xargs -n1 -P$(nproc) -I{} make -C {} clean
-
-RUN bundle install -j$(nproc) --deployment --without development test
 
 # yarn install
 RUN npm install -g yarn
