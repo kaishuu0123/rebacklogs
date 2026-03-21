@@ -25,8 +25,9 @@ import ThemePicker from '~/components/react/ThemePicker';
 import { applyDemoTheme, getDemoTheme } from '~/lib/theme-utils';
 
 Turbo.start();
+Turbo.session.drive = false;
 
-document.addEventListener('turbo:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   createIcons({
     icons: { HelpCircle, Pencil, Search, Settings, Trash2, User, Users },
   });
