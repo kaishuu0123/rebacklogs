@@ -1,5 +1,5 @@
 import { AlertTriangle, RefreshCw, WifiOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tooltip,
@@ -14,21 +14,31 @@ interface Props {
   connectionStatus: ConnectionStatus;
 }
 
-export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Props) {
+export default function SyncIndicator({
+  lastReceivedAt,
+  connectionStatus,
+}: Props) {
   const { t } = useTranslation();
   const [fresh, setFresh] = useState(false);
   const [label, setLabel] = useState('');
 
-  function relativeTime(date: Date): string {
-    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (seconds < 10) return t('sync.justNow');
-    if (seconds < 60) return t('sync.secondsAgo', { count: seconds });
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60)
-      return minutes === 1 ? t('sync.minuteAgo') : t('sync.minutesAgo', { count: minutes });
-    const hours = Math.floor(minutes / 60);
-    return hours === 1 ? t('sync.hourAgo') : t('sync.hoursAgo', { count: hours });
-  }
+  const relativeTime = useCallback(
+    (date: Date): string => {
+      const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+      if (seconds < 10) return t('sync.justNow');
+      if (seconds < 60) return t('sync.secondsAgo', { count: seconds });
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60)
+        return minutes === 1
+          ? t('sync.minuteAgo')
+          : t('sync.minutesAgo', { count: minutes });
+      const hours = Math.floor(minutes / 60);
+      return hours === 1
+        ? t('sync.hourAgo')
+        : t('sync.hoursAgo', { count: hours });
+    },
+    [t],
+  );
 
   useEffect(() => {
     if (!lastReceivedAt) return;
@@ -45,7 +55,7 @@ export default function SyncIndicator({ lastReceivedAt, connectionStatus }: Prop
       clearTimeout(freshnessTimer);
       clearInterval(ticker);
     };
-  }, [lastReceivedAt]);
+  }, [lastReceivedAt, relativeTime]);
 
   if (connectionStatus === 'rejected') {
     return (
