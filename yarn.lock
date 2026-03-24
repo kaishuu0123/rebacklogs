@@ -965,9 +965,9 @@
   integrity sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==
 
 "@rails/actioncable@^8.1.200":
-  version "8.1.200"
-  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.1.200.tgz#acecf74ab4846144eefdbc16618786df0cebedf9"
-  integrity sha512-on0DSb7AFUkq1ocxivDNQhhGW/RQpY91zvRVyyaEWP4gOOZWy33P/UyxjQk74IENWNrTqs8+zOGHwTjiiFruRw==
+  version "8.1.201"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-8.1.201.tgz#12f51ea07cdb2ada6c33a227a9992d53e959a329"
+  integrity sha512-j4O7jn9jX3GtkVOO7KQDIRlBENwQiPNBAcaaa/FNMk7fPZjMUijGs+vk0PsB/VgZNDU2Y3C2hqVrXeLKy3iZ9g==
 
 "@rails/activestorage@8.0.400":
   version "8.0.400"
