@@ -3676,9 +3676,9 @@ setprototypeof@~1.2.0:
   integrity sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==
 
 shadcn@^4.0.8:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-4.1.1.tgz#cee8163cdb54cb18161a417b432b4ac365beee90"
-  integrity sha512-nBj+7LYC9kzV9v9QmRPpoOhfW4KctJVQejywdAt/K+K+z4RYlJOcO2a4AaF7elrRWkfCbgXeGK02liV0KB9HvQ==
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/shadcn/-/shadcn-4.1.2.tgz#3641b2d02f8c9c9eff6f39fbdc5b74a20ead0a5b"
+  integrity sha512-qNQcCavkbYsgBj+X09tF2bTcwRd8abR880bsFkDU2kMqceMCLAm5c+cLg7kWDhfh1H9g08knpQ5ZEf6y/co16g==
   dependencies:
     "@babel/core" "^7.28.0"
     "@babel/parser" "^7.28.0"
