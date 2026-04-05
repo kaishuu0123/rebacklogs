@@ -1,7 +1,7 @@
 class ApplicationSettings::UserManagementsController < ApplicationController
   authorize_resource class: false
   before_action :set_user, only: [
-    :show, :update, :edit, :destroy,
+    :update, :edit, :destroy,
     :update_role, :destroy_image
   ]
 

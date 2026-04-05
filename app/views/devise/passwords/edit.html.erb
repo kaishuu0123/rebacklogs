@@ -10,15 +10,15 @@
         <%= f.hidden_field :reset_password_token %>
 
         <div class="space-y-2">
-          <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
+          <% min_len = @minimum_password_length ? " #{t('devise.shared.minimum_password_length', count: @minimum_password_length, default: "(#{@minimum_password_length} characters minimum)")}" : '' %>
           <%= f.label :password, "#{t('.new_password', default: 'New password')}#{min_len}", class: 'text-sm font-medium' %>
-          <%= f.password_field :password, autofocus: true, autocomplete: 'new-password', placeholder: '••••••••',
+          <%= f.password_field :password, autofocus: true, autocomplete: 'new-password', placeholder: t('.password_placeholder', default: 'Enter new password'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 
         <div class="space-y-2">
           <%= f.label :password_confirmation, t('.confirm_new_password', default: 'Confirm new password'), class: 'text-sm font-medium' %>
-          <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: '••••••••',
+          <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: t('.password_confirmation_placeholder', default: 'Re-enter new password'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 

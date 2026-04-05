@@ -29,21 +29,21 @@
       </div>
 
       <div class="space-y-2">
-        <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
+        <% min_len = @minimum_password_length ? " #{t('devise.shared.minimum_password_length', count: @minimum_password_length, default: "(#{@minimum_password_length} characters minimum)")}" : '' %>
         <%= f.label :password, "#{t('activerecord.attributes.user.password', default: 'Password')}#{min_len} — #{t('.leave_blank_if_you_don_t_want_to_change_it')}", class: 'text-sm font-medium' %>
-        <%= f.password_field :password, autocomplete: 'off', placeholder: '••••••••',
+        <%= f.password_field :password, autocomplete: 'off', placeholder: t('.password_placeholder', default: 'Enter new password'),
               class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
 
       <div class="space-y-2">
         <%= f.label :password_confirmation, class: 'text-sm font-medium' %>
-        <%= f.password_field :password_confirmation, autocomplete: 'off', placeholder: '••••••••',
+        <%= f.password_field :password_confirmation, autocomplete: 'off', placeholder: t('.password_confirmation_placeholder', default: 'Re-enter new password'),
               class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
 
       <div class="space-y-2">
         <%= f.label :current_password, "#{t('activerecord.attributes.user.current_password', default: 'Current password')} — #{t('.we_need_your_current_password_to_confirm_your_changes')}", class: 'text-sm font-medium' %>
-        <%= f.password_field :current_password, autocomplete: 'off', placeholder: '••••••••',
+        <%= f.password_field :current_password, autocomplete: 'off', placeholder: t('.current_password_placeholder', default: 'Enter current password'),
               class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
       </div>
 

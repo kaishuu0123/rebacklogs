@@ -82,6 +82,8 @@ ja:
         change_your_password: パスワードを変更
         confirm_new_password: 確認用新しいパスワード
         new_password: 新しいパスワード
+        password_placeholder: 新しいパスワードを入力
+        password_confirmation_placeholder: 新しいパスワードを再入力
       new:
         forgot_your_password: パスワードを忘れましたか?
         forgot_your_password_message: 登録に利用したメールアドレスを入力してください
@@ -103,6 +105,9 @@ ja:
         unhappy: 気に入りません
         update: 更新
         we_need_your_current_password_to_confirm_your_changes: 変更を反映するには現在のパスワードを入力してください
+        password_placeholder: 新しいパスワードを入力
+        password_confirmation_placeholder: 新しいパスワードを再入力
+        current_password_placeholder: 現在のパスワードを入力
       new:
         sign_up: 新規登録
         sign_up_with_app_name: "%{app_name} に新規登録"
