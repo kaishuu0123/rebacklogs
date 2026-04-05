@@ -34,7 +34,7 @@
         </div>
 
         <div class="space-y-2">
-          <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
+          <% min_len = @minimum_password_length ? " #{t('devise.shared.minimum_password_length', count: @minimum_password_length, default: "(#{@minimum_password_length} characters minimum)")}" : '' %>
           <%= f.label :password, "#{t('activerecord.attributes.user.password', default: 'Password')}#{min_len}", class: 'text-sm font-medium' %>
           <%= f.password_field :password, placeholder: t('.password_placeholder', default: 'Enter password'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
