@@ -2,7 +2,7 @@ class ApplicationSettings::GroupManagementsController < ApplicationController
   authorize_resource class: false
 
   before_action :set_group, only: [
-    :show, :edit, :update, :destroy, :add_user, :remove_user
+    :show, :update, :destroy, :add_user, :remove_user
   ]
 
   GROUP_PER_PAGE = 25
