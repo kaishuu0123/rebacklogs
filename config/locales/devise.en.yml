@@ -45,7 +45,13 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
+    registrations:
+      new:
+        have_account: "Already have an account?"
     sessions:
+      new:
+        sign_in_title: "Sign in to %{app_name}"
+        no_account: "Don't have an account?"
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
@@ -53,6 +59,13 @@ en:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+  shared:
+    links:
+      sign_in: "Sign in"
+      sign_up: "Sign up"
+      forgot_your_password: "Forgot your password?"
+      sign_in_with_provider: "Sign in with %{provider}"
+      sign_up_with_provider: "Sign up with %{provider}"
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"

@@ -14,5 +14,6 @@
   currentUser: current_user_props,
   signInPath: new_user_session_path,
   rootPath: root_path,
-  demoMode: ENV['DEMO_MODE'] == 'true'
+  demoMode: ENV['DEMO_MODE'] == 'true',
+  hideSignIn: controller_name == 'sessions'
 } %>
