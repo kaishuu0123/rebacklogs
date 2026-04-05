@@ -38,6 +38,7 @@ type Props = {
   signInPath: string;
   rootPath: string;
   demoMode?: boolean;
+  hideSignIn?: boolean;
 };
 
 function DemoThemePicker() {
@@ -157,6 +158,7 @@ export default function Header({
   signInPath,
   rootPath,
   demoMode,
+  hideSignIn,
 }: Props) {
   const { t } = useTranslation();
   return (
@@ -218,11 +220,11 @@ export default function Header({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ) : (
+            ) : !hideSignIn ? (
               <Button variant="ghost" size="sm" asChild>
                 <a href={signInPath}>{t('action.signIn')}</a>
               </Button>
-            )}
+            ) : null}
           </li>
         </ul>
       </nav>
