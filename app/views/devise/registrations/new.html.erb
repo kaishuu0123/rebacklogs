@@ -1,7 +1,12 @@
 <div class="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4">
   <div class="w-full max-w-sm space-y-6">
     <div class="space-y-2 text-center">
-      <h1 class="text-2xl font-bold"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign up to Re:Backlogs') %></h1>
+      <h1 class="text-2xl font-bold"><%= t('.sign_up_with_app_name', app_name: 'Re:Backlogs', default: 'Sign Up to Re:Backlogs') %></h1>
+      <p class="text-sm text-muted-foreground">
+        <%= t('.have_account', default: 'Already have an account?') %>
+        <%= link_to t('devise.shared.links.sign_in', default: 'Sign In'), new_session_path(resource_name),
+              class: 'underline hover:text-foreground' %>
+      </p>
     </div>
 
     <div class="rounded-xl border bg-card shadow-sm p-8 space-y-4">
@@ -18,38 +23,34 @@
 
         <div class="space-y-2">
           <%= f.label :username, t('activerecord.attributes.user.username', default: 'Username'), class: 'text-sm font-medium' %>
-          <%= f.text_field :username, autofocus: true, placeholder: 'username',
+          <%= f.text_field :username, autofocus: true, placeholder: t('.username_placeholder', default: 'Enter username'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 
         <div class="space-y-2">
           <%= f.label :email, t('activerecord.attributes.user.email', default: 'Email'), class: 'text-sm font-medium' %>
-          <%= f.email_field :email, placeholder: 'user@example.com',
+          <%= f.email_field :email, placeholder: t('.email_placeholder', default: 'Enter email address'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 
         <div class="space-y-2">
           <% min_len = @minimum_password_length ? " (#{@minimum_password_length}文字以上)" : '' %>
           <%= f.label :password, "#{t('activerecord.attributes.user.password', default: 'Password')}#{min_len}", class: 'text-sm font-medium' %>
-          <%= f.password_field :password, placeholder: '••••••••',
+          <%= f.password_field :password, placeholder: t('.password_placeholder', default: 'Enter password'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 
         <div class="space-y-2">
           <%= f.label :password_confirmation, t('activerecord.attributes.user.password_confirmation', default: 'Confirm Password'), class: 'text-sm font-medium' %>
-          <%= f.password_field :password_confirmation, placeholder: '••••••••',
+          <%= f.password_field :password_confirmation, placeholder: t('.password_confirmation_placeholder', default: 'Re-enter password'),
                 class: 'h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' %>
         </div>
 
-        <%= f.submit t('.sign_up', default: 'Sign up'),
+        <%= f.submit t('.sign_up', default: 'Sign Up'),
               class: 'mt-2 h-10 w-full cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90' %>
       <% end %>
 
       <%= render 'devise/shared/omniauth_links' %>
-    </div>
-
-    <div class="text-center text-sm text-muted-foreground space-y-1">
-      <%= render 'devise/shared/text_links' %>
     </div>
   </div>
 </div>
