@@ -4,25 +4,25 @@ import {
   PaletteIcon,
   SettingsIcon,
   UserIcon,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button } from '~/components/ui/button';
+} from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
+} from "~/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '~/components/ui/popover';
-import { THEME_PREVIEWS } from '~/lib/theme-previews';
-import { getDemoTheme, setDemoTheme } from '~/lib/theme-utils';
-import { cn } from '~/lib/utils';
+} from "~/components/ui/popover";
+import { THEME_PREVIEWS } from "~/lib/theme-previews";
+import { getDemoTheme, setDemoTheme } from "~/lib/theme-utils";
+import { cn } from "~/lib/utils";
 
 type CurrentUser = {
   username: string;
@@ -68,26 +68,26 @@ function DemoThemePicker() {
               {currentTheme.label}
             </span>
           ) : (
-            <span>{t('settings.theme.default')}</span>
+            <span>{t("settings.theme.default")}</span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-3">
         <p className="mb-2 text-xs font-medium text-muted-foreground">
-          {t('settings.theme.demoLabel', {
-            defaultValue: 'Preview theme (saved locally)',
+          {t("settings.theme.demoLabel", {
+            defaultValue: "Preview theme (saved locally)",
           })}
         </p>
         <div className="grid grid-cols-4 gap-1.5">
           {/* Default option */}
           <button
             type="button"
-            onClick={() => handleSelect('')}
+            onClick={() => handleSelect("")}
             className={cn(
-              'flex flex-col items-center gap-1 rounded-md border p-1.5 text-center transition-all hover:border-primary',
-              selected === ''
-                ? 'border-primary ring-1 ring-primary'
-                : 'border-border',
+              "flex flex-col items-center gap-1 rounded-md border p-1.5 text-center transition-all hover:border-primary",
+              selected === ""
+                ? "border-primary ring-1 ring-primary"
+                : "border-border",
             )}
           >
             <span className="flex gap-0.5">
@@ -102,10 +102,10 @@ function DemoThemePicker() {
               type="button"
               onClick={() => handleSelect(theme.key)}
               className={cn(
-                'flex flex-col items-center gap-1 rounded-md border p-1.5 text-center transition-all hover:border-primary',
+                "flex flex-col items-center gap-1 rounded-md border p-1.5 text-center transition-all hover:border-primary",
                 selected === theme.key
-                  ? 'border-primary ring-1 ring-primary'
-                  : 'border-border',
+                  ? "border-primary ring-1 ring-primary"
+                  : "border-border",
               )}
               style={{ backgroundColor: theme.background }}
             >
@@ -136,17 +136,17 @@ function DemoThemePicker() {
 function signOut(signOutPath: string) {
   const csrfToken =
     document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
-      ?.content ?? '';
-  const form = document.createElement('form');
-  form.method = 'post';
+      ?.content ?? "";
+  const form = document.createElement("form");
+  form.method = "post";
   form.action = signOutPath;
-  const methodInput = document.createElement('input');
-  methodInput.type = 'hidden';
-  methodInput.name = '_method';
-  methodInput.value = 'delete';
-  const csrfInput = document.createElement('input');
-  csrfInput.type = 'hidden';
-  csrfInput.name = 'authenticity_token';
+  const methodInput = document.createElement("input");
+  methodInput.type = "hidden";
+  methodInput.name = "_method";
+  methodInput.value = "delete";
+  const csrfInput = document.createElement("input");
+  csrfInput.type = "hidden";
+  csrfInput.name = "authenticity_token";
   csrfInput.value = csrfToken;
   form.append(methodInput, csrfInput);
   document.body.appendChild(form);
@@ -163,7 +163,7 @@ export default function Header({
   const { t } = useTranslation();
   return (
     <header className="border-b">
-      <nav className="flex items-center justify-between px-4 h-14">
+      <nav className="flex items-center justify-between px-4 py-1">
         <a
           href={rootPath}
           className="flex items-center gap-2 font-bold tracking-tight"
@@ -184,7 +184,7 @@ export default function Header({
               <Button variant="ghost" size="sm" asChild>
                 <a href={currentUser.settingsPath}>
                   <SettingsIcon size={14} />
-                  {t('action.settings')}
+                  {t("action.settings")}
                 </a>
               </Button>
             </li>
@@ -208,7 +208,7 @@ export default function Header({
                   <DropdownMenuItem asChild>
                     <a href={currentUser.profilePath}>
                       <UserIcon size={14} />
-                      {t('settings.userSettings')}
+                      {t("settings.userSettings")}
                     </a>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -216,13 +216,13 @@ export default function Header({
                     onSelect={() => signOut(currentUser.signOutPath)}
                   >
                     <LogOutIcon size={14} />
-                    {t('action.signOut')}
+                    {t("action.signOut")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : !hideSignIn ? (
               <Button variant="ghost" size="sm" asChild>
-                <a href={signInPath}>{t('action.signIn')}</a>
+                <a href={signInPath}>{t("action.signIn")}</a>
               </Button>
             ) : null}
           </li>

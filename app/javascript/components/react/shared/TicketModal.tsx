@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import Editor from "@monaco-editor/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowDown,
   ArrowRight,
@@ -11,10 +12,10 @@ import {
   Pencil,
   Trash2,
   X,
-} from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import {
   Command,
   CommandEmpty,
@@ -22,27 +23,29 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '~/components/ui/command';
+} from "~/components/ui/command";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogTitle,
-} from '~/components/ui/dialog';
+} from "~/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
+} from "~/components/ui/dropdown-menu";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '~/components/ui/popover';
-import api from '~/lib/api';
-import { categoryBadgeStyle } from './colorUtils';
-import MarkdownContent from './MarkdownContent';
+} from "~/components/ui/popover";
+import api from "~/lib/api";
+import { categoryBadgeStyle } from "./colorUtils";
+import MarkdownContent from "./MarkdownContent";
 import type {
   Comment,
   History,
@@ -52,9 +55,9 @@ import type {
   TicketCategory,
   TicketStatus,
   User,
-} from './types';
+} from "./types";
 
-type TicketType = 'stories' | 'tasks';
+type TicketType = "stories" | "tasks";
 type Ticket = Story | Task;
 
 interface TicketModalProps {
@@ -82,28 +85,28 @@ export default function TicketModal({
   const queryClient = useQueryClient();
   const isNew = ticketId === null;
   const [isEdit, setIsEdit] = useState(isNew);
-  const [tab, setTab] = useState<'comments' | 'history'>('comments');
-  const [form, setForm] = useState({ title: '', body: '' });
-  const [tagInput, setTagInput] = useState('');
+  const [tab, setTab] = useState<"comments" | "history">("comments");
+  const [form, setForm] = useState({ title: "", body: "" });
+  const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [commentBody, setCommentBody] = useState('');
-  const [newCategoryId, setNewCategoryId] = useState('');
-  const [newAssigneeId, setNewAssigneeId] = useState('');
-  const [newStatusId, setNewStatusId] = useState('');
+  const [commentBody, setCommentBody] = useState("");
+  const [newCategoryId, setNewCategoryId] = useState("");
+  const [newAssigneeId, setNewAssigneeId] = useState("");
+  const [newStatusId, setNewStatusId] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
 
   // Reset state when modal opens
   useEffect(() => {
     if (open) {
       setIsEdit(isNew || (initialEdit ?? false));
-      setTab('comments');
-      setCommentBody('');
+      setTab("comments");
+      setCommentBody("");
       if (isNew) {
-        setForm({ title: '', body: '' });
+        setForm({ title: "", body: "" });
         setTags([]);
-        setNewCategoryId('');
-        setNewAssigneeId('');
-        setNewStatusId('');
+        setNewCategoryId("");
+        setNewAssigneeId("");
+        setNewStatusId("");
       }
     }
   }, [open, isNew, initialEdit]);
@@ -117,10 +120,31 @@ export default function TicketModal({
     enabled: open && !isNew,
   });
 
+  const isDirty =
+    isEdit &&
+    (() => {
+      if (isNew) return form.title.trim() !== "" || form.body.trim() !== "";
+      return (
+        form.title !== (ticket?.title ?? "") ||
+        form.body !== (ticket?.body ?? "")
+      );
+    })();
+
+  const handleClose = () => {
+    if (isDirty && !window.confirm(t("message.confirmDiscardChanges"))) return;
+    onClose();
+  };
+
+  const handleCancelEdit = () => {
+    if (isDirty && !window.confirm(t("message.confirmDiscardChanges"))) return;
+    if (isNew) onClose();
+    else setIsEdit(false);
+  };
+
   // Sync form when ticket loads
   useEffect(() => {
     if (ticket) {
-      setForm({ title: ticket.title, body: ticket.body ?? '' });
+      setForm({ title: ticket.title, body: ticket.body ?? "" });
       setTags(ticket.tags?.map((t) => t.name) ?? []);
     }
   }, [ticket]);
@@ -133,14 +157,14 @@ export default function TicketModal({
   }, [isEdit]);
 
   const { data: assignees = [] } = useQuery<User[]>({
-    queryKey: ['assignees', projectId],
+    queryKey: ["assignees", projectId],
     queryFn: () =>
       api.get<User[]>(`/projects/${projectId}/users`).then((r) => r.data),
     enabled: open,
   });
 
   const { data: statuses = [] } = useQuery<TicketStatus[]>({
-    queryKey: ['ticketStatuses', projectId],
+    queryKey: ["ticketStatuses", projectId],
     queryFn: () =>
       api
         .get<TicketStatus[]>(`/projects/${projectId}/project_ticket_statuses`)
@@ -149,18 +173,18 @@ export default function TicketModal({
   });
 
   const { data: categories = [] } = useQuery<TicketCategory[]>({
-    queryKey: ['ticketCategories', projectId],
+    queryKey: ["ticketCategories", projectId],
     queryFn: () =>
       api
-        .get<TicketCategory[]>(
-          `/projects/${projectId}/project_ticket_categories`,
-        )
+        .get<
+          TicketCategory[]
+        >(`/projects/${projectId}/project_ticket_categories`)
         .then((r) => r.data),
-    enabled: open && ticketType === 'stories',
+    enabled: open && ticketType === "stories",
   });
 
   const { data: availableTags = [] } = useQuery<Tag[]>({
-    queryKey: ['projectTags', projectId],
+    queryKey: ["projectTags", projectId],
     queryFn: () =>
       api.get<Tag[]>(`/projects/${projectId}/project_tags`).then((r) => r.data),
     enabled: open && !isNew,
@@ -170,8 +194,8 @@ export default function TicketModal({
     queryClient.invalidateQueries({
       queryKey: [ticketType, ticketId, projectId],
     });
-    queryClient.invalidateQueries({ queryKey: ['sprints', projectId] });
-    queryClient.invalidateQueries({ queryKey: ['kanban', projectId] });
+    queryClient.invalidateQueries({ queryKey: ["sprints", projectId] });
+    queryClient.invalidateQueries({ queryKey: ["kanban", projectId] });
     onSuccess?.();
   };
 
@@ -182,7 +206,7 @@ export default function TicketModal({
       invalidate();
       onClose();
     },
-    onError: () => toast.error(t('message.failedToCreate')),
+    onError: () => toast.error(t("message.failedToCreate")),
   });
 
   const updateMutation = useMutation({
@@ -192,7 +216,7 @@ export default function TicketModal({
       invalidate();
       setIsEdit(false);
     },
-    onError: () => toast.error(t('message.failedToUpdate')),
+    onError: () => toast.error(t("message.failedToUpdate")),
   });
 
   const deleteMutation = useMutation({
@@ -202,14 +226,14 @@ export default function TicketModal({
       invalidate();
       onClose();
     },
-    onError: () => toast.error(t('message.failedToDelete')),
+    onError: () => toast.error(t("message.failedToDelete")),
   });
 
   const updateFieldMutation = useMutation({
     mutationFn: (data: object) =>
       api.patch(`/projects/${projectId}/${ticketType}/${ticketId}`, data),
     onSuccess: () => invalidate(),
-    onError: () => toast.error(t('message.failedToUpdate')),
+    onError: () => toast.error(t("message.failedToUpdate")),
   });
 
   const createCommentMutation = useMutation({
@@ -222,9 +246,9 @@ export default function TicketModal({
       queryClient.invalidateQueries({
         queryKey: [ticketType, ticketId, projectId],
       });
-      setCommentBody('');
+      setCommentBody("");
     },
-    onError: () => toast.error(t('message.failedToAddComment')),
+    onError: () => toast.error(t("message.failedToAddComment")),
   });
 
   const deleteCommentMutation = useMutation({
@@ -236,7 +260,7 @@ export default function TicketModal({
       queryClient.invalidateQueries({
         queryKey: [ticketType, ticketId, projectId],
       }),
-    onError: () => toast.error(t('message.failedToDeleteComment')),
+    onError: () => toast.error(t("message.failedToDeleteComment")),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -245,7 +269,7 @@ export default function TicketModal({
       ...form,
       tags: tags.map((name) => ({ name })),
     };
-    if (isNew && ticketType === 'tasks' && storyId) {
+    if (isNew && ticketType === "tasks" && storyId) {
       payload.story_id = storyId;
     }
     if (isNew) {
@@ -271,56 +295,61 @@ export default function TicketModal({
   };
 
   const handleDelete = () => {
-    if (confirm(t('message.areYouSure'))) deleteMutation.mutate();
+    if (confirm(t("message.areYouSure"))) deleteMutation.mutate();
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
-      () => toast.success(t('action.copiedToClipboard')),
-      () => toast.error(t('action.cannotCopiedToClipboard')),
+      () => toast.success(t("action.copiedToClipboard")),
+      () => toast.error(t("action.cannotCopiedToClipboard")),
     );
   };
 
   const displayTicket = isNew ? null : (ticket as Story | Task | undefined);
   const storyTicket =
-    ticketType === 'stories' ? (displayTicket as Story | undefined) : null;
+    ticketType === "stories" ? (displayTicket as Story | undefined) : null;
   const taskTicket =
-    ticketType === 'tasks' ? (displayTicket as Task | undefined) : null;
+    ticketType === "tasks" ? (displayTicket as Task | undefined) : null;
 
   const ticketPrefix = displayTicket?.ticket_number_with_ticket_prefix;
   const ticketURL = ticketPrefix
     ? `${window.location.origin}/${ticketPrefix}`
-    : '';
+    : "";
 
   const inputClass =
-    'h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
+    "h-9 w-full rounded-md border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+    <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
       <DialogContent
         hideCloseButton
         className="max-w-4xl max-h-[90vh] overflow-y-auto"
       >
-        <DialogTitle className="sr-only">
+        <DialogTitle className={isNew ? "text-lg font-semibold" : "sr-only"}>
           {isNew
-            ? ticketType === 'stories'
-              ? t('title.newStory')
-              : t('title.newTask')
-            : ticketType === 'stories'
-              ? t('title.story')
-              : t('title.task')}
+            ? ticketType === "stories"
+              ? t("title.newStory")
+              : t("title.newTask")
+            : ticketType === "stories"
+              ? t("title.story")
+              : t("title.task")}
         </DialogTitle>
 
         {/* Ticket number + category badge */}
         {!isNew && displayTicket && (
-          <div className="flex items-center gap-2 text-xs">
-            <span className="rounded border border-input bg-muted px-1.5 py-0.5 font-mono">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-foreground">
               {ticketPrefix}
             </span>
-            {ticketType === 'stories' &&
+            {ticketType === "stories" && (
+              <span className="rounded border border-border bg-background px-1.5 py-0.5 text-sm text-foreground">
+                {t("title.story")}
+              </span>
+            )}
+            {ticketType === "stories" &&
               storyTicket?.project_ticket_category && (
                 <span
-                  className="rounded px-1.5 py-0.5 text-xs font-medium"
+                  className="rounded px-1.5 py-0.5 text-sm font-medium"
                   style={categoryBadgeStyle(
                     storyTicket.project_ticket_category.color,
                   )}
@@ -328,20 +357,20 @@ export default function TicketModal({
                   {storyTicket.project_ticket_category.title}
                 </span>
               )}
-            {ticketType === 'tasks' && (
-              <span className="rounded border border-input bg-muted px-1.5 py-0.5">
-                {t('title.task')}
+            {ticketType === "tasks" && (
+              <span className="rounded border border-border bg-background px-1.5 py-0.5 text-sm text-foreground">
+                {t("title.task")}
               </span>
             )}
             <div className="ml-auto flex items-center gap-3 text-muted-foreground">
               {displayTicket.created_user && (
                 <span>
-                  {t('ticket.createdBy')} {displayTicket.created_user.username}
+                  {t("ticket.createdBy")} {displayTicket.created_user.username}
                 </span>
               )}
               {displayTicket.last_updated_user && (
                 <span>
-                  {t('ticket.updatedBy')}{' '}
+                  {t("ticket.updatedBy")}{" "}
                   {displayTicket.last_updated_user.username}
                 </span>
               )}
@@ -349,40 +378,31 @@ export default function TicketModal({
                 <button
                   type="button"
                   onClick={() => setIsEdit(true)}
-                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded bg-primary px-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                 >
-                  <Pencil size={16} /> {t('action.edit')}
-                </button>
-              )}
-              {isEdit && (
-                <button
-                  type="button"
-                  onClick={handleSubmit as unknown as React.MouseEventHandler}
-                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
-                >
-                  <Check size={16} /> {t('action.save')}
+                  <Pencil size={14} /> {t("action.edit")}
                 </button>
               )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
-                    className="h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                    className="inline-flex h-6 cursor-pointer items-center rounded border border-input px-2 hover:bg-accent hover:text-foreground"
                   >
-                    <Ellipsis size={16} />
+                    <Ellipsis size={14} />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
-                    className="inline-flex items-center gap-1 text-destructive focus:text-destructive cursor-pointer"
+                    className="flex items-center gap-1 text-destructive focus:text-destructive cursor-pointer"
                     onClick={handleDelete}
                   >
-                    <Trash2 size={16} /> {t('action.delete')}
+                    <Trash2 size={16} /> {t("action.delete")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
               <DialogClose className="h-6 w-6 cursor-pointer rounded-sm opacity-70 hover:opacity-100 flex items-center justify-center">
-                <X size={12} />
+                <X size={16} />
               </DialogClose>
             </div>
           </div>
@@ -393,46 +413,99 @@ export default function TicketModal({
           <div className="flex-1 min-w-0 space-y-4 text-sm">
             {isEdit ? (
               <form onSubmit={handleSubmit} className="space-y-3">
-                <input
-                  ref={titleRef}
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  placeholder={t('ticket.title')}
-                  required
-                  className={inputClass}
-                />
-                <textarea
-                  value={form.body}
-                  onChange={(e) => setForm({ ...form, body: e.target.value })}
-                  placeholder={t('message.leaveADescription')}
-                  rows={6}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-                <p className="text-muted-foreground">Markdown available</p>
-                {isNew && (
-                  <div className="flex justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="h-9 cursor-pointer rounded-md border border-input px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
-                    >
-                      {t('action.cancel')}
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={createMutation.isPending}
-                      className="h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-                    >
-                      {t('action.create')}
-                    </button>
+                <div className="grid w-full gap-1.5">
+                  <Label htmlFor="ticket-title">{t("ticket.title")}</Label>
+                  <Input
+                    id="ticket-title"
+                    ref={titleRef}
+                    value={form.title}
+                    onChange={(e) =>
+                      setForm({ ...form, title: e.target.value })
+                    }
+                    placeholder={t("ticket.titlePlaceholder")}
+                    required
+                  />
+                </div>
+                <div className="grid w-full gap-1.5">
+                  <Label>{t("ticket.body")}</Label>
+                  <div className="relative rounded-md border border-input overflow-hidden focus-within:ring-1 focus-within:ring-ring pr-2">
+                    {!form.body && (
+                      <div className="pointer-events-none absolute left-[10px] top-2 text-sm text-muted-foreground z-10">
+                        {t("message.leaveADescription")}
+                      </div>
+                    )}
+                    <Editor
+                      height="240px"
+                      language="markdown"
+                      value={form.body}
+                      onChange={(v) => setForm({ ...form, body: v ?? "" })}
+                      options={{
+                        minimap: { enabled: false },
+                        lineNumbers: "off",
+                        glyphMargin: false,
+                        folding: false,
+                        lineDecorationsWidth: 10,
+                        lineNumbersMinChars: 0,
+                        wordWrap: "on",
+                        tabSize: 2,
+                        insertSpaces: true,
+                        scrollBeyondLastLine: false,
+                        renderLineHighlight: "none",
+                        overviewRulerLanes: 0,
+                        scrollbar: {
+                          vertical: "hidden",
+                          alwaysConsumeMouseWheel: false,
+                        },
+                        fontFamily:
+                          "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                        fontSize: 13,
+                        lineHeight: 20,
+                        padding: { top: 8, bottom: 8 },
+                      }}
+                    />
                   </div>
-                )}
+                </div>
+                <div className="flex justify-end gap-2">
+                  {isNew ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="h-8 cursor-pointer rounded-md border border-input px-3 text-sm font-medium text-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        {t("action.cancel")}
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={createMutation.isPending}
+                        className="h-8 cursor-pointer rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                      >
+                        {t("action.create")}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="h-8 cursor-pointer rounded-md border border-input px-3 text-sm font-medium text-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        {t("action.cancel")}
+                      </button>
+                      <button
+                        type="submit"
+                        className="inline-flex items-center gap-1 h-8 cursor-pointer rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                      >
+                        <Check size={14} /> {t("action.saveChanges")}
+                      </button>
+                    </>
+                  )}
+                </div>
               </form>
             ) : (
-              <div className="space-y-2 min-w-0">
+              <div className="space-y-4 min-w-0">
                 <div className="flex items-start justify-between gap-2 min-w-0 overflow-hidden">
-                  <h2 className="text-lg font-semibold truncate min-w-0">
+                  <h2 className="text-xl font-semibold truncate min-w-0">
                     {displayTicket?.title}
                   </h2>
                   {ticketPrefix && (
@@ -440,7 +513,7 @@ export default function TicketModal({
                       <DropdownMenuTrigger asChild>
                         <button
                           type="button"
-                          className="shrink-0 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                          className="shrink-0 h-6 cursor-pointer rounded border border-input px-2 text-sm text-foreground hover:bg-accent hover:text-foreground"
                         >
                           <Paperclip size={16} />
                         </button>
@@ -455,10 +528,10 @@ export default function TicketModal({
                           }
                         >
                           <div>
-                            <div className="font-medium text-xs">
-                              {t('ticket.title')}
+                            <div className="font-medium text-sm">
+                              {t("ticket.title")}
                             </div>
-                            <pre className="truncate text-xs text-muted-foreground">
+                            <pre className="truncate text-sm text-muted-foreground">
                               {ticketPrefix} {displayTicket?.title}
                             </pre>
                           </div>
@@ -468,8 +541,8 @@ export default function TicketModal({
                           onClick={() => copyToClipboard(ticketURL)}
                         >
                           <div>
-                            <div className="font-medium text-xs">URL</div>
-                            <pre className="truncate text-xs text-muted-foreground">
+                            <div className="font-medium text-sm">URL</div>
+                            <pre className="truncate text-sm text-muted-foreground">
                               {ticketURL}
                             </pre>
                           </div>
@@ -479,12 +552,12 @@ export default function TicketModal({
                             className="cursor-pointer"
                             onClick={() =>
                               copyToClipboard(
-                                `${taskTicket.story?.ticket_number_with_ticket_prefix ?? ''} ${taskTicket.story?.title ?? ''}\n  ${ticketPrefix} ${displayTicket?.title}`,
+                                `${taskTicket.story?.ticket_number_with_ticket_prefix ?? ""} ${taskTicket.story?.title ?? ""}\n  ${ticketPrefix} ${displayTicket?.title}`,
                               )
                             }
                           >
-                            <span className="text-xs">
-                              {t('ticket.title')} ({t('message.withStory')})
+                            <span className="text-sm">
+                              {t("ticket.title")} ({t("message.withStory")})
                             </span>
                           </DropdownMenuItem>
                         )}
@@ -492,7 +565,7 @@ export default function TicketModal({
                     </DropdownMenu>
                   )}
                 </div>
-                <div className="min-h-[9rem] rounded-md border border-input bg-muted/20 px-3 py-2">
+                <div className="min-h-[8rem]">
                   <MarkdownContent content={displayTicket?.body} />
                 </div>
               </div>
@@ -502,12 +575,12 @@ export default function TicketModal({
             {!isNew && storyTicket?.tasks && storyTicket.tasks.length > 0 && (
               <div className="space-y-1">
                 <hr />
-                <p className="font-medium text-muted-foreground">
-                  {t('title.relatedTasks')}
-                </p>
+                <div className="py-2 font-medium text-muted-foreground">
+                  {t("title.relatedTasks")}
+                </div>
                 {storyTicket.tasks.map((task) => (
                   <div key={task.id} className="flex items-center gap-2">
-                    <span className="rounded border border-input bg-muted px-1 py-0.5 font-mono">
+                    <span className="rounded border border-border bg-background px-1 py-0.5 font-mono text-foreground">
                       {task.ticket_number_with_ticket_prefix}
                     </span>
                     <span>{task.title}</span>
@@ -526,21 +599,21 @@ export default function TicketModal({
                 <div className="flex gap-2 border-b">
                   <button
                     type="button"
-                    onClick={() => setTab('comments')}
-                    className={`inline-flex items-center gap-1 px-3 py-2 font-medium ${tab === 'comments' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground'}`}
+                    onClick={() => setTab("comments")}
+                    className={`inline-flex items-center gap-1 px-3 py-2 font-medium ${tab === "comments" ? "border-b-2 border-primary text-primary" : "text-muted-foreground"}`}
                   >
-                    <MessageCircle size={16} /> {t('tab.comment')}
+                    <MessageCircle size={16} /> {t("tab.comment")}
                   </button>
                   <button
                     type="button"
-                    onClick={() => setTab('history')}
-                    className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium ${tab === 'history' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground'}`}
+                    onClick={() => setTab("history")}
+                    className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-medium ${tab === "history" ? "border-b-2 border-primary text-primary" : "text-muted-foreground"}`}
                   >
-                    <Clock size={16} /> {t('tab.history')}
+                    <Clock size={16} /> {t("tab.history")}
                   </button>
                 </div>
                 <div className="mt-3">
-                  {tab === 'comments' && (
+                  {tab === "comments" && (
                     <CommentsTab
                       comments={displayTicket?.comments}
                       commentBody={commentBody}
@@ -554,7 +627,7 @@ export default function TicketModal({
                       isPending={createCommentMutation.isPending}
                     />
                   )}
-                  {tab === 'history' && (
+                  {tab === "history" && (
                     <HistoryTab histories={displayTicket?.histories} />
                   )}
                 </div>
@@ -567,12 +640,12 @@ export default function TicketModal({
             {/* Story link (task only) */}
             {!isNew && taskTicket?.story && (
               <div className="space-y-1">
-                <p className="font-medium">{t('title.story')}:</p>
+                <p className="font-medium">{t("title.story")}:</p>
                 <a
                   href={`/${taskTicket.story.ticket_number_with_ticket_prefix}`}
-                  className="block truncate rounded border-b border-border text-muted-foreground hover:text-foreground"
+                  className="block truncate rounded border-b border-border text-foreground hover:text-foreground"
                 >
-                  <span className="mr-1 rounded border border-input bg-muted px-1 font-mono text-xs">
+                  <span className="mr-1 rounded border border-border bg-background px-1 font-mono text-sm text-foreground">
                     {taskTicket.story.ticket_number_with_ticket_prefix}
                   </span>
                   {taskTicket.story.title}
@@ -581,17 +654,17 @@ export default function TicketModal({
             )}
 
             {/* Category (story only) */}
-            {ticketType === 'stories' && (
+            {ticketType === "stories" && (
               <SidebarCombobox
-                label={t('ticket.category')}
+                label={t("ticket.category")}
                 value={
                   isNew
                     ? newCategoryId
                     : (storyTicket?.project_ticket_category_id?.toString() ??
-                      '')
+                      "")
                 }
                 options={[
-                  { value: '', label: '-' },
+                  { value: "", label: "-" },
                   ...categories.map((c) => ({
                     value: c.id.toString(),
                     label: c.title,
@@ -610,14 +683,14 @@ export default function TicketModal({
 
             {/* Assignee */}
             <SidebarCombobox
-              label={t('ticket.assignee')}
+              label={t("ticket.assignee")}
               value={
                 isNew
                   ? newAssigneeId
-                  : (displayTicket?.assignee_id?.toString() ?? '')
+                  : (displayTicket?.assignee_id?.toString() ?? "")
               }
               options={[
-                { value: '', label: t('title.unassigned') },
+                { value: "", label: t("title.unassigned") },
                 ...assignees.map((u) => ({
                   value: u.id.toString(),
                   label: u.username,
@@ -635,14 +708,14 @@ export default function TicketModal({
 
             {/* Status */}
             <SidebarCombobox
-              label={t('ticket.status')}
+              label={t("ticket.status")}
               value={
                 isNew
                   ? newStatusId
-                  : (displayTicket?.project_ticket_status_id?.toString() ?? '')
+                  : (displayTicket?.project_ticket_status_id?.toString() ?? "")
               }
               options={[
-                { value: '', label: '-' },
+                { value: "", label: "-" },
                 ...statuses.map((s) => ({
                   value: s.id.toString(),
                   label: s.title,
@@ -658,7 +731,7 @@ export default function TicketModal({
             />
 
             {/* Point (story only) */}
-            {ticketType === 'stories' && !isNew && ticketId !== null && (
+            {ticketType === "stories" && !isNew && ticketId !== null && (
               <PointInput
                 projectId={projectId}
                 ticketId={ticketId}
@@ -670,18 +743,18 @@ export default function TicketModal({
             {/* Tags */}
             {!isNew && (
               <div className="space-y-1">
-                <p className="font-medium">{t('title.tag')}:</p>
+                <p className="font-medium">{t("title.tag")}:</p>
                 <div className="flex flex-wrap gap-1">
                   {tags.map((name) => (
                     <span
                       key={name}
-                      className="flex items-center gap-0.5 rounded border border-input bg-muted px-1.5 py-0.5 text-xs"
+                      className="flex items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 text-sm"
                     >
                       {name}
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(name)}
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-foreground hover:text-foreground"
                       >
                         ×
                       </button>
@@ -701,7 +774,7 @@ export default function TicketModal({
                       setTags(nextTags);
                       saveTags(nextTags);
                     }
-                    setTagInput('');
+                    setTagInput("");
                   }}
                 />
               </div>
@@ -758,16 +831,16 @@ function TagInput({
           }}
           onFocus={() => setOpen(true)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               e.preventDefault();
               const name = tagInput.trim();
               if (!name) return;
               handleSelect(name);
             }
-            if (e.key === 'Escape') setOpen(false);
+            if (e.key === "Escape") setOpen(false);
           }}
-          placeholder={t('message.tagInput')}
-          className="h-7 w-full rounded-md border border-input bg-background px-2 text-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          placeholder={t("message.tagInput")}
+          className="h-7 w-full rounded-md border border-border bg-background px-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
       </PopoverTrigger>
       {(filtered.length > 0 || canCreate) && (
@@ -783,7 +856,7 @@ function TagInput({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(tag.name)}
-                className="w-full rounded px-2 py-1 text-left text-xs hover:bg-accent"
+                className="w-full rounded px-2 py-1 text-left text-sm hover:bg-accent"
               >
                 {tag.name}
               </button>
@@ -793,9 +866,9 @@ function TagInput({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(tagInput.trim())}
-                className="w-full rounded px-2 py-1 text-left text-xs text-muted-foreground hover:bg-accent"
+                className="w-full rounded px-2 py-1 text-left text-sm text-foreground hover:bg-accent"
               >
-                + {t('action.create')} &ldquo;{tagInput.trim()}&rdquo;
+                + {t("action.create")} &ldquo;{tagInput.trim()}&rdquo;
               </button>
             )}
           </div>
@@ -834,7 +907,7 @@ function SidebarCombobox({
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="flex h-7 w-full items-center justify-between rounded-md border border-input bg-background px-2 text-left hover:bg-accent"
+            className="flex h-7 w-full items-center justify-between rounded-md border border-border bg-background px-2 text-left hover:bg-accent"
           >
             <span className="flex items-center gap-1.5 truncate">
               {selected?.color && (
@@ -846,17 +919,17 @@ function SidebarCombobox({
               {selected?.image && (
                 <img src={selected.image} className="h-4 w-4 rounded" alt="" />
               )}
-              <span className="truncate">{selected?.label ?? '-'}</span>
+              <span className="truncate">{selected?.label ?? "-"}</span>
             </span>
             <ChevronsUpDown className="h-3 w-3 shrink-0 opacity-50" />
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-48 p-0" align="start">
           <Command>
-            <CommandInput placeholder={t('title.search')} className="h-8" />
+            <CommandInput placeholder={t("title.search")} className="h-8" />
             <CommandList>
               <CommandEmpty className="py-3">
-                {t('message.notFound')}
+                {t("message.notFound")}
               </CommandEmpty>
               <CommandGroup>
                 {options.map((o) => (
@@ -907,33 +980,33 @@ function PointInput({
 }) {
   const { t } = useTranslation();
   const [point, setPoint] = useState<string>(
-    initialPoint !== null ? String(initialPoint) : '',
+    initialPoint !== null ? String(initialPoint) : "",
   );
 
   useEffect(() => {
-    setPoint(initialPoint !== null ? String(initialPoint) : '');
+    setPoint(initialPoint !== null ? String(initialPoint) : "");
   }, [initialPoint]);
 
   const updatePoint = () => {
-    const value = point === '' ? null : Number(point);
+    const value = point === "" ? null : Number(point);
     api
       .patch(`/projects/${projectId}/${ticketType}/${ticketId}`, {
         point: value,
       })
       .then(onSuccess)
-      .catch(() => toast.error(t('message.failedToUpdatePoint')));
+      .catch(() => toast.error(t("message.failedToUpdatePoint")));
   };
 
   return (
     <div className="space-y-1">
-      <p className="font-medium">{t('ticket.point')}:</p>
+      <p className="font-medium">{t("ticket.point")}:</p>
       <input
         type="number"
         value={point}
         onChange={(e) => setPoint(e.target.value)}
         onBlur={updatePoint}
         onKeyDown={(e) =>
-          e.key === 'Enter' && (e.target as HTMLInputElement).blur()
+          e.key === "Enter" && (e.target as HTMLInputElement).blur()
         }
         step={0.5}
         className="h-7 w-full rounded-md border-b border-input bg-transparent px-2 focus-visible:outline-none"
@@ -967,20 +1040,46 @@ function CommentsTab({
         }}
         className="space-y-2"
       >
-        <textarea
-          value={commentBody}
-          onChange={(e) => setCommentBody(e.target.value)}
-          placeholder={t('message.leaveAComment')}
-          rows={3}
-          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        />
+        <div className="relative rounded-md border border-border overflow-hidden focus-within:ring-2 focus-within:ring-ring pr-2">
+          {!commentBody && (
+            <div className="pointer-events-none absolute left-[10px] top-2 text-sm text-muted-foreground z-10">
+              {t("message.leaveAComment")}
+            </div>
+          )}
+          <Editor
+            height="120px"
+            language="markdown"
+            value={commentBody}
+            onChange={(v) => setCommentBody(v ?? "")}
+            options={{
+              minimap: { enabled: false },
+              lineNumbers: "off",
+              wordWrap: "on",
+              tabSize: 2,
+              insertSpaces: true,
+              scrollBeyondLastLine: false,
+              renderLineHighlight: "none",
+              overviewRulerLanes: 0,
+              scrollbar: { vertical: "hidden", alwaysConsumeMouseWheel: false },
+              fontFamily:
+                "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+              fontSize: 13,
+              lineHeight: 20,
+              padding: { top: 8, bottom: 8 },
+              glyphMargin: false,
+              folding: false,
+              lineDecorationsWidth: 10,
+              lineNumbersMinChars: 0,
+            }}
+          />
+        </div>
         <div className="flex justify-end">
           <button
             type="submit"
             disabled={isPending || !commentBody.trim()}
             className="h-8 cursor-pointer rounded-md bg-primary px-3 font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
           >
-            {t('action.comment')}
+            {t("action.comment")}
           </button>
         </div>
       </form>
@@ -1024,7 +1123,7 @@ function HistoryTab({ histories }: { histories?: History[] }) {
   if (!histories || histories.length === 0) {
     return (
       <div className="rounded border bg-muted/30 p-3 text-sm text-muted-foreground">
-        {t('message.historyIsEmpty')}
+        {t("message.historyIsEmpty")}
       </div>
     );
   }
@@ -1034,23 +1133,23 @@ function HistoryTab({ histories }: { histories?: History[] }) {
       {histories.map((h) => (
         <div key={h.id} className="rounded-md border p-3">
           <p className="font-medium">
-            {t('ticket.updatedAt')}: {new Date(h.changed_at).toLocaleString()}
+            {t("ticket.updatedAt")}: {new Date(h.changed_at).toLocaleString()}
           </p>
           <p className="text-muted-foreground">
-            {t('ticket.updatedBy')}: {h.changed_by}
+            {t("ticket.updatedBy")}: {h.changed_by}
           </p>
           {h.changes.map((change) => (
             <div key={change.attribute} className="mt-2">
-              {change.attribute === 'body' ? (
+              {change.attribute === "body" ? (
                 <div>
                   <p className="font-semibold">{change.attribute}</p>
-                  <pre className="rounded bg-destructive/10 p-2 text-xs">
+                  <pre className="rounded bg-destructive/10 p-2 text-sm">
                     {change.before}
                   </pre>
                   <div className="flex justify-center py-1">
                     <ArrowDown size={16} className="text-muted-foreground" />
                   </div>
-                  <pre className="rounded bg-green-50 p-2 text-xs">
+                  <pre className="rounded bg-green-50 p-2 text-sm">
                     {change.after}
                   </pre>
                 </div>

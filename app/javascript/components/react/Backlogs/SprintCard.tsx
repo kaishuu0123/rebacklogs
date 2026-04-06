@@ -192,7 +192,7 @@ export default function SprintCard({
         </div>
       ) : (
         <div className="flex items-center justify-between gap-2 border-b px-3 py-2">
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="group/sprint-title flex min-w-0 items-center gap-2">
             <span className="font-semibold truncate">{sprint.title}</span>
             {sprint.start_datetime ? (
               <span className="inline-flex items-center gap-0.5 text-xs text-muted-foreground shrink-0">
@@ -204,6 +204,18 @@ export default function SprintCard({
               <span className="text-xs text-muted-foreground shrink-0">
                 {t('message.noPeriodSpecified')}
               </span>
+            )}
+            {!sprint.closed && (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEdit(true);
+                  setTimeout(() => titleRef.current?.focus(), 50);
+                }}
+                className="shrink-0 cursor-pointer opacity-0 transition-opacity group-hover/sprint-title:opacity-40 hover:!opacity-100"
+              >
+                <Pencil size={14} />
+              </button>
             )}
           </div>
           <div className="flex shrink-0 items-center gap-1">

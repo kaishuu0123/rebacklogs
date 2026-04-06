@@ -1,19 +1,13 @@
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Ban, Check, GripVertical, Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '~/components/ui/tooltip';
-import api from '~/lib/api';
-import { idealTextColor } from '../shared/colorUtils';
-import type { Story } from '../shared/types';
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Ban, Check, GripVertical, Pencil } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import api from "~/lib/api";
+import { idealTextColor } from "../shared/colorUtils";
+import type { Story } from "../shared/types";
 
 interface Props {
   story: Story;
@@ -35,7 +29,7 @@ export default function StoryListItem({
   const [point, setPoint] = useState(
     story.point !== null && story.point !== undefined
       ? String(story.point)
-      : '',
+      : "",
   );
   const titleRef = useRef<HTMLInputElement>(null);
   const pointRef = useRef<HTMLInputElement>(null);
@@ -60,7 +54,7 @@ export default function StoryListItem({
     setPoint(
       story.point !== null && story.point !== undefined
         ? String(story.point)
-        : '',
+        : "",
     );
   }, [story]);
 
@@ -68,11 +62,11 @@ export default function StoryListItem({
     mutationFn: (data: object) =>
       api.patch(`/projects/${projectId}/stories/${story.id}`, data),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ['sprints', projectId] }),
-    onError: () => toast.error(t('message.failedToUpdateStory')),
+      queryClient.invalidateQueries({ queryKey: ["sprints", projectId] }),
+    onError: () => toast.error(t("message.failedToUpdateStory")),
   });
 
-  const catColor = story.project_ticket_category?.color ?? '#ffffff';
+  const catColor = story.project_ticket_category?.color ?? "#ffffff";
   const textStyle = { color: idealTextColor(catColor) };
   const bgStyle = { backgroundColor: catColor };
 
@@ -81,14 +75,14 @@ export default function StoryListItem({
     if (save) {
       updateMutation.mutate({
         title,
-        point: point === '' ? null : Number.parseFloat(point),
+        point: point === "" ? null : Number.parseFloat(point),
       });
     } else {
       setTitle(story.title);
       setPoint(
         story.point !== null && story.point !== undefined
           ? String(story.point)
-          : '',
+          : "",
       );
     }
   };
@@ -107,7 +101,7 @@ export default function StoryListItem({
     <li
       ref={setNodeRef}
       style={{ ...style, ...bgStyle }}
-      className={`list-none border-b px-2 py-1.5 text-sm${!isEdit ? ' cursor-grab active:cursor-grabbing' : ''}`}
+      className={`list-none border-b px-2 py-1.5 text-sm${!isEdit ? " cursor-grab active:cursor-grabbing" : ""}`}
       {...attributes}
       {...(!isEdit ? listeners : undefined)}
     >
@@ -124,7 +118,7 @@ export default function StoryListItem({
             </span>
             <a
               href={`/${story.ticket_number_with_ticket_prefix}`}
-              className="shrink-0 rounded border border-input bg-white px-1 py-0.5 font-mono text-xs"
+              className="shrink-0 rounded border border-border bg-background px-1 py-0.5 font-mono text-xs text-foreground"
               onClick={(e) => e.stopPropagation()}
             >
               {story.ticket_number_with_ticket_prefix}
@@ -134,7 +128,7 @@ export default function StoryListItem({
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="flex-1 rounded border border-input bg-background px-2 py-0.5"
+              className="flex-1 rounded border border-border bg-background px-2 py-0.5"
             />
             <input
               ref={pointRef}
@@ -142,22 +136,22 @@ export default function StoryListItem({
               value={point}
               onChange={(e) => setPoint(e.target.value)}
               step={0.5}
-              className="w-16 rounded border border-input bg-background px-2 py-0.5"
+              className="w-16 rounded border border-border bg-background px-2 py-0.5"
             />
           </div>
           <div className="mt-1 flex justify-end gap-1">
             <button
               type="submit"
-              className="inline-flex items-center gap-1 h-6 cursor-pointer rounded bg-primary px-2 text-xs text-primary-foreground"
+              className="inline-flex items-center gap-1 h-6 cursor-pointer rounded bg-primary px-2 text-sm text-primary-foreground"
             >
-              <Check size={16} /> {t('action.save')}
+              <Check size={16} /> {t("action.save")}
             </button>
             <button
               type="button"
               onClick={() => editDone(false)}
-              className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-input bg-background px-2 text-xs"
+              className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-border bg-background px-2 text-sm"
             >
-              <Ban size={16} /> {t('action.cancel')}
+              <Ban size={16} /> {t("action.cancel")}
             </button>
           </div>
         </form>
@@ -168,7 +162,7 @@ export default function StoryListItem({
           </span>
           <a
             href={`/${story.ticket_number_with_ticket_prefix}`}
-            className="shrink-0 rounded border border-input bg-white px-1 py-0.5 font-mono text-xs text-gray-700"
+            className="shrink-0 rounded border border-border bg-background px-1 py-0.5 font-mono text-xs text-foreground"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.preventDefault();
@@ -177,28 +171,29 @@ export default function StoryListItem({
           >
             {story.ticket_number_with_ticket_prefix}
           </a>
-          <span className="flex-1 truncate font-medium group/title flex items-center gap-1 min-w-0">
-            <span className="truncate">
+          <span className="flex-1 min-w-0 group/title flex items-center gap-1">
+            <button
+              type="button"
+              className="truncate font-medium cursor-pointer"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => {
+                setIsEdit(true);
+                setTimeout(() => titleRef.current?.focus(), 50);
+              }}
+            >
               {story.is_done ? <s>{story.title}</s> : story.title}
-            </span>
-            <TooltipProvider delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    className="shrink-0 cursor-pointer opacity-0 group-hover/title:opacity-60 hover:!opacity-100 transition-opacity"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={() => {
-                      setIsEdit(true);
-                      setTimeout(() => titleRef.current?.focus(), 50);
-                    }}
-                  >
-                    <Pencil size={12} />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>{story.title}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            </button>
+            <button
+              type="button"
+              className="shrink-0 cursor-pointer opacity-0 group-hover/title:opacity-60 hover:!opacity-100 transition-opacity"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => {
+                setIsEdit(true);
+                setTimeout(() => titleRef.current?.focus(), 50);
+              }}
+            >
+              <Pencil size={14} />
+            </button>
           </span>
           <button
             type="button"
@@ -211,7 +206,7 @@ export default function StoryListItem({
           >
             {story.point !== null && story.point !== undefined
               ? Number(story.point).toFixed(1)
-              : '-'}
+              : "-"}
           </button>
         </div>
       )}
@@ -220,7 +215,7 @@ export default function StoryListItem({
           {story.tags.map((tag) => (
             <span
               key={tag.id}
-              className="rounded border border-input bg-muted px-1.5 py-0.5 text-xs"
+              className="rounded border border-border bg-background px-1.5 py-0.5 text-sm"
             >
               {tag.name}
             </span>

@@ -1,8 +1,8 @@
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { CircleUser, GripVertical, Pencil } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import type { Task, User } from '../shared/types';
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { CircleUser, GripVertical, Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import type { Task, User } from "../shared/types";
 
 interface Props {
   task: Task;
@@ -56,12 +56,12 @@ export default function TaskCard({
       style={style}
       {...attributes}
       {...listeners}
-      className="mb-2 cursor-grab rounded border bg-card shadow-md overflow-hidden"
+      className="group/card mb-2 cursor-grab rounded border bg-card shadow-md overflow-hidden"
     >
-      <div className="px-2.5 py-2 space-y-1.5">
+      <div className="px-2.5 py-2">
         {/* Row 1: handle + ticket number + pencil */}
-        <div className="group/num flex items-center gap-1">
-          <GripVertical size={12} className="text-muted-foreground/30" />
+        <div className="flex items-center gap-1">
+          <GripVertical size={14} className="text-muted-foreground/30" />
           <button
             type="button"
             onClick={(e) => {
@@ -69,7 +69,7 @@ export default function TaskCard({
               onOpenModal(task.story_id, task.id);
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className="cursor-pointer font-mono text-sm text-muted-foreground"
+            className="cursor-pointer rounded border border-border bg-background px-1 py-0.5 font-mono text-sm text-foreground"
           >
             {task.ticket_number_with_ticket_prefix}
           </button>
@@ -80,17 +80,17 @@ export default function TaskCard({
               onOpenModalAsEdit(task.story_id, task.id);
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className="ml-auto cursor-pointer opacity-0 transition-opacity group-hover/num:opacity-40 hover:!opacity-100"
+            className="ml-auto cursor-pointer opacity-0 transition-opacity group-hover/card:opacity-40 hover:!opacity-100"
           >
-            <Pencil size={12} />
+            <Pencil size={14} />
           </button>
         </div>
         {/* Row 2: title */}
-        <div className="text-sm leading-snug break-words">
+        <div className="mt-2 text-sm leading-snug break-words">
           {task.is_done ? <s>{task.title}</s> : task.title}
         </div>
         {/* Row 3: assignee */}
-        <div className="flex justify-end">
+        <div className="mt-1.5 flex justify-end">
           {task.assignee ? (
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
               {task.assignee.image && (
@@ -107,7 +107,7 @@ export default function TaskCard({
           ) : (
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground/50">
               <CircleUser size={16} className="opacity-40" />
-              {t('title.unassigned')}
+              {t("title.unassigned")}
             </span>
           )}
         </div>

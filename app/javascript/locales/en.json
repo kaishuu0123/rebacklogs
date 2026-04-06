@@ -1,6 +1,7 @@
 {
   "action": {
     "save": "Save",
+    "saveChanges": "Save Changes",
     "openSidebar": "Open sidebar",
     "closeSidebar": "Close sidebar",
     "cancel": "Cancel",
@@ -57,6 +58,7 @@
   },
   "ticket": {
     "title": "Title",
+    "titlePlaceholder": "Enter a title",
     "createdBy": "Created by",
     "lastUpdatedBy": "Last updated by",
     "category": "Category",
@@ -139,8 +141,9 @@
     "areYouSure": "Are you sure?",
     "withStory": "With Story",
     "leaveAComment": "Leave a comment",
-    "leaveADescription": "Leave a description",
+    "leaveADescription": "Enter a description (Markdown available)",
     "noDescription": "No description",
+    "confirmDiscardChanges": "You have unsaved changes. Discard them?",
     "groups": "Groups",
     "chooseAFile": "Choose a file ...",
     "updateProjectSettingsSuccess": "Project Settings was successfully updated.",

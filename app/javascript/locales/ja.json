@@ -1,6 +1,7 @@
 {
   "action": {
     "save": "保存",
+    "saveChanges": "保存する",
     "openSidebar": "サイドバーを開く",
     "closeSidebar": "サイドバーを閉じる",
     "cancel": "キャンセル",
@@ -57,6 +58,7 @@
   },
   "ticket": {
     "title": "タイトル",
+    "titlePlaceholder": "タイトルを入力",
     "createdBy": "作成者",
     "lastUpdatedBy": "最終更新者",
     "category": "カテゴリ",
@@ -138,9 +140,10 @@
     "failedToUpdatePoint": "ポイントの更新に失敗しました。",
     "areYouSure": "よろしいですか？",
     "withStory": "ストーリーと一緒に",
-    "leaveAComment": "コメントを残す",
-    "leaveADescription": "説明文を書く",
+    "leaveAComment": "コメントを入力",
+    "leaveADescription": "説明文を入力（Markdown 記法が使えます）",
     "noDescription": "説明文なし",
+    "confirmDiscardChanges": "編集中の内容が失われますが、よろしいですか？",
     "groups": "グループ",
     "chooseAFile": "ファイルを選択 ...",
     "updateProjectSettingsSuccess": "プロジェクト設定を更新しました",

@@ -2,21 +2,21 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from '@tanstack/react-query';
-import { ChevronRight, LayoutGrid } from 'lucide-react';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Toaster } from 'sonner';
+} from "@tanstack/react-query";
+import { ChevronRight, LayoutGrid } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Toaster } from "sonner";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '~/components/ui/tooltip';
-import api from '~/lib/api';
-import { categoryBadgeStyle } from '../shared/colorUtils';
-import TicketModal from '../shared/TicketModal';
-import type { BacklogsData, Sprint, Story } from '../shared/types';
+} from "~/components/ui/tooltip";
+import api from "~/lib/api";
+import { categoryBadgeStyle } from "../shared/colorUtils";
+import TicketModal from "../shared/TicketModal";
+import type { BacklogsData, Sprint, Story } from "../shared/types";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +39,7 @@ function ClosedSprintsInner({ projectId }: Props) {
   const [selectedStoryId, setSelectedStoryId] = useState<number | null>(null);
 
   const { data } = useQuery<BacklogsData>({
-    queryKey: ['closedSprints', projectId],
+    queryKey: ["closedSprints", projectId],
     queryFn: () =>
       api
         .get<BacklogsData>(`/projects/${projectId}/api/closed_sprints`)
@@ -54,15 +54,15 @@ function ClosedSprintsInner({ projectId }: Props) {
   };
 
   const formatDate = (d: string | null) => {
-    if (!d) return '';
-    return new Date(d).toLocaleDateString('en-ZA');
+    if (!d) return "";
+    return new Date(d).toLocaleDateString("en-ZA");
   };
 
   return (
     <div className="w-full px-4 mt-3 text-sm">
       {sprints.length === 0 ? (
         <div className="mx-auto mt-8 flex max-w-md items-center justify-center rounded-xl border border-dashed bg-muted/20 p-8 text-muted-foreground">
-          {t('message.noClosedSprints')}
+          {t("message.noClosedSprints")}
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
@@ -118,7 +118,7 @@ function ClosedSprintCard({
         <div>
           <h3 className="text-sm font-semibold">{sprint.title}</h3>
           {sprint.start_datetime && (
-            <p className="inline-flex items-center gap-0.5 text-xs text-muted-foreground">
+            <p className="inline-flex items-center gap-0.5 text-sm text-muted-foreground">
               {formatDate(sprint.start_datetime)}
               <ChevronRight size={12} />
               {formatDate(sprint.end_datetime)}
@@ -130,12 +130,12 @@ function ClosedSprintCard({
             <TooltipTrigger asChild>
               <a
                 href={`/projects/${projectId}/sprints/${sprint.id}/kanban`}
-                className="h-7 rounded px-2 text-xs text-muted-foreground hover:bg-accent"
+                className="h-7 rounded px-2 text-sm text-foreground hover:bg-accent"
               >
                 <LayoutGrid size={16} />
               </a>
             </TooltipTrigger>
-            <TooltipContent>{t('action.viewKanban')}</TooltipContent>
+            <TooltipContent>{t("action.viewKanban")}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
@@ -145,14 +145,14 @@ function ClosedSprintCard({
           <StoryRow key={story.id} story={story} onOpen={onOpenStory} />
         ))}
         {sprint.stories.length === 0 && (
-          <li className="px-3 py-3 text-xs text-muted-foreground">
-            {t('message.noStories')}
+          <li className="px-3 py-3 text-sm text-muted-foreground">
+            {t("message.noStories")}
           </li>
         )}
       </ul>
 
       {sprint.stories.length > 0 && (
-        <div className="border-t bg-muted/20 px-3 py-2 text-xs">
+        <div className="border-t bg-muted/20 px-3 py-2 text-sm">
           <div className="flex items-center justify-between">
             <span className="font-medium">
               {doneCount} / {totalCount} ({Math.round(progressPct)}%)
@@ -188,13 +188,13 @@ function StoryRow({
       <button
         type="button"
         onClick={() => onOpen(story.id)}
-        className="shrink-0 rounded border border-input bg-white px-1 py-0.5 font-mono text-xs text-gray-700 hover:bg-gray-50"
+        className="shrink-0 rounded border border-border bg-background px-1 py-0.5 font-mono text-xs text-foreground hover:bg-muted/50"
       >
         {story.ticket_number_with_ticket_prefix}
       </button>
       {story.project_ticket_category && (
         <span
-          className="shrink-0 rounded px-1.5 py-0.5 text-xs font-medium"
+          className="shrink-0 rounded px-1.5 py-0.5 text-sm font-medium"
           style={categoryBadgeStyle(catColor)}
         >
           {story.project_ticket_category.title}
@@ -203,7 +203,7 @@ function StoryRow({
       <span className="flex-1 truncate text-sm font-medium">
         {story.is_done ? <s>{story.title}</s> : story.title}
       </span>
-      <span className="shrink-0 text-xs text-muted-foreground">
+      <span className="shrink-0 text-sm text-muted-foreground">
         {Number(story.point ?? 0).toFixed(1)} pt
       </span>
     </li>
