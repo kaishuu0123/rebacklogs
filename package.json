@@ -45,7 +45,7 @@
     "turbo-mount": "^0.4.4",
     "tw-animate-css": "^1.4.0"
   },
-  "version": "4.3.2",
+  "version": "4.3.3",
   "scripts": {
     "lint": "biome check app/javascript",
     "lint:fix": "biome check --write app/javascript",
