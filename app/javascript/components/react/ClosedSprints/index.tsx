@@ -2,21 +2,21 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from "@tanstack/react-query";
-import { ChevronRight, LayoutGrid } from "lucide-react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Toaster } from "sonner";
+} from '@tanstack/react-query';
+import { ChevronRight, LayoutGrid } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Toaster } from 'sonner';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "~/components/ui/tooltip";
-import api from "~/lib/api";
-import { categoryBadgeStyle } from "../shared/colorUtils";
-import TicketModal from "../shared/TicketModal";
-import type { BacklogsData, Sprint, Story } from "../shared/types";
+} from '~/components/ui/tooltip';
+import api from '~/lib/api';
+import { categoryBadgeStyle } from '../shared/colorUtils';
+import TicketModal from '../shared/TicketModal';
+import type { BacklogsData, Sprint, Story } from '../shared/types';
 
 const queryClient = new QueryClient();
 
@@ -39,7 +39,7 @@ function ClosedSprintsInner({ projectId }: Props) {
   const [selectedStoryId, setSelectedStoryId] = useState<number | null>(null);
 
   const { data } = useQuery<BacklogsData>({
-    queryKey: ["closedSprints", projectId],
+    queryKey: ['closedSprints', projectId],
     queryFn: () =>
       api
         .get<BacklogsData>(`/projects/${projectId}/api/closed_sprints`)
@@ -54,15 +54,15 @@ function ClosedSprintsInner({ projectId }: Props) {
   };
 
   const formatDate = (d: string | null) => {
-    if (!d) return "";
-    return new Date(d).toLocaleDateString("en-ZA");
+    if (!d) return '';
+    return new Date(d).toLocaleDateString('en-ZA');
   };
 
   return (
     <div className="w-full px-4 mt-3 text-sm">
       {sprints.length === 0 ? (
         <div className="mx-auto mt-8 flex max-w-md items-center justify-center rounded-xl border border-dashed bg-muted/20 p-8 text-muted-foreground">
-          {t("message.noClosedSprints")}
+          {t('message.noClosedSprints')}
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
@@ -135,7 +135,7 @@ function ClosedSprintCard({
                 <LayoutGrid size={16} />
               </a>
             </TooltipTrigger>
-            <TooltipContent>{t("action.viewKanban")}</TooltipContent>
+            <TooltipContent>{t('action.viewKanban')}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
@@ -146,7 +146,7 @@ function ClosedSprintCard({
         ))}
         {sprint.stories.length === 0 && (
           <li className="px-3 py-3 text-sm text-muted-foreground">
-            {t("message.noStories")}
+            {t('message.noStories')}
           </li>
         )}
       </ul>

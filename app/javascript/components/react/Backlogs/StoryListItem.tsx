@@ -1,13 +1,13 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Ban, Check, GripVertical, Pencil } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import api from "~/lib/api";
-import { idealTextColor } from "../shared/colorUtils";
-import type { Story } from "../shared/types";
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Ban, Check, GripVertical, Pencil } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import api from '~/lib/api';
+import { idealTextColor } from '../shared/colorUtils';
+import type { Story } from '../shared/types';
 
 interface Props {
   story: Story;
@@ -29,7 +29,7 @@ export default function StoryListItem({
   const [point, setPoint] = useState(
     story.point !== null && story.point !== undefined
       ? String(story.point)
-      : "",
+      : '',
   );
   const titleRef = useRef<HTMLInputElement>(null);
   const pointRef = useRef<HTMLInputElement>(null);
@@ -54,7 +54,7 @@ export default function StoryListItem({
     setPoint(
       story.point !== null && story.point !== undefined
         ? String(story.point)
-        : "",
+        : '',
     );
   }, [story]);
 
@@ -62,11 +62,11 @@ export default function StoryListItem({
     mutationFn: (data: object) =>
       api.patch(`/projects/${projectId}/stories/${story.id}`, data),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["sprints", projectId] }),
-    onError: () => toast.error(t("message.failedToUpdateStory")),
+      queryClient.invalidateQueries({ queryKey: ['sprints', projectId] }),
+    onError: () => toast.error(t('message.failedToUpdateStory')),
   });
 
-  const catColor = story.project_ticket_category?.color ?? "#ffffff";
+  const catColor = story.project_ticket_category?.color ?? '#ffffff';
   const textStyle = { color: idealTextColor(catColor) };
   const bgStyle = { backgroundColor: catColor };
 
@@ -75,14 +75,14 @@ export default function StoryListItem({
     if (save) {
       updateMutation.mutate({
         title,
-        point: point === "" ? null : Number.parseFloat(point),
+        point: point === '' ? null : Number.parseFloat(point),
       });
     } else {
       setTitle(story.title);
       setPoint(
         story.point !== null && story.point !== undefined
           ? String(story.point)
-          : "",
+          : '',
       );
     }
   };
@@ -101,7 +101,7 @@ export default function StoryListItem({
     <li
       ref={setNodeRef}
       style={{ ...style, ...bgStyle }}
-      className={`list-none border-b px-2 py-1.5 text-sm${!isEdit ? " cursor-grab active:cursor-grabbing" : ""}`}
+      className={`list-none border-b px-2 py-1.5 text-sm${!isEdit ? ' cursor-grab active:cursor-grabbing' : ''}`}
       {...attributes}
       {...(!isEdit ? listeners : undefined)}
     >
@@ -144,14 +144,14 @@ export default function StoryListItem({
               type="submit"
               className="inline-flex items-center gap-1 h-6 cursor-pointer rounded bg-primary px-2 text-sm text-primary-foreground"
             >
-              <Check size={16} /> {t("action.save")}
+              <Check size={16} /> {t('action.save')}
             </button>
             <button
               type="button"
               onClick={() => editDone(false)}
               className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-border bg-background px-2 text-sm"
             >
-              <Ban size={16} /> {t("action.cancel")}
+              <Ban size={16} /> {t('action.cancel')}
             </button>
           </div>
         </form>
@@ -206,7 +206,7 @@ export default function StoryListItem({
           >
             {story.point !== null && story.point !== undefined
               ? Number(story.point).toFixed(1)
-              : "-"}
+              : '-'}
           </button>
         </div>
       )}

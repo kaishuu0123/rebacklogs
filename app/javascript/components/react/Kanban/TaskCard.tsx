@@ -1,8 +1,8 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { CircleUser, GripVertical, Pencil } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import type { Task, User } from "../shared/types";
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { CircleUser, GripVertical, Pencil } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import type { Task, User } from '../shared/types';
 
 interface Props {
   task: Task;
@@ -107,7 +107,7 @@ export default function TaskCard({
           ) : (
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground/50">
               <CircleUser size={16} className="opacity-40" />
-              {t("title.unassigned")}
+              {t('title.unassigned')}
             </span>
           )}
         </div>
