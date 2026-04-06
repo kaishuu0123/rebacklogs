@@ -11,7 +11,14 @@ module Broadcastable
     project_id = resolve_project_id
     return unless project_id
 
-    ActionCable.server.broadcast("project_#{project_id}", build_payload(project_id))
+    payload = build_payload(project_id)
+    key = payload.values.join('-')
+
+    Current.broadcast_events_sent ||= Set.new
+    return if Current.broadcast_events_sent.include?(key)
+    Current.broadcast_events_sent.add(key)
+
+    ActionCable.server.broadcast("project_#{project_id}", payload)
   end
 
   def resolve_project_id

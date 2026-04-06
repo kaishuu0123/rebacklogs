@@ -1,6 +1,6 @@
 import { createConsumer } from '@rails/actioncable';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const consumer = createConsumer();
 
@@ -30,6 +30,23 @@ export function useProjectChannel(projectId: string) {
   const [connectionStatus, setConnectionStatus] =
     useState<ConnectionStatus>('connecting');
 
+  // Debounce timers per query key prefix to collapse rapid successive invalidations
+  const debounceTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
+
+  const debounceInvalidate = useCallback((key: string, fn: () => void) => {
+    const existing = debounceTimers.current.get(key);
+    if (existing) clearTimeout(existing);
+    debounceTimers.current.set(
+      key,
+      setTimeout(() => {
+        debounceTimers.current.delete(key);
+        fn();
+      }, 300),
+    );
+  }, []);
+
   useEffect(() => {
     setConnectionStatus('connecting');
     subscriptionRef.current = consumer.subscriptions.create(
@@ -48,21 +65,35 @@ export function useProjectChannel(projectId: string) {
           setLastReceivedAt(new Date());
           switch (data.event) {
             case 'sprint_updated':
-              qc.invalidateQueries({ queryKey: ['sprints', projectId] });
-              qc.invalidateQueries({ queryKey: ['kanban', projectId] });
+              debounceInvalidate(`sprints-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['sprints', projectId] }),
+              );
+              debounceInvalidate(`kanban-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['kanban', projectId] }),
+              );
               break;
             case 'task_updated':
-              qc.invalidateQueries({ queryKey: ['kanban', projectId] });
-              qc.invalidateQueries({ queryKey: ['sprints', projectId] });
+              debounceInvalidate(`kanban-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['kanban', projectId] }),
+              );
+              debounceInvalidate(`sprints-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['sprints', projectId] }),
+              );
               break;
             case 'comment_updated':
-              qc.invalidateQueries({
-                queryKey: [data.ticket_type, data.ticket_id, projectId],
-              });
+              debounceInvalidate(`${data.ticket_type}-${data.ticket_id}`, () =>
+                qc.invalidateQueries({
+                  queryKey: [data.ticket_type, data.ticket_id, projectId],
+                }),
+              );
               break;
             case 'ticket_updated':
-              qc.invalidateQueries({ queryKey: ['sprints', projectId] });
-              qc.invalidateQueries({ queryKey: ['kanban', projectId] });
+              debounceInvalidate(`sprints-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['sprints', projectId] }),
+              );
+              debounceInvalidate(`kanban-${projectId}`, () =>
+                qc.invalidateQueries({ queryKey: ['kanban', projectId] }),
+              );
               break;
           }
         },
@@ -71,8 +102,10 @@ export function useProjectChannel(projectId: string) {
 
     return () => {
       subscriptionRef.current?.unsubscribe();
+      for (const t of debounceTimers.current.values()) clearTimeout(t);
+      debounceTimers.current.clear();
     };
-  }, [projectId, qc]);
+  }, [projectId, qc, debounceInvalidate]);
 
   return { lastReceivedAt, connectionStatus };
 }
