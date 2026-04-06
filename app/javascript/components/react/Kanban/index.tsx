@@ -123,7 +123,9 @@ function KanbanInner({
     },
     onSuccess: async () => {
       try {
-        await qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] });
+        await qc.invalidateQueries({
+          queryKey: ['kanban', projectId, sprintId],
+        });
       } finally {
         mutatingCount.current -= 1;
         if (mutatingCount.current === 0) setIsMutating(false);
