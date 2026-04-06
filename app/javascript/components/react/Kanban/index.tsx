@@ -76,6 +76,7 @@ function KanbanInner({
   const [newTaskStoryId, setNewTaskStoryId] = useState<number | null>(null);
   const [activeTaskId, setActiveTaskId] = useState<number | null>(null);
   const [localStories, setLocalStories] = useState<Story[]>([]);
+  const [isMutating, setIsMutating] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -115,15 +116,16 @@ function KanbanInner({
         project_ticket_status_id: data.statusId,
         row_order_position: data.newIndex,
       }),
+    onMutate: () => setIsMutating(true),
+    onSettled: () => setIsMutating(false),
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] }),
     onError: () => toast.error(t('message.failedToMoveTask')),
   });
 
   useEffect(() => {
-    if (activeTaskId === null && !updateTaskMutation.isPending)
-      setLocalStories(stories);
-  }, [stories, activeTaskId, updateTaskMutation.isPending]);
+    if (activeTaskId === null && !isMutating) setLocalStories(stories);
+  }, [stories, activeTaskId, isMutating]);
 
   const filteredStories = searchKeyword
     ? localStories.filter((story) => {
@@ -304,14 +306,14 @@ function KanbanInner({
         <div className="flex min-w-0 items-center gap-1.5 text-sm">
           <a
             href={`/projects/${projectId}`}
-            className="shrink-0 text-muted-foreground hover:text-foreground"
+            className="shrink-0 text-foreground hover:text-foreground"
           >
             {projectTitle}
           </a>
           <span className="text-muted-foreground/40">/</span>
           <h1 className="truncate font-semibold">{sprintTitle}</h1>
           {isPublic && (
-            <span className="ml-1 shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 text-xs text-blue-800">
+            <span className="ml-1 shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 text-sm text-blue-800">
               {t('title.is_public')}
             </span>
           )}
@@ -326,7 +328,7 @@ function KanbanInner({
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             placeholder={t('title.search')}
-            className="h-8 rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="h-8 rounded-md border border-border bg-background px-3 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           />
         </div>
       </div>
@@ -400,7 +402,7 @@ function KanbanInner({
                     size={12}
                     className="text-muted-foreground/30"
                   />
-                  <span className="font-mono text-sm text-muted-foreground">
+                  <span className="rounded border border-border bg-background px-1 py-0.5 font-mono text-sm text-foreground">
                     {activeTask.ticket_number_with_ticket_prefix}
                   </span>
                 </div>
@@ -530,7 +532,7 @@ function StoryRows({
               onClick={() => onOpenStoryModal(story.id)}
               className="flex cursor-pointer items-center gap-1 text-left"
             >
-              <span className="font-mono text-sm text-muted-foreground">
+              <span className="rounded border border-border bg-background px-1 py-0.5 font-mono text-sm text-foreground">
                 {story.ticket_number_with_ticket_prefix}
               </span>
               {story.project_ticket_category && (
@@ -549,7 +551,7 @@ function StoryRows({
               {(story.tags ?? []).map((tag) => (
                 <span
                   key={tag.id}
-                  className="rounded border border-input bg-muted px-1.5 py-0.5 text-xs"
+                  className="rounded border border-border bg-background px-1.5 py-0.5 text-sm"
                 >
                   {tag.name}
                 </span>
