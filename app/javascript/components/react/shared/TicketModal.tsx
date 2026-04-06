@@ -123,7 +123,15 @@ export default function TicketModal({
   const isDirty =
     isEdit &&
     (() => {
-      if (isNew) return form.title.trim() !== '' || form.body.trim() !== '';
+      if (isNew)
+        return (
+          form.title.trim() !== '' ||
+          form.body.trim() !== '' ||
+          tags.length > 0 ||
+          newCategoryId !== '' ||
+          newAssigneeId !== '' ||
+          newStatusId !== ''
+        );
       return (
         form.title !== (ticket?.title ?? '') ||
         form.body !== (ticket?.body ?? '')
