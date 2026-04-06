@@ -1,3 +1,4 @@
+import Editor from '@monaco-editor/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ArrowDown,
@@ -35,6 +36,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
+import { Input } from '~/components/ui/input';
+import { Label } from '~/components/ui/label';
 import {
   Popover,
   PopoverContent,
@@ -116,6 +119,27 @@ export default function TicketModal({
         .then((r) => r.data),
     enabled: open && !isNew,
   });
+
+  const isDirty =
+    isEdit &&
+    (() => {
+      if (isNew) return form.title.trim() !== '' || form.body.trim() !== '';
+      return (
+        form.title !== (ticket?.title ?? '') ||
+        form.body !== (ticket?.body ?? '')
+      );
+    })();
+
+  const handleClose = () => {
+    if (isDirty && !window.confirm(t('message.confirmDiscardChanges'))) return;
+    onClose();
+  };
+
+  const handleCancelEdit = () => {
+    if (isDirty && !window.confirm(t('message.confirmDiscardChanges'))) return;
+    if (isNew) onClose();
+    else setIsEdit(false);
+  };
 
   // Sync form when ticket loads
   useEffect(() => {
@@ -292,16 +316,13 @@ export default function TicketModal({
     ? `${window.location.origin}/${ticketPrefix}`
     : '';
 
-  const inputClass =
-    'h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring';
-
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+    <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
       <DialogContent
         hideCloseButton
         className="max-w-4xl max-h-[90vh] overflow-y-auto"
       >
-        <DialogTitle className="sr-only">
+        <DialogTitle className={isNew ? 'text-lg font-semibold' : 'sr-only'}>
           {isNew
             ? ticketType === 'stories'
               ? t('title.newStory')
@@ -313,14 +334,19 @@ export default function TicketModal({
 
         {/* Ticket number + category badge */}
         {!isNew && displayTicket && (
-          <div className="flex items-center gap-2 text-xs">
-            <span className="rounded border border-input bg-muted px-1.5 py-0.5 font-mono">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-foreground">
               {ticketPrefix}
             </span>
+            {ticketType === 'stories' && (
+              <span className="rounded border border-border bg-background px-1.5 py-0.5 text-sm text-foreground">
+                {t('title.story')}
+              </span>
+            )}
             {ticketType === 'stories' &&
               storyTicket?.project_ticket_category && (
                 <span
-                  className="rounded px-1.5 py-0.5 text-xs font-medium"
+                  className="rounded px-1.5 py-0.5 text-sm font-medium"
                   style={categoryBadgeStyle(
                     storyTicket.project_ticket_category.color,
                   )}
@@ -329,7 +355,7 @@ export default function TicketModal({
                 </span>
               )}
             {ticketType === 'tasks' && (
-              <span className="rounded border border-input bg-muted px-1.5 py-0.5">
+              <span className="rounded border border-border bg-background px-1.5 py-0.5 text-sm text-foreground">
                 {t('title.task')}
               </span>
             )}
@@ -349,32 +375,23 @@ export default function TicketModal({
                 <button
                   type="button"
                   onClick={() => setIsEdit(true)}
-                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded bg-primary px-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                 >
-                  <Pencil size={16} /> {t('action.edit')}
-                </button>
-              )}
-              {isEdit && (
-                <button
-                  type="button"
-                  onClick={handleSubmit as unknown as React.MouseEventHandler}
-                  className="inline-flex items-center gap-1 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
-                >
-                  <Check size={16} /> {t('action.save')}
+                  <Pencil size={14} /> {t('action.edit')}
                 </button>
               )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
-                    className="h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                    className="inline-flex h-6 cursor-pointer items-center rounded border border-input px-2 hover:bg-accent hover:text-foreground"
                   >
-                    <Ellipsis size={16} />
+                    <Ellipsis size={14} />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
-                    className="inline-flex items-center gap-1 text-destructive focus:text-destructive cursor-pointer"
+                    className="flex items-center gap-1 text-destructive focus:text-destructive cursor-pointer"
                     onClick={handleDelete}
                   >
                     <Trash2 size={16} /> {t('action.delete')}
@@ -382,7 +399,7 @@ export default function TicketModal({
                 </DropdownMenuContent>
               </DropdownMenu>
               <DialogClose className="h-6 w-6 cursor-pointer rounded-sm opacity-70 hover:opacity-100 flex items-center justify-center">
-                <X size={12} />
+                <X size={16} />
               </DialogClose>
             </div>
           </div>
@@ -393,46 +410,99 @@ export default function TicketModal({
           <div className="flex-1 min-w-0 space-y-4 text-sm">
             {isEdit ? (
               <form onSubmit={handleSubmit} className="space-y-3">
-                <input
-                  ref={titleRef}
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  placeholder={t('ticket.title')}
-                  required
-                  className={inputClass}
-                />
-                <textarea
-                  value={form.body}
-                  onChange={(e) => setForm({ ...form, body: e.target.value })}
-                  placeholder={t('message.leaveADescription')}
-                  rows={6}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-                <p className="text-muted-foreground">Markdown available</p>
-                {isNew && (
-                  <div className="flex justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="h-9 cursor-pointer rounded-md border border-input px-4 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground"
-                    >
-                      {t('action.cancel')}
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={createMutation.isPending}
-                      className="h-9 cursor-pointer rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-                    >
-                      {t('action.create')}
-                    </button>
+                <div className="grid w-full gap-1.5">
+                  <Label htmlFor="ticket-title">{t('ticket.title')}</Label>
+                  <Input
+                    id="ticket-title"
+                    ref={titleRef}
+                    value={form.title}
+                    onChange={(e) =>
+                      setForm({ ...form, title: e.target.value })
+                    }
+                    placeholder={t('ticket.titlePlaceholder')}
+                    required
+                  />
+                </div>
+                <div className="grid w-full gap-1.5">
+                  <Label>{t('ticket.body')}</Label>
+                  <div className="relative rounded-md border border-input overflow-hidden focus-within:ring-1 focus-within:ring-ring pr-2">
+                    {!form.body && (
+                      <div className="pointer-events-none absolute left-[10px] top-2 text-sm text-muted-foreground z-10">
+                        {t('message.leaveADescription')}
+                      </div>
+                    )}
+                    <Editor
+                      height="240px"
+                      language="markdown"
+                      value={form.body}
+                      onChange={(v) => setForm({ ...form, body: v ?? '' })}
+                      options={{
+                        minimap: { enabled: false },
+                        lineNumbers: 'off',
+                        glyphMargin: false,
+                        folding: false,
+                        lineDecorationsWidth: 10,
+                        lineNumbersMinChars: 0,
+                        wordWrap: 'on',
+                        tabSize: 2,
+                        insertSpaces: true,
+                        scrollBeyondLastLine: false,
+                        renderLineHighlight: 'none',
+                        overviewRulerLanes: 0,
+                        scrollbar: {
+                          vertical: 'hidden',
+                          alwaysConsumeMouseWheel: false,
+                        },
+                        fontFamily:
+                          'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                        fontSize: 13,
+                        lineHeight: 20,
+                        padding: { top: 8, bottom: 8 },
+                      }}
+                    />
                   </div>
-                )}
+                </div>
+                <div className="flex justify-end gap-2">
+                  {isNew ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="h-8 cursor-pointer rounded-md border border-input px-3 text-sm font-medium text-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        {t('action.cancel')}
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={createMutation.isPending}
+                        className="h-8 cursor-pointer rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                      >
+                        {t('action.create')}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCancelEdit}
+                        className="h-8 cursor-pointer rounded-md border border-input px-3 text-sm font-medium text-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        {t('action.cancel')}
+                      </button>
+                      <button
+                        type="submit"
+                        className="inline-flex items-center gap-1 h-8 cursor-pointer rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                      >
+                        <Check size={14} /> {t('action.saveChanges')}
+                      </button>
+                    </>
+                  )}
+                </div>
               </form>
             ) : (
-              <div className="space-y-2 min-w-0">
+              <div className="space-y-4 min-w-0">
                 <div className="flex items-start justify-between gap-2 min-w-0 overflow-hidden">
-                  <h2 className="text-lg font-semibold truncate min-w-0">
+                  <h2 className="text-xl font-semibold truncate min-w-0">
                     {displayTicket?.title}
                   </h2>
                   {ticketPrefix && (
@@ -440,7 +510,7 @@ export default function TicketModal({
                       <DropdownMenuTrigger asChild>
                         <button
                           type="button"
-                          className="shrink-0 h-6 cursor-pointer rounded border border-input px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                          className="shrink-0 h-6 cursor-pointer rounded border border-input px-2 text-sm text-foreground hover:bg-accent hover:text-foreground"
                         >
                           <Paperclip size={16} />
                         </button>
@@ -455,10 +525,10 @@ export default function TicketModal({
                           }
                         >
                           <div>
-                            <div className="font-medium text-xs">
+                            <div className="font-medium text-sm">
                               {t('ticket.title')}
                             </div>
-                            <pre className="truncate text-xs text-muted-foreground">
+                            <pre className="truncate text-sm text-muted-foreground">
                               {ticketPrefix} {displayTicket?.title}
                             </pre>
                           </div>
@@ -468,8 +538,8 @@ export default function TicketModal({
                           onClick={() => copyToClipboard(ticketURL)}
                         >
                           <div>
-                            <div className="font-medium text-xs">URL</div>
-                            <pre className="truncate text-xs text-muted-foreground">
+                            <div className="font-medium text-sm">URL</div>
+                            <pre className="truncate text-sm text-muted-foreground">
                               {ticketURL}
                             </pre>
                           </div>
@@ -483,7 +553,7 @@ export default function TicketModal({
                               )
                             }
                           >
-                            <span className="text-xs">
+                            <span className="text-sm">
                               {t('ticket.title')} ({t('message.withStory')})
                             </span>
                           </DropdownMenuItem>
@@ -492,7 +562,7 @@ export default function TicketModal({
                     </DropdownMenu>
                   )}
                 </div>
-                <div className="min-h-[9rem] rounded-md border border-input bg-muted/20 px-3 py-2">
+                <div className="min-h-[8rem]">
                   <MarkdownContent content={displayTicket?.body} />
                 </div>
               </div>
@@ -502,12 +572,12 @@ export default function TicketModal({
             {!isNew && storyTicket?.tasks && storyTicket.tasks.length > 0 && (
               <div className="space-y-1">
                 <hr />
-                <p className="font-medium text-muted-foreground">
+                <div className="py-2 font-medium text-muted-foreground">
                   {t('title.relatedTasks')}
-                </p>
+                </div>
                 {storyTicket.tasks.map((task) => (
                   <div key={task.id} className="flex items-center gap-2">
-                    <span className="rounded border border-input bg-muted px-1 py-0.5 font-mono">
+                    <span className="rounded border border-border bg-background px-1 py-0.5 font-mono text-foreground">
                       {task.ticket_number_with_ticket_prefix}
                     </span>
                     <span>{task.title}</span>
@@ -534,7 +604,7 @@ export default function TicketModal({
                   <button
                     type="button"
                     onClick={() => setTab('history')}
-                    className={`inline-flex items-center gap-1 px-3 py-2 text-xs font-medium ${tab === 'history' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground'}`}
+                    className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-medium ${tab === 'history' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground'}`}
                   >
                     <Clock size={16} /> {t('tab.history')}
                   </button>
@@ -570,9 +640,9 @@ export default function TicketModal({
                 <p className="font-medium">{t('title.story')}:</p>
                 <a
                   href={`/${taskTicket.story.ticket_number_with_ticket_prefix}`}
-                  className="block truncate rounded border-b border-border text-muted-foreground hover:text-foreground"
+                  className="block truncate rounded border-b border-border text-foreground hover:text-foreground"
                 >
-                  <span className="mr-1 rounded border border-input bg-muted px-1 font-mono text-xs">
+                  <span className="mr-1 rounded border border-border bg-background px-1 font-mono text-sm text-foreground">
                     {taskTicket.story.ticket_number_with_ticket_prefix}
                   </span>
                   {taskTicket.story.title}
@@ -675,13 +745,13 @@ export default function TicketModal({
                   {tags.map((name) => (
                     <span
                       key={name}
-                      className="flex items-center gap-0.5 rounded border border-input bg-muted px-1.5 py-0.5 text-xs"
+                      className="flex items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 text-sm"
                     >
                       {name}
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(name)}
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-foreground hover:text-foreground"
                       >
                         ×
                       </button>
@@ -767,7 +837,7 @@ function TagInput({
             if (e.key === 'Escape') setOpen(false);
           }}
           placeholder={t('message.tagInput')}
-          className="h-7 w-full rounded-md border border-input bg-background px-2 text-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="h-7 w-full rounded-md border border-border bg-background px-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
       </PopoverTrigger>
       {(filtered.length > 0 || canCreate) && (
@@ -783,7 +853,7 @@ function TagInput({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(tag.name)}
-                className="w-full rounded px-2 py-1 text-left text-xs hover:bg-accent"
+                className="w-full rounded px-2 py-1 text-left text-sm hover:bg-accent"
               >
                 {tag.name}
               </button>
@@ -793,7 +863,7 @@ function TagInput({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(tagInput.trim())}
-                className="w-full rounded px-2 py-1 text-left text-xs text-muted-foreground hover:bg-accent"
+                className="w-full rounded px-2 py-1 text-left text-sm text-foreground hover:bg-accent"
               >
                 + {t('action.create')} &ldquo;{tagInput.trim()}&rdquo;
               </button>
@@ -834,7 +904,7 @@ function SidebarCombobox({
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="flex h-7 w-full items-center justify-between rounded-md border border-input bg-background px-2 text-left hover:bg-accent"
+            className="flex h-7 w-full items-center justify-between rounded-md border border-border bg-background px-2 text-left hover:bg-accent"
           >
             <span className="flex items-center gap-1.5 truncate">
               {selected?.color && (
@@ -967,13 +1037,39 @@ function CommentsTab({
         }}
         className="space-y-2"
       >
-        <textarea
-          value={commentBody}
-          onChange={(e) => setCommentBody(e.target.value)}
-          placeholder={t('message.leaveAComment')}
-          rows={3}
-          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        />
+        <div className="relative rounded-md border border-border overflow-hidden focus-within:ring-2 focus-within:ring-ring pr-2">
+          {!commentBody && (
+            <div className="pointer-events-none absolute left-[10px] top-2 text-sm text-muted-foreground z-10">
+              {t('message.leaveAComment')}
+            </div>
+          )}
+          <Editor
+            height="120px"
+            language="markdown"
+            value={commentBody}
+            onChange={(v) => setCommentBody(v ?? '')}
+            options={{
+              minimap: { enabled: false },
+              lineNumbers: 'off',
+              wordWrap: 'on',
+              tabSize: 2,
+              insertSpaces: true,
+              scrollBeyondLastLine: false,
+              renderLineHighlight: 'none',
+              overviewRulerLanes: 0,
+              scrollbar: { vertical: 'hidden', alwaysConsumeMouseWheel: false },
+              fontFamily:
+                'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+              fontSize: 13,
+              lineHeight: 20,
+              padding: { top: 8, bottom: 8 },
+              glyphMargin: false,
+              folding: false,
+              lineDecorationsWidth: 10,
+              lineNumbersMinChars: 0,
+            }}
+          />
+        </div>
         <div className="flex justify-end">
           <button
             type="submit"
@@ -1044,13 +1140,13 @@ function HistoryTab({ histories }: { histories?: History[] }) {
               {change.attribute === 'body' ? (
                 <div>
                   <p className="font-semibold">{change.attribute}</p>
-                  <pre className="rounded bg-destructive/10 p-2 text-xs">
+                  <pre className="rounded bg-destructive/10 p-2 text-sm">
                     {change.before}
                   </pre>
                   <div className="flex justify-center py-1">
                     <ArrowDown size={16} className="text-muted-foreground" />
                   </div>
-                  <pre className="rounded bg-green-50 p-2 text-xs">
+                  <pre className="rounded bg-green-50 p-2 text-sm">
                     {change.after}
                   </pre>
                 </div>

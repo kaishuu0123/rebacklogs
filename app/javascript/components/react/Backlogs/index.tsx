@@ -206,7 +206,7 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             placeholder={t('title.search')}
-            className="h-8 rounded-md border border-input bg-background px-3 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="h-8 rounded-md border border-border bg-background px-3 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           />
           <div className="flex rounded-md border border-input">
             {(['DEFAULT', 'HORIZONTAL'] as Layout[]).map((l) => (
@@ -217,7 +217,7 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
                 className={`px-3 py-1 text-xs ${
                   layout === l
                     ? 'bg-primary text-primary-foreground'
-                    : 'bg-background text-muted-foreground hover:bg-accent'
+                    : 'bg-background text-foreground hover:bg-accent'
                 } first:rounded-l-md last:rounded-r-md`}
               >
                 {l === 'DEFAULT' ? t('title.default') : t('title.horizontal')}
@@ -310,7 +310,7 @@ function BacklogsInner({ projectId, projectTitle, isPublic }: Props) {
                 style={{ width: dragWidth ?? undefined }}
                 className="flex items-center gap-2 rounded-md border-2 border-primary bg-white px-2 py-1.5 shadow-lg opacity-90 cursor-grabbing overflow-hidden"
               >
-                <span className="shrink-0 rounded border border-gray-300 bg-gray-100 px-1 py-0.5 font-mono text-xs">
+                <span className="shrink-0 rounded border border-border bg-background px-1 py-0.5 font-mono text-xs text-foreground">
                   {activeStory.ticket_number_with_ticket_prefix}
                 </span>
                 <span className="font-medium text-gray-900 truncate">

@@ -163,7 +163,7 @@ export default function Header({
   const { t } = useTranslation();
   return (
     <header className="border-b">
-      <nav className="flex items-center justify-between px-4 h-14">
+      <nav className="flex items-center justify-between px-4 py-1">
         <a
           href={rootPath}
           className="flex items-center gap-2 font-bold tracking-tight"
