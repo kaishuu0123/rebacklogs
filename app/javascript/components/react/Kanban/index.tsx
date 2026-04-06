@@ -21,7 +21,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { CircleUser, GripVertical, Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster, toast } from 'sonner';
 import {
@@ -76,6 +76,7 @@ function KanbanInner({
   const [newTaskStoryId, setNewTaskStoryId] = useState<number | null>(null);
   const [activeTaskId, setActiveTaskId] = useState<number | null>(null);
   const [localStories, setLocalStories] = useState<Story[]>([]);
+  const mutatingCount = useRef(0);
   const [isMutating, setIsMutating] = useState(false);
 
   const sensors = useSensors(
@@ -116,13 +117,21 @@ function KanbanInner({
         project_ticket_status_id: data.statusId,
         row_order_position: data.newIndex,
       }),
-    onMutate: () => setIsMutating(true),
+    onMutate: () => {
+      mutatingCount.current += 1;
+      setIsMutating(true);
+    },
     onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] });
-      setIsMutating(false);
+      try {
+        await qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] });
+      } finally {
+        mutatingCount.current -= 1;
+        if (mutatingCount.current === 0) setIsMutating(false);
+      }
     },
     onError: () => {
-      setIsMutating(false);
+      mutatingCount.current -= 1;
+      if (mutatingCount.current === 0) setIsMutating(false);
       toast.error(t('message.failedToMoveTask'));
     },
   });
