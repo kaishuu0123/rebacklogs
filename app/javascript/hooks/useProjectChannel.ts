@@ -31,15 +31,20 @@ export function useProjectChannel(projectId: string) {
     useState<ConnectionStatus>('connecting');
 
   // Debounce timers per query key prefix to collapse rapid successive invalidations
-  const debounceTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const debounceTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
 
   const debounceInvalidate = useCallback((key: string, fn: () => void) => {
     const existing = debounceTimers.current.get(key);
     if (existing) clearTimeout(existing);
-    debounceTimers.current.set(key, setTimeout(() => {
-      debounceTimers.current.delete(key);
-      fn();
-    }, 300));
+    debounceTimers.current.set(
+      key,
+      setTimeout(() => {
+        debounceTimers.current.delete(key);
+        fn();
+      }, 300),
+    );
   }, []);
 
   useEffect(() => {
@@ -97,7 +102,7 @@ export function useProjectChannel(projectId: string) {
 
     return () => {
       subscriptionRef.current?.unsubscribe();
-      debounceTimers.current.forEach((t) => clearTimeout(t));
+      for (const t of debounceTimers.current.values()) clearTimeout(t);
       debounceTimers.current.clear();
     };
   }, [projectId, qc, debounceInvalidate]);

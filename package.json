@@ -47,9 +47,9 @@
   },
   "version": "4.3.2",
   "scripts": {
-    "lint": "biome check app/javascript/entrypoints app/javascript/components app/javascript/lib",
-    "lint:fix": "biome check --write app/javascript/entrypoints app/javascript/components app/javascript/lib",
-    "format": "biome format --write app/javascript/entrypoints app/javascript/components app/javascript/lib"
+    "lint": "biome check app/javascript",
+    "lint:fix": "biome check --write app/javascript",
+    "format": "biome format --write app/javascript"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.8",
