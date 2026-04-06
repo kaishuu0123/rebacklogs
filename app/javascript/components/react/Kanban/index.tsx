@@ -117,10 +117,14 @@ function KanbanInner({
         row_order_position: data.newIndex,
       }),
     onMutate: () => setIsMutating(true),
-    onSettled: () => setIsMutating(false),
-    onSuccess: () =>
-      qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] }),
-    onError: () => toast.error(t('message.failedToMoveTask')),
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: ['kanban', projectId, sprintId] });
+      setIsMutating(false);
+    },
+    onError: () => {
+      setIsMutating(false);
+      toast.error(t('message.failedToMoveTask'));
+    },
   });
 
   useEffect(() => {
