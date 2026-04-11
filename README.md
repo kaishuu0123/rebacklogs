@@ -11,25 +11,6 @@ It aims to be simple and easy to use Backlogs.
 
 [Japanese:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/main/README.ja.md)
 
-- [Re:Backlogs](#rebacklogs)
-  - [Screenshot](#screenshot)
-  - [Theming](#theming)
-  - [Demo](#demo)
-  - [About this project](#about-this-project)
-    - [Similar Project or Software](#similar-project-or-software)
-    - [What is Backlog(s)](#what-is-backlogs)
-    - ["Re:" Meaning](#%22re%22-meaning)
-  - [Install](#install)
-    - [Use docker-compose.yml](#use-docker-composeyml)
-  - [Upgrading](#upgrading)
-    - [PostgreSQL major version upgrade](#postgresql-major-version-upgrade)
-  - [Development instructions](#development-instructions)
-    - [Setup](#setup)
-    - [Run Re:Backlogs](#run-rebacklogs)
-  - [Development motivation](#development-motivation)
-  - [Contribute](#contribute)
-  - [License](#license)
-
 ## Screenshot
 
 | Backlogs | Kanban |
