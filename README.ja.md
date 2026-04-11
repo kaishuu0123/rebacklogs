@@ -3,24 +3,7 @@
 Re:Backlogs は、Open Source なプロジェクト管理ツールです。
 シンプルで使いやすい Backlogs を目指しています。
 
-* [Re:Backlogs](#rebacklogs)
-    * [スクリーンショット](#スクリーンショット)
-    * [テーマ](#テーマ)
-    * [デモ](#デモ)
-    * [このプロジェクトについて](#このプロジェクトについて)
-       * [似たようなプロジェクトやソフトウェア](#似たようなプロジェクトやソフトウェア)
-       * [Backlogs とは](#backlogs-とは)
-       * [Re: に込めた意味](#re-に込めた意味)
-    * [インストール](#インストール)
-       * [docker-compose.yml を使う例](#docker-composeyml-を使う例)
-    * [アップグレード](#アップグレード)
-       * [PostgreSQL メジャーバージョンアップ](#postgresql-メジャーバージョンアップ)
-    * [開発環境構築手順](#開発環境構築手順)
-       * [セットアップ](#セットアップ)
-       * [Re:Backlogs を起動する](#rebacklogs-を起動する)
-    * [開発モチベーション](#開発モチベーション)
-    * [Contribute (Issue 起票について)](#contribute-issue-起票について)
-    * [ライセンス](#ライセンス)
+[English:README.ja.md](https://github.com/kaishuu0123/rebacklogs/blob/main/README.md)
 
 ## スクリーンショット
 
