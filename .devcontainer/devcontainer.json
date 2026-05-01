@@ -12,7 +12,7 @@
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.4"
     },
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "22"
     }
   },
