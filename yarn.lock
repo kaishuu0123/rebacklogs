@@ -2337,9 +2337,9 @@ headers-polyfill@^4.0.2:
   integrity sha512-IScLbePpkvO846sIwOtOTDjutRMWdXdJmXdMvk6gCBHxFO8d+QKOQedyZSxFTTFYRSmlgSTDtXqqq4pcenBXLQ==
 
 hono@^4.11.4:
-  version "4.12.8"
-  resolved "https://registry.yarnpkg.com/hono/-/hono-4.12.8.tgz#5f3a9c0d5339ff460b2c652a4c64dd79059930ad"
-  integrity sha512-VJCEvtrezO1IAR+kqEYnxUOoStaQPGrCmX3j4wDTNOcD1uRPFpGlwQUIW8niPuvHXaTUxeOUl5MMDGrl+tmO9A==
+  version "4.12.18"
+  resolved "https://registry.yarnpkg.com/hono/-/hono-4.12.18.tgz#f6d301938868c3a8bdb639495f4e326a19181505"
+  integrity sha512-RWzP96k/yv0PQfyXnWjs6zot20TqfpfsNXhOnev8d1InAxubW93L11/oNUc3tQqn2G0bSdAOBpX+2uDFHV7kdQ==
 
 html-parse-stringify@^3.0.1:
   version "3.0.1"
