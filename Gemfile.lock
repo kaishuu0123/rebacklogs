@@ -154,7 +154,7 @@ GEM
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     json (2.19.3)
-    jwt (3.1.2)
+    jwt (3.2.0)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
